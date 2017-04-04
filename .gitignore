@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-seminarski.pdf
-seminarski.aux
-seminarski.log
-seminarski.out
-seminarski.synctex.gz
-seminarski.toc
-=======
+sekcije/*.aux
 seminarski.aux
 seminarski.log
 seminarski.out
@@ -14,4 +7,3 @@ seminarski.synctex.gz
 seminarski.toc
 seminarski.blg
 seminarski.bbl
->>>>>>> 390f4d91d974ca7d8afe745ecf47b03b110ede7d
