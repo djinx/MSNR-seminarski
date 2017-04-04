@@ -1,0 +1,53 @@
+\section{Polimorfna provera tipova}
+\label{sec:provera tipova}
+
+
+%The Implementation of Functional Programming Languages strana 139
+Neki moderni jezici, kao što je Miranda, imaju svojstvo koje omogućava programeru da ne navodi tipove objekata koje definiše u programu. Kompajler može da odredi tipove ako je to moguće. Deo kompajlera koji se bavi ovim poslom naziva se \textit{proveravač tipova}. Proveravač tipova je od velike koristi programeru jer mu ukazuje na greške, od trivijalnih propusta u kucanju do velikih logičkih grešaka. Pomaže u pisanju robusnih programa kao i u izgradnji bržih implementacija programskih jezika. Ako proveravač tipova obradi program, pri izvršavanju ne bi trebalo da se jave greške poput upotrebe promenljive tipa boolean kao da je tipa integer.
+
+\iffalse
+%The Implementation of Functional Programming Languages sekcija 8.1
+\subsection{Ukratko o notaciji}
+%ovo je sve nebitno zapravo, ali neka stoji za sad :D
+Tipovi koji su zanimljivi kada je funkcionalno programiranju u pitanju su karakteri, broj, istinitosna vrednost, kao i tipovi torki, lista i funkcija. Kada govorimo o ovim tipovima, koristićemo sledeću notaciju:
+$$a::A$$
+
+\noindent što predstavlja promenljivu $a$ koja je tipa $A$. 	
+\\
+\\ Ako su dati tipovi $A_1, \ldots, A_n$ onda $(A_1, \ldots, A_n)$ predstavlja tip tokre $(a_1, \ldots, a_n)$ za koji važi $a_1::A_1$ i $a_n::A_n$. Bitno je naglasiti da $A_1, \ldots, A_n$ ne predstavljaju iste tipove, odnosno da koordinate jedne torke ne moraju biti sve istog tipa. Takođe, tip torke određuje broj koordinata (odnosno dimenziju torke) i njihove tipove. 
+\\
+\\ Ako je dat tip $A$ onda je $[B]$ tip liste čiji su elementi tipa $B$. U slučaju da su elementi liste torke, sve torke moraju biti istog tipa. Za razliku od tipa torke, tip liste ne određuje njenu dužinu. 
+\\
+\\ Ako su dati tipovi $A$ i $B$ koristimo $A \longrightarrow B$ za zapis tipa funkcije $f$ koja se primenjuje na promenljivu $a::A$, a čije vrednosti $(f \quad a)$ su tipa $B$.
+
+
+\fi 
+
+
+%potencijalno nebitno
+\subsection{Polimorfizam}
+
+Polimorfizam ima više oblika. Kada je reč o programskim jezicima, odnosi se na funkcije koje mogu da imaju više različitih tipova. Najviše nas interesuje \textit{parametarski polimorfizam}. Postoje dva glavna načina za ostaavrivanje polimorfizma, a to su \textit{eksplicitni} i \textit{implicitni}. 
+
+
+%BasicTypechecking.pdf str. 11
+\subsection{Zaključivanje tipa}
+
+\iffalse 
+The basic algorithm can be described as follows.
+Case 1. When a new variable x is introduced by a fun binder, it is assigned a new type variable
+a meaning that its type must be further determined by the context of its occurrences. The pair
+<x,a> is stored in an environment which is searched every time an occurrence of x, is found,
+yielding a (or any intervening instantiation of it) as the type of that occurrence.
+Case 2. In a conditional, the if component is matched to bool, and the then and else branches
+are unified in order to determine a unique type for the whole expression.
+Case 3. In an abstraction fun(x) e the type of e is inferred in a context where x is associated to
+a new type variable.
+Case 4. In an application f(a), the type of f is unified against a type A -> b, where A is the type
+of a and b is a new type variable. This implies that the type of f must be a function type
+
+whose domain is unifiable to A; b (or any instantiation of it) is returned as the type of the
+whole application.
+
+
+\fi 
