@@ -27,27 +27,23 @@ $$a::A$$
 %potencijalno nebitno
 \subsection{Polimorfizam}
 
-Polimorfizam ima više oblika. Kada je reč o programskim jezicima, odnosi se na funkcije koje mogu da imaju više različitih tipova. Najviše nas interesuje \textit{parametarski polimorfizam}. Postoje dva glavna načina za ostaavrivanje polimorfizma, a to su \textit{eksplicitni} i \textit{implicitni}. 
+Polimorfizam ima više oblika. Kada je reč o programskim jezicima, odnosi se na funkcije koje mogu da imaju više različitih tipova. Najviše nas interesuje \textit{parametarski polimorfizam}. Postoje dva glavna načina za ostaavrivanje polimorfizma, a to su \textit{eksplicitni} i \textit{implicitni}. %možda dopuniti i pronaći reference za eksplicitni i implicitni polimorfizam
 
 
-%BasicTypechecking.pdf str. 11
-\subsection{Zaključivanje tipa}
+%BasicTypechecking.pdf str. 9
+\subsection{Zaključivanje tipova}
 
-\iffalse 
-The basic algorithm can be described as follows.
-Case 1. When a new variable x is introduced by a fun binder, it is assigned a new type variable
-a meaning that its type must be further determined by the context of its occurrences. The pair
-<x,a> is stored in an environment which is searched every time an occurrence of x, is found,
-yielding a (or any intervening instantiation of it) as the type of that occurrence.
-Case 2. In a conditional, the if component is matched to bool, and the then and else branches
-are unified in order to determine a unique type for the whole expression.
-Case 3. In an abstraction fun(x) e the type of e is inferred in a context where x is associated to
-a new type variable.
-Case 4. In an application f(a), the type of f is unified against a type A -> b, where A is the type
-of a and b is a new type variable. This implies that the type of f must be a function type
+Osnovni algoritam za zaključivanje tipova opisan je u nastavku.
 
-whose domain is unifiable to A; b (or any instantiation of it) is returned as the type of the
-whole application.
+\begin{enumerate}
+	\item Kada se pojavi nova promenljiva $x$, njoj se dodeljuje novi tip promenljive što znači da joj tip mora biti određen u daljem kontekstu u kom se pojavljuje. Par $<x, a>$ se čuva u okruženje koje se pretražuje svaki put kad se pojavi $x$ u kom je $x$ tipa $a$.
+	
+	\item Kad imamo uslovno grananje, \textit{if} se uparuje sa bool, dok se \textit{then} i \textit{else} grane ostavljaju nedefinisane kako bi se odredio jedinstven tip za ceo izraz.
+	
+	\item U apstrakciji $fun(x)$ $e$, tip za $e$ se zaključuje u kotekstu gde je $x$ povezan sa novim tipom promenljive.
+	
+	\item U aplikaciji $f(a)$, tip od f se unifikuje sa tipom $A \longrightarrow b$, gde je $A$ tip parametra $a$, dok je $b$ novi tip promenljive. Ovo ukazuje na to da $f$ mora biti tipa funkcije čiji domen se unifikuje sa $A$, a $b$ je tip povratne vrednosti.
+\end{enumerate}
 
 
-\fi 
+
