@@ -1,0 +1,20 @@
+\section{Osnovni pojmovi}
+\label{sec:osnovni pojmovi}
+
+\subsection{Lambda račun}
+\label{subsec:lambda racun}
+
+% the impl. of func...
+U ovom delu ćemo se upoznati sa osnovama lambda računa, na koji ćemo se oslanjati u daljem tekstu. Lambda račun ima dva važna svojstva zbog kojeg predstavlja spojnicu između funkcionalnih jezika i njihove implementacije, i to su:
+\begin{enumerate}
+	\item jednostavnost -- lambda račun ima tek nekoliko sintaksičnih konstrukcija ijednostavnu semantiku.
+	\item izražajnost -- lambda račun je dovoljno moćan da se pomoću njega mogu izraziti svi funkcionalni programi (važi i više: sve izračunljive funkcije).
+\end{enumerate}
+
+Pređimo na sintaksu lambda računa. Ako imamo funkciju \verb|f| i njene parametre \verb|x1, x2, ..., xn|, onda se \textit{primena} (engl. application) funkcije \verb|f| na argumente \verb|a1, a2, ..., an| zapisuje u infiksnom formatu
+\begin{center}
+	\verb|(f a1 a2 ... an)|
+\end{center}
+Na primer, sabiranje brojeva $2+3$ se zapisuje \verb|(+ 2 3)|.
+
+Da bismo razumeli kako se funkcionalni program izvršava, prvo ćemo uvesti pojam redukcije. Neformalno, kažemo da se izraz \verb|A| \textit{redukuje} (engl. reduce) na izraz \verb|B| ako su izrazi \verb|A| i \verb|B| ekvivalentni i tada se izraz \verb|A| zamenjuje izrazom \verb|B|. Na primer, izraz \verb|(+ 2 3)| možemo zameniti izrazom \verb|5| (jer je $2+3=5$). Iz samog konteksta čitaocu bi trebalo ovo da bude jasno, te nećemo uvesti formalno pojam redukcije. Za formalno uvođenje redukcije može se pronaći više u \cite{FoundationsofFunctionalProgramming}. Redukciju ćemo označavati simbolom $\rightarrow$. U skladu sa prethodnim primerom važi \verb|(+ 2 3)| $\rightarrow$ \verb|5|.
