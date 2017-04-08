@@ -4,8 +4,8 @@
 \subsection{Lambda račun}
 \label{subsec:lambda racun}
 
-% the impl. of func...
-U ovom delu ćemo se upoznati sa osnovama lambda računa, na koji ćemo se oslanjati u daljem tekstu. Lambda račun ima dva važna svojstva zbog kojeg predstavlja spojnicu između funkcionalnih jezika i njihove implementacije, i to su:
+% the impl. of func... strane 9, 10
+U ovom delu ćemo se upoznati sa osnovama lambda računa\footnote{Zapravo, govorićemo o \textit{primenjenom lambda računu} (engl. applied lambda calculus) koji zapravo obuhvata \textit{čist lambda račun} (engl. pure lambda calculus) uz predefinisane konstante, odnosno, vrednosti i operacije na koje smo navikli, poput sabiranja dva prirodna broja. Ipak, u tekstu ćemo pisati ‚‚lambda račun'' misleći na ‚‚primenjeni lambda račun''.}, na koji ćemo se oslanjati u daljem tekstu. Lambda račun ima dva važna svojstva zbog kojeg predstavlja spojnicu između funkcionalnih jezika i njihove implementacije, i to su \cite{the-implementation-of-functional-programming-languages}:
 \begin{enumerate}
 	\item jednostavnost -- lambda račun ima tek nekoliko sintaksičnih konstrukcija ijednostavnu semantiku.
 	\item izražajnost -- lambda račun je dovoljno moćan da se pomoću njega mogu izraziti svi funkcionalni programi (važi i više: sve izračunljive funkcije).
@@ -17,4 +17,25 @@ Pređimo na sintaksu lambda računa. Ako imamo funkciju \verb|f| i njene paramet
 \end{center}
 Na primer, sabiranje brojeva $2+3$ se zapisuje \verb|(+ 2 3)|.
 
-Da bismo razumeli kako se funkcionalni program izvršava, prvo ćemo uvesti pojam redukcije. Neformalno, kažemo da se izraz \verb|A| \textit{redukuje} (engl. reduce) na izraz \verb|B| ako su izrazi \verb|A| i \verb|B| ekvivalentni i tada se izraz \verb|A| zamenjuje izrazom \verb|B|. Na primer, izraz \verb|(+ 2 3)| možemo zameniti izrazom \verb|5| (jer je $2+3=5$). Iz samog konteksta čitaocu bi trebalo ovo da bude jasno, te nećemo uvesti formalno pojam redukcije. Za formalno uvođenje redukcije može se pronaći više u \cite{FoundationsofFunctionalProgramming}. Redukciju ćemo označavati simbolom $\rightarrow$. U skladu sa prethodnim primerom važi \verb|(+ 2 3)| $\rightarrow$ \verb|5|.
+Da bismo razumeli kako se funkcionalni program izvršava, prvo ćemo uvesti pojam redukcije. Neformalno, kažemo da se izraz \verb|A| \textit{redukuje} (engl. reduce) na izraz \verb|B| ako su izrazi \verb|A| i \verb|B| ekvivalentni i tada se izraz \verb|A| zamenjuje izrazom \verb|B|. Na primer, izraz \verb|(+ 2 3)| možemo zameniti izrazom \verb|5| (jer je $2+3=5$). Iz samog konteksta čitaocu bi trebalo ovo da bude jasno, te nećemo uvesti formalno pojam redukcije. O formalnom uvođenju redukcije može se pronaći više u \cite{foundations-of-functional-programming}. Redukciju ćemo označavati simbolom $\rightarrow$. U skladu sa prethodnim primerom važi \verb|(+ 2 3)| $\rightarrow$ \verb|5|.
+
+Sa stanovišta implementacije, funkcionalni program treba posmatrati kao \textit{izraz} (engl. expression), koji se izvršava tako što se \textit{izračunava} njegova vrednost (engl. evaluate). Proces izračunavanja se sada vrši biranjem \textit{reducibilnog izraza} (engl. reducible expression) i njegovim redukovanjem \cite{the-implementation-of-functional-programming-languages}. Na primer, neka treba izračunati izraz \verb|(+ (* 5 6) (* 8 3))|. U ovom izrazu postoje dva reducibilna izraza, \verb|(* 5 6)| i \verb|(* 8 3)|. Ceo izraz nije reducibilan izraz jer funkcija \verb|+| mora da se primeni nad dva broja. Proizvoljnim biranjem prvog reducibilnog izraza, pišemo
+\begin{center}
+	\verb|(+ (* 5 6) (* 8 3))| $\rightarrow$ \verb|(+ 30 (* 8 3))|
+\end{center}
+Sada je preostao tačno jedan reducibilni izraz, pa pišemo
+\begin{center}
+	\verb|(+ 30 (* 8 3))| $\rightarrow$ \verb|(+ 30 24)|
+\end{center}
+Ovom redukcijom je nastao novi reducibilni izraz, pa pišemo
+\begin{center}
+	\verb|(+ 30 24)| $\rightarrow$ \verb|54|
+\end{center}
+
+% the impl. of func... strane 12, 13
+Lambda račun ima posebnu konstrukciju koja se naziva \textit{apstrakcija} (engl. abstraction), kojom se uvode nove funkcije. Apstrakcija ima oblik
+\begin{center}
+	\verb|(|$\lambda$\verb|x.E)|
+\end{center} 
+gde je $\lambda$ oznaka za apstrakciju, \verb|x| parametar funkcije, \verb|E| izraz, odnosno, telo funkcije i \verb|.| separator parametra i tela funkcije. Na primer, izraz \verb|(|$\lambda$\verb|x.+ x 1)| označava funkciju koja izračunava sledbenika broja \verb|x|.
+
