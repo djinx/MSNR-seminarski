@@ -40,7 +40,7 @@ Osnovni algoritam za zaključivanje tipova opisan je u nastavku.
 	
 	\item Kad imamo uslovno grananje, \textit{if} se uparuje sa bool, dok se \textit{then} i \textit{else} grane ostavljaju nedefinisane kako bi se odredio jedinstven tip za ceo izraz.
 	
-	\item U apstrakciji $fun(x)$ $e$, tip za $e$ se zaključuje u kotekstu gde je $x$ povezan sa novim tipom promenljive.
+	\item U apstrakciji $\lambda x.e$, tip za $e$ se zaključuje u kontekstu gde je $x$ povezan sa novim tipom promenljive.
 	
 	\item U aplikaciji $f(a)$, tip od f se unifikuje sa tipom $A \longrightarrow b$, gde je $A$ tip parametra $a$, dok je $b$ novi tip promenljive. Ovo ukazuje na to da $f$ mora biti tipa funkcije čiji domen se unifikuje sa $A$, a $b$ je tip povratne vrednosti.
 \end{enumerate}
