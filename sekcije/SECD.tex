@@ -1,34 +1,6 @@
-% !TEX encoding = UTF-8 Unicode
-
-\documentclass[a4paper]{article}
-
-\usepackage{color}
-\usepackage{url}
-\usepackage[T2A]{fontenc} % enable Cyrillic fonts
-\usepackage[utf8]{inputenc} % make weird characters work
-\usepackage{graphicx}
-\usepackage{mathtools}
-\usepackage{amssymb}
-\usepackage{tabu}
-\usepackage[english,serbian]{babel}
-
-\usepackage[unicode]{hyperref}
-\hypersetup{colorlinks,citecolor=green,filecolor=green,linkcolor=blue,urlcolor=blue}
-
-\newtheorem{primer}{Primer}[section]
-
-\begin{document}
-
-\title{SECD mašine\\ \small{Seminarski rad u okviru kursa\\Metodologija stručnog i naučnog rada\\ Matematički fakultet}}
-
-\author{Una Stanković\\ una\_stankovic@yahoo.com,}
-\date{4.~april 2017}
-\maketitle
-
-\newpage
 \section{SECD mašina}
 \label{sec:secd mašina}
-
+%4april
 Piter Landin napisao je, 1964. godine, članak {\em Mehanička evaluacija} izraza (eng. “The Mechanical Evaluation of Expressions”) \cite{landinsecd}, koji je u decenijama koje predstoje izvršio veliki uticaj na istraživanja i razvoj funkcionalnih programskih jezika. Članak se istakao po tome što je zagovarao upotrebu {\em $\lambda$-računa} kao meta-jezika. Osim toga, Landin uvodi pojmove 'zatvorenja' - da predstavi funkcionalne vrednosti, 'cirkularnost' - da implementira rekurziju, 'parcijalnu evaluaciju', 'redukciju grafa', i mnoge druge koncepte i pojmove koji su danas sastavni deo programskih jezika.\\
 
 Jedna od prvih virtuelnih mašina za kompilaciju funkcionalnih programskih jezika bila je Landin-ova {\em SECD mašina}, predstavljena u članku kao deo ISWIM \cite{ISWIM} programskog jezika. Ona je bila {\em prva apstraktna mašina} posebno dizajnirana da modeluje $\lambda$-račun. \\
@@ -38,7 +10,7 @@ Od izlaska Landin-ovog članka, izmišljene, otkrivene i menjane su mnoge druge 
 % O specifičnostima i više informacija može se naći u A Rational Deconstruction of Landin’s SECD Machine Olivier Danvy BRICS ∗ Department of Computer Science University of Aarhus † October 2003
 
 \subsection{Arhitektura SECD mašine}
- 
+
 Osnovna uloga SECD mašine je izvršavanje kompajliranog koda na apstraktnoj mašini. Osnovna razlika u odnosu na interpreter je u tome što kompajlirani kod može da se izvršava više puta i postoji mogućnost optimizacije koda.\\
 
 Formalno, SECD mašina je torka četiri liste koje imaju skup precizno definisanih operacija nad njima. Semantika SECD mašina opisuje virtuelnu mašinu baziranu na steku koja je dizajnirana da izvršava funkcije. \\ 
@@ -149,11 +121,4 @@ RAP ((f.(W.e)) v.s) (W.e) (RAP.c) d $\rightarrow$ nil rplaca((W.e),v) f (s e c.d
 Funkcija rplaca pri izvršavanju RAP, pokazivač na W preusmerava na v, što rezultuje u kružnoj strukturi.
 %FALI: zakljucak, jos po neko objasnjenje u razradi za secd, jos doterati tekst i fale reference
 
-\addcontentsline{toc}{section}{Literatura}
-\appendix
-\bibliography{seminarski} 
-\bibliographystyle{plain}
 
-\appendix
-
-\end{document}
