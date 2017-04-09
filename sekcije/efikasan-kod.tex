@@ -5,6 +5,7 @@
 Jedan od najvažnijih problema vezanih za funkcionalne jezike jeste efikasnost izvršavanja. 
 U nastavku opisujemo tehnike koje se koriste za generisanje efikasnog koda.	
 
+
 \subsection{Transformacije $\lambda$-računa}
 
 $\lambda$-račun se koristi zbog svoje jednostavnosti i dovoljno je izražajan da se bilo koji funkcionalan jezik može transformisati u njega. To znači da ako imamo implementaciju $\lambda$ računa, možemo da implementiramo  bilo koji funkcionalan jezik tako što ćemo ga prevesti u $\lambda$-račun. Transformacije se često grupišu u dva skupa:
@@ -12,14 +13,31 @@ $\lambda$-račun se koristi zbog svoje jednostavnosti i dovoljno je izražajan d
 
 % Compilation_of_Functional_Languages_by_Program_Tra.pdf + comp-by-trans.pdf
 \begin{itemize}
-	\item Veliki skup jednostavnih, lokanih transformacija koje su implementirane u okviru dela kompajlera koji nazivamo \textit{pojednostavljivač}. Složenost programa raste jer pojednostavljivač pokušava da izvrši što je moguće više transformacija u jednom prolasku kroz program. Uprkos tome, rezultat nakon tih transformacija često i dalje sadrži delove koji mogu biti dalje transformisani, tako da se ova operacija ponavlja više puta, dokle god ima neđto da se pojednostavi. Transformacije koje spadaju u ovaj skup su $\beta$ odsecanje, umetanje (engl. inlining) i konstanto sklapanje (engl. constant folding).
+	\item Veliki skup jednostavnih, lokanih transformacija koje su implementirane u okviru dela kompajlera koji nazivamo \textit{pojednostavljivač}. Složenost programa raste jer pojednostavljivač pokušava da izvrši što je moguće više transformacija u jednom prolasku kroz program. Uprkos tome, rezultat nakon tih transformacija često i dalje sadrži delove koji mogu biti dalje transformisani, tako da se ova operacija ponavlja više puta, dokle god ima nešto da se pojednostavi. Transformacije koje spadaju u ovaj skup su $\beta$ odsecanje, umetanje (engl. \textit{inlining}) i konstanto sklapanje (engl. \textit{constant folding}).
 	
-	\item Manji skup složenijih, globalnih transformacija, od kojih se svaka implementira odvojeno. Mnoge se sastoje od faze analize praćene transformacijama koje koriste rezultate analize za otkrivanje pogodnih delova za transformisanje. Mnogi se oslanjaju na to da će pojednostavljivač ‚‚počistiti$"$ k\^ od koji proizvedu, tako da se izbegava ponavljanje transformacija koje su već sadržane u telu pojednostavljivača. Primer transformacije za ovaj skup je  \textit{analiza strogosti} (engl. strictness analasys). 
+	\item Manji skup složenijih, globalnih transformacija, od kojih se svaka implementira odvojeno. Mnoge se sastoje od faze analize praćene transformacijama koje koriste rezultate analize za otkrivanje pogodnih delova za transformisanje. Mnogi se oslanjaju na to da će pojednostavljivač ‚‚počistiti$"$ k\^ od koji proizvedu, tako da se izbegava ponavljanje transformacija koje su već sadržane u telu pojednostavljivača. Primer transformacije za ovaj skup je  \textit{analiza strogosti} (engl. \textit{strictness analasys}). 
 	
 \end{itemize}
   
 
-\subsection{Pattern-matching}
+\subsection{Uparivanje šablona}
+
+% compilingML.A4.pdf str. 5 + 1wilhelm_r_seidl_h_compiler_design_virtual_machines str. 69
+ 
+Funkcije nad strukturiranim algebarskim tipovima, kao što su liste, mogu se definisati preko različitih slučajeva. Različiti slučajevi dati su \textit{šablonima}, koji se uparuju prema vrednostima tog tipa. Ako šablon odgovara vrednosti, promenljive koje se mogu pojaviti u šablonu su vezane za odgovarajuće promenljive komponente te vrednosti. U izrazu uparujemo $[1; 2; 3]$  sa $[1; x; y] \longrightarrow x+y$ |  $[z] \longrightarrow z$. Vidimo da se izraz poklapa sa prvim šablonom. Promenljive $x$ i $y$ vezuju za komponente 2 i 3 i vraća se njihova suma. Ovakvo poređenje na osnovu šablona naziva se \textit{uparivanje šablona}. Uparivanje šablona prenosi visoko strukturirane informacije o parametrima ulaza. Kao posledicu, kompajler proizvodi bolji k\^ od iz opisa koji dobija od uparivanja šablona nego od odgovarajućih sekvenci operacija izbora. %naci referencu nekako xD
+
+Uparivanje šablona je zapravo skraćenica za ugnježdene if-then-else i case naredbe (engl. \textit{statements}): pokušaj da upariš ulaz da prvim šablonom, ako se poklapa izvrši odgovarajuću akciju, u suprotnom se vrati korak nazad i pokušaj sa sledećim šablonom. Ova strategija proizvodi nepotreban rad. Kompajleri to mnogo bolje rade tako što šablone kompajliraju u diskriminišuće stablo (engl. \textit{discrimination tree}) koje to radi u skoro optimalnom broju testova nad podacima kako bi odabralo odgovarajuću akciju. 
+
+
 
 % compilingML.A4.pdf
+
+%IFFALSE
+\iffalse 
+
+\fi
+%FI
+
 % The Implementation of Functional Programming Languages
+
+
