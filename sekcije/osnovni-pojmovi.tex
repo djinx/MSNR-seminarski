@@ -44,8 +44,15 @@ Lambda račun ima posebnu konstrukciju koja se naziva \textit{apstrakcija} (engl
 \begin{center}
 	\verb|(|$\lambda$\verb|x.E)|
 \end{center} 
-gde je $\lambda$ oznaka za apstrakciju, \verb|x| parametar funkcije, \verb|E| izraz, odnosno, telo funkcije i \verb|.| separator parametra i tela funkcije.  
+gde je $\lambda$ oznaka za apstrakciju, \verb|x| parametar funkcije, \verb|E| izraz, odnosno, telo funkcije i \verb|.| separator parametra i tela funkcije \cite{the-implementation-of-functional-programming-languages}.  
 \begin{primer}
 	Izraz \verb|(|$\lambda$\verb|x.+ x 1)| označava funkciju koja izračunava sledbenika broja \verb|x|.
 \end{primer}
 
+% TODO: slobodne i vezane promenljive
+
+\subsection{Polimorfizam}
+\label{subsec:polimorfizam}
+
+% On.Understanding.A4.pdf strane 4, 5
+Polimorfizam (engl. polymorphism) kao pojam se može posebno definisati za različite koncepte programskih jezika. Sama konstrukcija reči -- polys, ‚‚mnogo'' i morph\={e}, ‚‚oblik'' -- govori nam da je reč o konceptima koji se na neki način prilagođavaju mnogim oblicima, odnosno, mnogim tipovima (u kontekstu programskih jezika). \textit{Polimorfni programski jezici} su oni programski jezici u kojima neke vrednosti i promenljive mogu da imaju više od jednog tipa. \textit{Polimorfne funkcije} su funkcije čiji operandi mogu da imaju više od jednog tipa. \textit{Polimorfni tipovi} su tipovi čije operacije mogu biti primenjene na vrednosti više od jednog tipa. Za nas je od interesa najviše parametarski polimorfizam. U \textit{parametarskom polimorfizmu}, polimorfna funkcija ima implicitan ili eksplicitan tipski parametar koji određuje tip argumenta pri svakoj primeni te funkcije \cite{On-Understanding-Types-Data-Abstraction-and-Polymorphism}.
