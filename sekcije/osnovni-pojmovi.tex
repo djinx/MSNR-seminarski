@@ -49,7 +49,14 @@ gde je $\lambda$ oznaka za apstrakciju, \verb|x| parametar funkcije, \verb|E| iz
 	Izraz \verb|(|$\lambda$\verb|x.+ x 1)| označava funkciju koja izračunava sledbenika broja \verb|x|.
 \end{primer}
 
-% TODO: slobodne i vezane promenljive
+% the impl. of func... strane 14, 15
+Još jedan važan pojam jesu slobodne i vezane promenljive. Prilikom apstrakcije, promenljiva mora biti slobodna ili vezana. Ovi pojmovi se definišu narednom definicijom \cite{the-implementation-of-functional-programming-languages}:
+
+\begin{definicija}
+	U apstrakciji \verb|(|$\lambda$\verb|y.E)|, promenljiva \verb|x| je \textit{slobodna} (engl. occurs free) akko \verb|x| i \verb|y| su različite promenljive i \verb|x| je slobodna u \verb|E|. U apstrakciji \verb|(|$\lambda$\verb|y.E)|, promenljiva \verb|x| je \textit{vezana} (engl. occurs bound) akko \verb|x| i \verb|y| predstavljaju istu promenljivu i \verb|x| je slobodna u \verb|E|, ili \verb|x| je vezana u \verb|E|.
+\end{definicija}
+
+Iz prethodne definicije možemo zaključiti da će neka promenljiva u apstrakciji biti vezana ako postoji ugnežđena apstrakcija koja je vezuje, a slobodna u suprotnom.
 
 \subsection{Polimorfizam}
 \label{subsec:polimorfizam}
