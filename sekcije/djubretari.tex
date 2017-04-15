@@ -14,14 +14,14 @@ Kod proceduralnih programskih jezika, kakav je na primer PASCAL,
 operacije stvaranja i uništavanja objekata koji se skladište u heap-u izvršavaju se eksplicitnim navođenjem određenih naredbi (NEW i DISPOSE) u izvornom programu.
 To znači da je odgovornost za recikliranje otpadaka na programeru, koji mora da svaki nepotrebni objekat uništi odgovarajućom naredbom i time oslobodi ćelije zauzete tim objektom.
 Ukoliko to ne uradi kapacitet memorije se prividno smanjuje. Ova se pojava naziva oticanje memorije ili curenje memorije (memory leak). 
-Ovakav koncept je prihvatljiv kod proceduralnih jezika, kod kojih su pomenute operacije retke, ali je neefikasan kada su u pitanju funkcionalni jezici koji se odlikuju čestim izvršavanjem tih operacija.
+Ovakav koncept je prihvatljiv kod proceduralnih jezika, kod kojih su pomenute operacije retke, ali je neefikasan kada su u pitanju funkcionalni jezici koji se odlikuju čestim izvršavanjem tih operacija \cite{appel}.
 Zato je kod funkcionalnih programskih jezika posao sakupljanja otpadaka
 (garbage collection) poveren delu sistema za upravljanje memorijom koji se naziva sakupljač otpadaka (garbage collector).
 
 \subsection{Markirajući sakupljač otpadaka}
 
 Ovo je najstariji tip sakupljača otpadaka. Razvijen je početkom 60-ih godina u
-okviru programskog jezika LISP [Mcca60].
+okviru programskog jezika LISP \cite{mcca60}.
 Programske promenljive i strukture podataka alocirane na heap-u formiraju usmeren graf.
 Promenljive su koren tog grafa.
 Čvor \textit{n} je dostižan ukoliko postoji put $r\rightarrow \dots \rightarrow n$ od nekog korena \textit{r}.
@@ -36,7 +36,7 @@ Kad god želi da alocira nešto na hip, dobija memoriju iz \textit{slobodne} lis
 \subsection{Sakupljač otpadaka sa brojanjem referenci}
 \label{ref:reference counter}
 
-Ideju za ovaj tip sakupljača otpadaka dao je Collins 1960.godine [Col60].
+Ideju za ovaj tip sakupljača otpadaka dao je Collins 1960.godine \cite{col60}.
 On se primenjuje u sistemima kod kojih je heap baziran na listi.
 Svaka ćelija u heap-u sadrži jednu reč koja se naziva brojač referenci.
 Vrednost te reči je broj referenci na ćeliju, tj. broj pokazivača koji na nju pokazuju.
@@ -51,7 +51,7 @@ Sve ovo omogućava da se recikliranje otpadaka obavlja paralelno sa izvršavanje
 \subsection{Prepisujući sakupljač otpadaka}
 
 Algoritam za ovaj tip sakupljača otpadaka dali su 1969. godine Fenichel i
-Yochelson [Feni69].
+Yochelson \cite{feni69}.
 Dostižni deo heap-a je usmereni graf, memorija su čvorovi, pokazivači su grane, promenljive su koren.
 Prepisujući sakupljač otpadaka prolazi kroz deo grafa koji je alociran na heap-u, praveći izomorfnu kopiju u \textit{svežem} delu heap-a.
 Taj sveži deo je kompaktan, i podaci zauzimaju kontinualan blok memorije, bez fragmentacije.
@@ -81,7 +81,7 @@ Strategija koja određuje koliko će se često neki region sažimati naziva se p
 \\
 \\
 Postavlja se pitanje kako odrediti koji objekti imaju duži životni vek, tj. kako odrediti koji će se objekti smeštati u koji deo heap-a. 
-Empirijske metode su pokazale da većina mladih objekata (onih koji su skoro kreirani) predstavlja privremene strukture ili međurezultate, i da samim tim ti objekti imaju kratak životni vek.
+Empirijske metode su pokazale da većina mladih objekata (onih koji su skoro kreirani) predstavlja privremene strukture ili međurezultate, i da samim tim ti objekti imaju kratak životni vek \cite{app87}.
 Samo mali broj objekata je deo neke strukture dugog životnog veka.
 U mnogim stilovima programiranja, kada se kreira objekat A, njegova polja se odmah inicijalizuju, i recimo da A pokazuje na objekte B i C.
 Da bi to bilo moguće objekti B i C moraju već postojati, tako da imamo noviji objekat koji pokazuje na starije objekte.
@@ -94,11 +94,3 @@ Neki programski jezici i programi, veoma brzo alociraju memoriju na heap-u (i ge
 Ovo je posebno istaknuto kod funkcionalnih programskih jezika, gde je obeshrabreno menjanje starijih podataka.
 
 
-%% Osnovna referenca je Modern Compiler Implementation in Java, ANDREW W. APPEL
-
-%% George E. Collins. “A method for overlapping and erasure of lists”
-%% to je referenca za [Col60]
-
-%[Mcca60] John McCarty, “Recursive functions of symbolic expressions and their computation by machine – I” The LISP Programming System
-
-% [Feni69] Robert R. Fenichel and Jerome C. Yochelson, “A LISP garbage-collector for virtual-memory computer systems”
