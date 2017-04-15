@@ -97,28 +97,6 @@ SEL (x.s) e (SEL ct cf.c) d $\rightarrow$ s e c' (c.d)\\
 where c' = ct if x is T, and cf if x is F\\
 JOIN s e (JOIN.c) (cr.d) $\rightarrow$ s e cr d\\
 
-\subsubsection{Rekurzivne i nerekurzivne funkcije}
-
-Za rekurzivne i nerekurzivne funkcije ćemo navesti samo pravila prevođenja.\\
-
-{\em Pravilo prevođenja za nerekurzivne funkcije:}\\
-$\lambda$ funkcija se prevodi u (LDF) || (body' || (RTN)) , gde je body' preveden kod za body.\\
-Primena funkcije (e e1 ... ek) se prevodi u (NIL) || ek' || (CONS) || ... || e1' || (CONS) || e' || (AP)\\\\
-Operacije na steku:\\
-%naci bolji prevod za function application
-LDF s e (LDF f.c) d $\rightarrow$ ((f.e).s) e c d\\
-AP ((f.e') v.s) e (AP.c) d $\rightarrow$ NIL (v.e') f (s e c.d)\\
-RTN (x.z) e' (RTN.q) (s e c.d) $\rightarrow$ (x.s) e c d\\
-
-{\em Pravilo prevođenja za rekurzivne funkcije:}\\
-(letrec (f1 ... fk) (e1 ... ek) exp) se prevodi u\\
-(DUM NIL) || ek' || (CONS) || ... || e1' || (CONS LDF) || (exp' || (RTN)) || (RAP)\\
-Ovo je isto kao (($\lambda$ (f1 ... fk) exp) e1 ... ek), ali dozvoljava rekurziju.
-Operacije na steku:\\
-DUM s e (DUM.c) d -> s (W.e) c d\\
-where W has been called PENDING earlier\\
-RAP ((f.(W.e)) v.s) (W.e) (RAP.c) d $\rightarrow$ nil rplaca((W.e),v) f (s e c.d)\\
-Funkcija rplaca pri izvršavanju RAP, pokazivač na W preusmerava na v, što rezultuje u kružnoj strukturi.
 %FALI: zakljucak, jos po neko objasnjenje u razradi za secd, jos doterati tekst i fale reference
 
 
