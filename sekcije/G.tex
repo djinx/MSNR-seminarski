@@ -5,12 +5,12 @@ U ovom delu predstavićemo {\em G mašinu} (eng. G-machine), koju su Avgustson i
 
 \subsection{Motivacija}
 Kod {\em lenjih funkcionalnih jezika} funkcije i argumenti konstruktora se evaluiraju samo po potrebi, pa čak i onda najviše samo jednom. \\
-\\Bez obzira na to što se ovako nešto može implementirati predstavljanjem neevaluiranih argumenata "tankovima" (eng. thunk) - funkcijom koja evaluira argument i zamenjuje ga rezultatom, zbog efikasnosti biramo drugačije pristupe. \\Osnovna ideja je da predstavimo program {\em grafom} koji bismo kasnije "prepisali"  evaluacijom. Velika prednost je i u tome što evaluacija deljenog podgrafa automatski razrešava sve izraze koji pokazuju na njega. Međutim, treba biti pažljiv, kontinuirana pretraga grafa za podizrazima je {\em spora}. \\\\
+\\Bez obzira na to što se ovako nešto može implementirati predstavljanjem neevaluiranih argumenata "tankovima" (eng. thunk) - funkcijom koja evaluira argument i zamenjuje ga rezultatom, zbog efikasnosti biramo drugačije pristupe. \\ \\Osnovna ideja je da predstavimo program {\em grafom} koji bismo kasnije "prepisali"  evaluacijom. Velika prednost je i u tome što evaluacija deljenog podgrafa automatski razrešava sve izraze koji pokazuju na njega. Međutim, treba biti pažljiv, kontinuirana pretraga grafa za podizrazima je {\em spora}. \\\\
 Rane implementacije su prevodile program u fiksirani skup kombinatora (zatvorene lambda izraze čije su apstrakcije na početku), koje možemo posmatrati kao pravila za "prepisivanje grafa". Kasnije se pokazalo da je korisno prepustiti programu da razmatra izbor kombinatora - tzv. {\em superkombinatora}. \\ %ovde ide ova ref ] R.J.M. Hughes, Super-combinators: A new implementation method for applicative languages, ACM Symposium on Lisp and Functional Programming, Pittsburgh, Pennsylvania,ACM, August 1982, pp. 1–10.1
 
 
 \subsection{Osnovna ideja} 
-Umesto da interpretiraju superkombinatore kao pravila za prepisivanje grafa, oni se kompajliraju u kod sa specijalnim instrukcijama za manipulaciju grafom. G-mašine su osnova implementacije lenjog ML (eng. lazy ML) i Haskela. 
+Umesto da interpretiraju superkombinatore kao pravila za prepisivanje grafa, oni se kompajliraju u kod sa specijalnim instrukcijama za manipulaciju grafom. G-mašine su osnova implementacije lenjog ML (eng. lazy ML) i Haskela.\\ 
 %uz Lazy ML ide L. Augustsson, The interactive lazy ML system, J. Funct.Programming 3 (1) (1993) 77–92, A UZ HASKEL ] L. Augustsson, HBC – The Chalmers Haskell compiler,Web Page, 1999, URL: http://www.cs.chalmers.se/augustss/hbc.html.
 
 Sada ćemo navesti osnovnu ideju koja stoji iza G-mašina: \\
@@ -18,8 +18,8 @@ Sada ćemo navesti osnovnu ideju koja stoji iza G-mašina: \\
 
 Uvek želimo samo da instanciramo superkombinator, tako da možemo da obacimo originalne superkombinatore nakon što je prevođenje završeno, i sačuvamo samo preveden kod. Dakle, koristimo kompajler G-mašine da izvorni kod prevedemo u niz instrukcija na mašinskom jeziku. \\
 
-Nakon što smo odlučili da prevedemo telo superkombinatora u niz instrukcija moramo da odlučimo u koji jezik ćemo da ga prevedemo. Iako bismo mogli da ga odmah prevedemo u, na primer, {\em VAX mašinski kod}, kasnije bi nam se javili mnogi problemi.\\
-Najbolje rešenje, ujedno i ono koje se najčešće koristi, je da prevođenje izvršimo u središnji kod (eng. intermediate code) za G-mašinu, takozvani G-kod (eng. G-code). \\
+Nakon što smo odlučili da prevedemo telo superkombinatora u niz instrukcija moramo da odlučimo u koji jezik ćemo da ga prevedemo. Iako bismo mogli da ga odmah prevedemo u, na primer, {\em VAX mašinski kod}, kasnije bi nam se javili mnogi problemi.
+Najbolje rešenje, ujedno i ono koje se najčešće koristi, je da prevođenje izvršimo u središnji kod (eng. intermediate code) za G-mašinu, takozvani {\em G-kod} (eng. G-code). \\
 
 \subsection{G-kod}
 
@@ -34,12 +34,12 @@ Najbolje rešenje, ujedno i ono koje se najčešće koristi, je da prevođenje i
 %referenca za G kompajler Peyton Jones, Simon L., 1958-The implementation of functional programming languages.'7th May 1986.'Bibliography: p.Includes index.I. Functional programming languages. I. Title.QA76.7.P495 1987 005.13'3 86-20535 ISBN 0-13-453333-X
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.4]{gkomp.png}
+\includegraphics[scale=0.3]{gkomp.png}
 \end{center}
 \caption{Struktura G-kompajlera}
 \label{fig:gcompiler}
 \end{figure}
-%referenca za primer i vise info o G masinama Implementing Functional Languages:a tutorial Simon L Peyton Jones Department of Computing Science, University of Glasgow and David R LesterDepartment of Computer Science, University of Manchesterc 1991
+
 \begin{primer}
 Predstavimo sad način na koji funkcioniše kompajler za G mašinu razmatrajući sledeću funkciju:\\
 f g x = K (g x)\\
@@ -54,7 +54,7 @@ Ova funkcija bi se prevela u sledeći niz instrukcija G-koda:
 \item Unwind
 \end{itemize}
 \end{primer}
-
+%referenca za primer i vise info o G masinama Implementing Functional Languages:a tutorial Simon L Peyton Jones Department of Computing Science, University of Glasgow and David R LesterDepartment of Computer Science, University of Manchesterc 1991
 Na slici \ref{fig:primerGmasine} prikazujemo kako se kod izvršava.\\
 Sa leve strane svakog dijagrama prikazan je stek, koji raste na dole. Ostatak svakog dijagrama je hip. Aplikativni čvorovi predstavljeni sa karakterom @, izrazi sa malim slovima, a superkombinatori sa velikim slovima latinice.\\ 
 Na slici \ref{fig:primerGmasine} prikazano je stanje mašine pre izvođenja instrukcija za f. Dva elementa na vrhu steka su pokazivači na aplikativne čvorove, čije su desne strane izrazi koji će biti vezani za g i x.\\ 
