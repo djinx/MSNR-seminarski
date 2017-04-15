@@ -12,8 +12,8 @@ Neki moderni jezici, kao što je Miranda, imaju svojstvo koje omogućava program
 \\ %BasicTypechecking.pdf str. 6
 % potrebna referenca za unifikaciju
 
-Izrazi koji sadrže nekoliko pojavljivanja istog tipa, kao $\alpha \longrightarrow \alpha$, izražavaju kontekstu zavisnost, u ovom slučaju to je zavisnost domena i kodomena tipa funkcije. Proces proveravanja tipova sastoji se od uparivanja tipova operatora i instanciranja tipova promenljivih. Kad god tip promenljive instancira, sve ostale pojave iste promenljive moraju biti instancirane sa istom vrednošću: ispravna instanciranja izraza $\alpha \longrightarrow \alpha$ su $int \longrightarrow int$,  $bool \longrightarrow bool$, itd. Proces kontkestnog instanciranja izvodi se pomoću \textit{unifikacije} i ona je osnova polimorfne provere tipova. Unifikacija ne uspeva kada pokušava da upari dva operatora različitih tipova (nor. int i bool) ili kada pokušava da instancira promeljivu izrazom koji sadrži tu promenljivu (npr. $a$ i $a\longrightarrow b$, gde će se napraviti rekurzija bez izlaza) \cite{basic-typechecking}. %The latter situation arises in typechecking self-application (e.g. fun(x) x(x)), which is therefore considered illegal.
-U opštem slučaju, tip izraza određuje se pomoću skupa pravila kombinovanja tipova za jezičke konstrukcije i tipova primitivnih operatora . 
+Izrazi koji sadrže nekoliko pojavljivanja istog tipa, kao $\alpha \longrightarrow \alpha$, izražavaju kontekstnu zavisnost, u ovom slučaju to je zavisnost domena i kodomena tipa funkcije. Proces proveravanja tipova sastoji se od uparivanja tipova operatora i instanciranja tipova promenljivih. Kad god tip promenljive instancira, sve ostale pojave iste promenljive moraju biti instancirane sa istom vrednošću: ispravna instanciranja izraza $\alpha \longrightarrow \alpha$ su $int \longrightarrow int$,  $bool \longrightarrow bool$, itd. Proces kontekstnog instanciranja izvodi se pomoću \textit{unifikacije} i ona je osnova polimorfne provere tipova. Unifikacija ne uspeva kada pokušava da upari dva operatora različitih tipova (nor. int i bool) ili kada pokušava da instancira promeljivu izrazom koji sadrži tu promenljivu (npr. $a$ i $a\longrightarrow b$, gde će se napraviti rekurzija bez izlaza) \cite{basic-typechecking}. %The latter situation arises in typechecking self-application (e.g. fun(x) x(x)), which is therefore considered illegal.
+U opštem slučaju, tip izraza određuje se pomoću skupa pravila kombinovanja tipova za jezičke konstrukcije i tipova primitivnih operatora. 
 
 \iffalse
 %The Implementation of Functional Programming Languages sekcija 8.1
@@ -36,13 +36,14 @@ $$a::A$$
 
 %BasicTypechecking.pdf str. 9
 \subsection{Zaključivanje tipova}
+\label{subsec: zakljucivanje tipova}
 
 Osnovni algoritam za zaključivanje tipova opisan je u nastavku \cite{basic-typechecking}.
 
 \begin{enumerate}
-	\item Kada se pojavi nova promenljiva $x$, njoj se dodeljuje novi tip promenljive što znači da joj tip mora biti određen u daljem kontekstu u kom se pojavljuje. Par $<x, a>$ se čuva u okruženje koje se pretražuje svaki put kad se pojavi $x$ u kom je $x$ tipa $a$.
+	\item Kada se pojavi nova promenljiva $x$, njoj se dodeljuje novi tip promenljive što znači da joj tip mora biti određen u daljem kontekstu u kom se pojavljuje. Par $<x, a>$ se čuva u okruženju koje se pretražuje svaki put kad se pojavi $x$ u kom je $x$ tipa $a$.
 	
-	\item Kad imamo uslovno grananje, \textit{if} se uparuje sa bool, dok se \textit{then} i \textit{else} grane ostavljaju nedefinisane kako bi se odredio jedinstven tip za ceo izraz.
+	\item Kad imamo uslovno grananje, izraz u \textit{if} se uparuje sa bool, dok se \textit{then} i \textit{else} grane ostavljaju nedefinisane kako bi se odredio jedinstven tip za ceo izraz.
 	
 	\item U apstrakciji $\lambda x.e$, tip za $e$ se zaključuje u kontekstu gde je $x$ povezan sa novim tipom promenljive.
 	

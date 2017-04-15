@@ -9,12 +9,12 @@ U nastavku opisujemo tehnike koje se koriste za generisanje efikasnog koda.
 
 \subsection{Transformacije $\lambda$-računa}
 
-$\lambda$-račun se koristi zbog svoje jednostavnosti i dovoljno je izražajan da se bilo koji funkcionalan jezik može transformisati u njega. To znači da ako imamo implementaciju $\lambda$ računa, možemo da implementiramo  bilo koji funkcionalan jezik tako što ćemo ga prevesti u $\lambda$-račun. Transformacije se često grupišu u dva skupa :
+$\lambda$-račun se koristi zbog svoje jednostavnosti i dovoljno je izražajan da se bilo koji funkcionalan jezik može transformisati u njega. To znači da ako imamo implementaciju $\lambda$-računa, možemo da implementiramo  bilo koji funkcionalan jezik tako što ćemo ga prevesti u $\lambda$-račun. Transformacije se često grupišu u dva skupa :
 
 
 % Compilation_of_Functional_Languages_by_Program_Tra.pdf + comp-by-trans.pdf
 \begin{itemize}
-	\item Veliki skup jednostavnih, lokanih transformacija koje su implementirane u okviru dela kompilatora koji nazivamo \textit{pojednostavljivač}. Složenost programa raste jer pojednostavljivač pokušava da izvrši što je moguće više transformacija u jednom prolasku kroz program. Uprkos tome, rezultat nakon tih transformacija često i dalje sadrži delove koji mogu biti dalje transformisani, tako da se ova operacija ponavlja više puta, dokle god ima nešto da se pojednostavi. Transformacije koje spadaju u ovaj skup su simplifikacija (engl. \textit{simplification}) \cite{compilation-by-program-transformation}, $\beta$-odsecanje, umetanje (engl. \textit{inlining}) i konstanto sklapanje (engl. \textit{constant folding}).
+	\item Veliki skup jednostavnih, lokalnih transformacija koje su implementirane u okviru dela kompilatora koji nazivamo \textit{pojednostavljivač}. Složenost programa raste jer pojednostavljivač pokušava da izvrši što je moguće više transformacija u jednom prolasku kroz program. Uprkos tome, rezultat nakon tih transformacija često i dalje sadrži delove koji mogu biti dalje transformisani, tako da se ova operacija ponavlja više puta, dokle god ima nešto da se pojednostavi. Transformacije koje spadaju u ovaj skup su simplifikacija (engl. \textit{simplification}) \cite{compilation-by-program-transformation}, $\beta$-odsecanje, umetanje (engl. \textit{inlining}) i konstanto sklapanje (engl. \textit{constant folding}).
 	
 	\item Manji skup složenijih, globalnih transformacija, od kojih se svaka implementira odvojeno. Mnoge se sastoje od faze analize praćene transformacijama koje koriste rezultate analize za otkrivanje pogodnih delova za transformisanje. Mnogi se oslanjaju na to da će pojednostavljivač ‚‚počistiti$"$ k\^ od koji proizvedu, tako da se izbegava ponavljanje transformacija koje su već sadržane u telu pojednostavljivača. Primer transformacije za ovaj skup je  \textit{analiza strogosti} (engl. \textit{strictness analasys}) \cite{haskell-by-program-transformation}. 
 	
