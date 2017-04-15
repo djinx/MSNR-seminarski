@@ -42,32 +42,35 @@ Najbolje rešenje, ujedno i ono koje se najčešće koristi, je da prevođenje i
 \fi 
 
 \begin{primer}
-Predstavimo sad način na koji funkcioniše kompajler za G mašinu razmatrajući sledeću funkciju:
-$$\text{f g x = K (g x)}$$
-Ova funkcija bi se prevela u sledeći niz instrukcija G-koda:
-\begin{itemize}
-\item Push 1
-\item Push 1
-\item Mkap
-\item Pushglobal K
-\item Mkap
-\item Slide 3
-\item Unwind
-\end{itemize}
+	Predstavimo sad način na koji funkcioniše kompajler za G mašinu razmatrajući sledeću funkciju:
+	$$\text{f g x = K (g x)}$$
+	Ova funkcija bi se prevela u sledeći niz instrukcija G-koda:
+	\begin{itemize}
+	\item Push 1
+	\item Push 1
+	\item Mkap
+	\item Pushglobal K
+	\item Mkap
+	\item Slide 3
+	\item Unwind
+	\end{itemize}
 \end{primer}
 %referenca za primer i vise info o G masinama Implementing Functional Languages:a tutorial Simon L Peyton Jones Department of Computing Science, University of Glasgow and David R LesterDepartment of Computer Science, University of Manchesterc 1991
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.35]{primerGmasine.png}
+	
+	\caption{Vizuelni prikaz izvršavanja koda.}
+	\label{fig:primerGmasine}
+\end{figure}
+
 Na slici \ref{fig:primerGmasine} prikazujemo kako se k\^ od izvršava. Sa leve strane svakog dijagrama prikazan je stek, koji raste na dole. Ostatak svakog dijagrama je hip. Aplikativni čvorovi predstavljeni sa karakterom @, izrazi sa malim slovima, a superkombinatori sa velikim slovima latinice. Takođe, prikazano je stanje mašine pre izvođenja instrukcija za f. Dva elementa na vrhu steka su pokazivači na aplikativne čvorove, čije su desne strane izrazi koji će biti vezani za g i x. Instrukcija Push koristi relativno adresiranje u odnosu na vrh steka. Ignorišući pokazivač na supekombinatorski čvor f, prvi element na steku dobija broj 0, naredni 1, itd.
 
 Naredni dijagram (b) pokazuje kako se stek izmenio nakon primene Push1 instrukcije. Ona stavlja pokazivač na izraz x na stek. Nakon jos jednog izvršavanja Push1 instrukcije, imamo pokazivač na g na vrhu steka i onda imamo ono što je prikazano na dijagramu (c). Dijagram (d) pokazuje šta se dešava kada se izvrši Mkap instrukcija. Ona uzima dva pokazivača sa steka i pravi aplikativni čvor, ostavljajući pokazivač na rezultat na steku. Na dijagramu (e) izvršavamo Pushglobal K instukciju koja stavlja pokazivač na K superkombinator. Na dijagramu (f) vidimo da još jedna Mkap instrukcija završava instanciranje tela f.\\ 
 \\
-Sada možemo zameniti originalni izraz f g x  sa novoinstanciranim telom: K(g x). U prvoj (ne lenjoj) verziji G-mašine, jednostavno pomerimo telo na dole za 3 mesta na steku pomoću instrukcije Slide 3 (dijagram (g)).\\ Konačno, Unwind instrukcija uzrokuje dalju evaluaciju.\\
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[scale=0.35]{primerGmasine.png}
-\end{center}
-\caption{Vizuelni prikaz izvršavanja koda.}
-\label{fig:primerGmasine}
-\end{figure}
+Sada možemo zameniti originalni izraz f g x  sa novoinstanciranim telom: K(g x). U prvoj (ne lenjoj) verziji G-mašine, jednostavno pomerimo telo na dole za 3 mesta na steku pomoću instrukcije Slide 3 (dijagram (g)).\\ Konačno, Unwind instrukcija uzrokuje dalju evaluaciju.
+
 %za sve ref dodati Abstract machines for programming language implementation Stephan Diehl a,∗, Pieter Hartel b, Peter Sestoft c a FB-14 Informatik, Universität des Saarlandes, Postfach 15 11 50, 66041 Saarbrücken, Germany b Department of Electronics and Computer Science, University of Southampton, Highfield, Southampton SO17 1BJ, UK c Department of Mathematics and Physics, Royal Veterinary and Agricultural University, Thorvaldsensvej 40,DK-1871 Frederiksberg C, Denmark Accepted 24 June 1999
 
 
