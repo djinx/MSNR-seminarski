@@ -1,6 +1,25 @@
 \section{SECD mašina}
 \label{sec:secd-masina}
 %4april
+%OVE REFERENCE VEC POSTOJE U TEXTU ALI NE RADE
+%@book{landinsecd,
+%  title={{The mechanical evaluation of expressions}},
+%  author={Peter J. Landin},
+%  isbn={9781848822405},
+%  url={https://www.cs.cmu.edu/~crary/819-f09/Landin64.pdf},
+%  year={1964},
+%  publisher={The Computer
+%Journal}  
+%}
+
+%@misc{ISWIM,
+%title = {{The Next 700 Programming Languages}},
+%note = {on-line at: \url{http://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf}},
+%    author = {Peter J. Landin},
+%    year = {1965}
+%}
+%
+
 Piter Landin napisao je, 1964. godine, članak {\em Mehanička evaluacija} izraza (eng. “The Mechanical Evaluation of Expressions”) \cite{landinsecd}, koji je u decenijama koje predstoje izvršio veliki uticaj na istraživanja i razvoj funkcionalnih programskih jezika. Članak se istakao po tome što je zagovarao upotrebu {\em $\lambda$-računa} kao meta-jezika. Osim toga, Landin uvodi pojmove 'zatvorenja' - da predstavi funkcionalne vrednosti, 'cirkularnost' - da implementira rekurziju, 'parcijalnu evaluaciju', 'redukciju grafa', i mnoge druge koncepte i pojmove koji su danas sastavni deo programskih jezika.\\
 
 Jedna od prvih virtuelnih mašina za kompilaciju funkcionalnih programskih jezika bila je Landin-ova {\em SECD mašina}, predstavljena u članku kao deo ISWIM \cite{ISWIM} programskog jezika. Ona je bila {\em prva apstraktna mašina} posebno dizajnirana da modeluje $\lambda$-račun. \\
@@ -97,6 +116,6 @@ SEL (x.s) e (SEL ct cf.c) d $\rightarrow$ s e c' (c.d)\\
 where c' = ct if x is T, and cf if x is F\\
 JOIN s e (JOIN.c) (cr.d) $\rightarrow$ s e cr d\\
 
-%FALI: zakljucak, jos po neko objasnjenje u razradi za secd, jos doterati tekst i fale reference
+%Reinhard Wilhelm · Helmut Seidl Compiler Design Virtual Machines ISBN 978-3-642-14908-5 Springer Heidelberg Dordrecht London New York Springer-Verlag Berlin Heidelberg 2010
 
-
+%G.D. Plotkin, Call-by-name, Call-by-value and the Lambda calculus, 1 August 1974., Department of Machine Imlligence,School of Artificial Intelligence,Edinburgh, United Kingdom
