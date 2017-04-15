@@ -20,9 +20,9 @@
 %}
 %
 
-Piter Landin napisao je, 1964. godine, članak {\em Mehanička evaluacija} izraza (eng. “The Mechanical Evaluation of Expressions”) \cite{landinsecd}, koji je u decenijama koje predstoje izvršio veliki uticaj na istraživanja i razvoj funkcionalnih programskih jezika. Članak se istakao po tome što je zagovarao upotrebu {\em $\lambda$-računa} kao meta-jezika. Osim toga, Landin uvodi pojmove 'zatvorenja' - da predstavi funkcionalne vrednosti, 'cirkularnost' - da implementira rekurziju, 'parcijalnu evaluaciju', 'redukciju grafa', i mnoge druge koncepte i pojmove koji su danas sastavni deo programskih jezika.\\
+Piter Landin napisao je, 1964. godine, članak {\em Mehanička evaluacija} izraza (eng. “The Mechanical Evaluation of Expressions”) \cite{landinsecd}, koji je u decenijama koje predstoje izvršio veliki uticaj na istraživanja i razvoj funkcionalnih programskih jezika. Članak se istakao po tome što je zagovarao upotrebu {\em $\lambda$-računa} kao meta-jezika. Osim toga, Landin uvodi pojmove ‚‚zatvorenja'' - da predstavi funkcionalne vrednosti, ‚‚cirkularnost'' - da implementira rekurziju, ‚‚parcijalnu evaluaciju'', ‚‚redukciju grafa'', i mnoge druge koncepte i pojmove koji su danas sastavni deo programskih jezika \cite{calls-lambda, compiler-design}.\\
 
-Jedna od prvih virtuelnih mašina za kompilaciju funkcionalnih programskih jezika bila je Landin-ova {\em SECD mašina}, predstavljena u članku kao deo ISWIM \cite{ISWIM} programskog jezika. Ona je bila {\em prva apstraktna mašina} posebno dizajnirana da modeluje $\lambda$-račun. \\
+Jedna od prvih virtuelnih mašina za kompilaciju funkcionalnih programskih jezika bila je Landin-ova {\em SECD mašina} \cite{landin-secd}, predstavljena u članku kao deo ISWIM \cite{ISWIM} programskog jezika. Ona je bila {\em prva apstraktna mašina} posebno dizajnirana da modeluje $\lambda$-račun. \\
 
 Od izlaska Landin-ovog članka, izmišljene, otkrivene i menjane su mnoge druge apstraktne mašine za $\lambda$-račun. Međutim, iako se u literaturi može naći veliki broj mašina, {\em nijedna} nije derivat originalne Landin-ove SECD mašine, čak i pored toga što je ona bila prva.
 
@@ -30,47 +30,42 @@ Od izlaska Landin-ovog članka, izmišljene, otkrivene i menjane su mnoge druge 
 
 \subsection{Arhitektura SECD mašine}
 
-Osnovna uloga SECD mašine je izvršavanje kompajliranog koda na apstraktnoj mašini. Osnovna razlika u odnosu na interpreter je u tome što kompajlirani kod može da se izvršava više puta i postoji mogućnost optimizacije koda.\\
+Osnovna uloga SECD mašine je izvršavanje kompiliranog k\^ oda na apstraktnoj mašini. Osnovna razlika u odnosu na interpreter je u tome što kompilirani k\^ od može da se izvršava više puta i postoji mogućnost optimizacije koda. 
 
-Formalno, SECD mašina je torka četiri liste koje imaju skup precizno definisanih operacija nad njima. Semantika SECD mašina opisuje virtuelnu mašinu baziranu na steku koja je dizajnirana da izvršava funkcije. \\ 
-
-Komponente torke koje čine SECD mašinu su četiri steka:
+Formalno, SECD mašina je torka četiri liste koje imaju skup precizno definisanih operacija nad njima. Semantika SECD mašina opisuje virtuelnu mašinu baziranu na steku koja je dizajnirana da izvršava funkcije. Komponente torke koje čine SECD mašinu su četiri steka:
 \begin{enumerate}
 \item {\bf S} (eng. stack) - za evaluaciju izraza, najčešće implementiran kao lista, ova komponenta ima tip {\bf list}  
 \item {\bf E} (eng. environment) - za čuvanje liste trenutnih vrednosti u okvirima, gde je svaki okvir lista veza izmedju simbola i njegove vrednosti, ova komponenta ima tip {\bf Env.env}  
-\item {\bf C} (eng. control) - za čuvanje liste instrukcija (kontrolnih direktiva) koje treba evaluirati, ova komponenta ima tip {\bf directive} , gde je direktiva definisana kao:\\ datatype directive = TERM of Source.term\\
-| APPLY
+\item {\bf C} (eng. control) - za čuvanje liste instrukcija (kontrolnih direktiva) koje treba evaluirati, ova komponenta ima tip {\bf directive} , gde je direktiva definisana kao: $$ \text{datatype directive = TERM of Source.term | APPLY} $$
 %ovo iznad treba srediti da se lepo prikazuje
 \item {\bf D} (eng. dump) - za čuvanje kontrolnih putanja, promenljivih i stekova, da bi se kasnije mogli ponovo učitati, ova komponenta ima tip\\ {\bf(value list * value Env.env * directive list) list}
 \end{enumerate}
 
 %Dump used to store suspended invocation context.
-Sada ćemo, u tabeli \ref{tab:tabelaInstr}, predstaviti glavne operacije koje podržava SECD mašina. \\
+\noindent U tabeli \ref{tab:tabelaInstr} prikazujemo glavne operacije koje podržava SECD mašina \cite{introduction-fp-systems}. \\
 
 \begin{table}[h!]
-\begin{center}
-\caption{Operacije koje podržava SECD mašina}
-\begin{tabular}{|c|c|c|c|} \hline
-Operacija&Naziv&Opis& Uloga\\ \hline
-NIL & & Stavlja NIL pokazivač&\\ \hline
-LD & LOAD & Učitava iz E & Dobija vrednost iz konteksta\\ \hline
-LDC & LOAD CONSTANT & Učitava konstante&\\ \hline
-LDF & LOAD FUNCTION & Učitava funkciju & Dobijanje zatvorenja\\ \hline
-AP & APPLY FUNCTION & Primenjuje funkciju&\\ \hline
-RTN & RETURN & & \\ \hline
-SEL & SELECT & Vrši select ako je u if izrazu&\\ \hline
-JOIN & JOIN & Ponovo pridružuje g& Koristi se u kombinaciji sa SEL\\ \hline
-RAP & RECURSIVE APPLY & Rekurzivna primena funkcije&\\ \hline
-DUM & DUMMY & Kreira 'dummy' env & Koristi se sa RAP\\ \hline
-\end{tabular}
-\label{tab:tabelaInstr}
-\end{center}
+	\begin{center}
+	\caption{Operacije koje podržava SECD mašina}
+	\begin{tabular}{|c|c|c|} \hline
+	Operacija&Naziv&Opis\\ \hline
+	NIL & NIL & Stavlja NIL pokazivač\\ \hline
+	LD & LOAD & Učitava iz E \\ \hline
+	LDC & LOAD CONSTANT & Učitava konstante\\ \hline
+	LDF & LOAD FUNCTION & Učitava funkciju \\ \hline
+	AP & APPLY FUNCTION & Primenjuje funkciju\\ \hline
+	RTN & RETURN & Vraća vrednost funkcije \\ \hline
+	SEL & SELECT & Vrši select ako je u if izrazu\\ \hline
+	JOIN & JOIN & Ponovo pridružuje g\\ \hline
+	RAP & RECURSIVE APPLY & Rekurzivna primena funkcije\\ \hline
+	DUM & DUMMY & Kreira 'dummy' env \\ \hline
+	\end{tabular}
+	\label{tab:tabelaInstr}
+	\end{center}
 \end{table}
 %izvor za tabelu je Malkov http://poincare.matf.bg.ac.rs/~smalkov/files/fp.r344.2016/public/predavanja/FP.cas.2016.08.SECD.pdf
 %Introduction to Functional Programming Systems Using HaskellАутор: Antony J. T. Davie
-Osim operacija navedenih u tabeli imamo {\em ugrađene funkcije} +,
-*, ATOM, CAR, CONS, EQ, itd.\\
-Svaka operacija je definisana efektom koji ima na četiri steka S,E,C i D. Svaki stek je predstavljen {\em s-izrazom} sa tačka notacijom, gde najlevlja pozicija označava vrh steka.\\
+Osim operacija navedenih u tabeli imamo {\em ugrađene funkcije} +, *, ATOM, CAR, CONS, EQ, itd. Svaka operacija je definisana efektom koji ima na četiri steka S,E,C i D. Svaki stek je predstavljen {\em s-izrazom} sa tačka notacijom, gde najlevlja pozicija označava vrh steka.
 
 \subsubsection{Ubacivanje objekata na stek}
 
@@ -81,12 +76,10 @@ Pravila kompilacije:
 \item identifikator se prevodi u (LD (i,j)) gde je (i.j) indeks u steku E
 \end{enumerate}
 
-\begin{primer}
-\begin{itemize}
-\item NIL S E (NIL.C) D $\rightarrow$ (NIL.S) E C D\\
-\item LDC S E (LDC x.C) D $\rightarrow$ (x.S) E C D\\
-\item LD S E (LD (i,j).C) D $\rightarrow$ (locate((i,j), e).S) E C D\\
-\end{itemize}
+\begin{primer} ~\\
+NIL S E (NIL.C) D $\rightarrow$ (NIL.S) E C D\\
+LDC S E (LDC x.C) D $\rightarrow$ (x.S) E C D\\
+LD S E (LD (i,j).C) D $\rightarrow$ (locate((i,j), e).S) E C D\\
 \end{primer}
 'Locate' je pomoćna funkcija koja vraća j-ti element i-te podliste u E. Primetimo da je E lista podlisti od kojih je svaka lista stvarnih parametara. Iz čega zaključujemo da e odgovara listi vrednosti u interpreteru.
 
@@ -97,7 +90,7 @@ Za unarni operator OP,\\
 (a.s) e (OP.c) d $\rightarrow$ ((OP a).s) e c d\\
 Za binarni operator OP,\\
 (a b.s) e (OP.c) d $\rightarrow$ ((a OP b).s) e c d
-\begin{primer}
+\begin{primer} ~\\
 s e (LDC 3 LDC 2 LDC 6 + *.c) d\\
 -> (3.s) e (LDC 2 LDC 6 + *.c) d\\
 -> (2 3.s) e (LDC 6 + *.c) d\\
@@ -106,7 +99,7 @@ s e (LDC 3 LDC 2 LDC 6 + *.c) d\\
 -> (24.s) e c d\\
 \end{primer}
 \subsubsection{Specijalna funkcija IF THEN ELSE}
-Pravilo kompilacije:\\
+\noindent Pravilo kompilacije:\\
 (if e1 e2 e3) se prevodi u {\em e1' || (SEL) || (e2' || (JOIN)) || (e3' || (JOIN))}\\
 \begin{primer}
 (if (atom 5) 9 7) se prevodi u (LDC 5 ATOM SEL (LDC 9 JOIN) (LDC 7 JOIN))\\
