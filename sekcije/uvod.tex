@@ -1,3 +1,21 @@
 \section{Uvod}
 \label{sec:uvod}
 
+% Concepts of programming languages (0th edition).pdf, str. 672
+% backus.pdf
+Funkcionalna paradigma, koja se zasniva na matematičkim funkcijama, predstavlja osnovu dizajna najznačajnijih stilova jezika koji nisu imperativni. Džon Bakus\footnote{John Backus (1924 -- 2007)} je 1977. godine dobio Tjuringovu nagradu\footnote{ACM Turing Award (\url{http://amturing.acm.org/})} za njegov doprinos u razvoju imperativnog jezika FORTRAN. Prilikom zvaničnog uručenja nagrade 197. godine, Džon je održao govor u kojem je izneo argumente zašto su čisti funkcionalni programski jezici bolji od imperativnih programskih jezika. Neki od argumenata su bili: čitljiviji k\^od, pouzdani programi i verovatnije korektniji. Srž njegovih argumenata je bila da se programi napisani na čisto funkcionalnim programskim jezicima jednostavnije razumeju, što pre razvoja, to i nakon razvoja programa \cite{Can-Programming-Be-Liberated-from-the-von-Neumann-Style?, Concepts-of-Programming-Languages}.
+
+% Concepts of programming languages (0th edition).pdf, str. 673
+U svom izlaganju, Džon je predstavio funkcionalni jezik FP da bi potvrdio svoje tvrdnje. Iako sam jezik nije zaživeo, njegova ideja je doprinela raznim debatama na istu temu. Poslednjih decenija, sa pojavom i razvitkom funkcionalnih jezika poput ML, Haskell, OCaml i F\#, poraslo je interesovanje za funkcionalne programske jezike \cite{Concepts-of-Programming-Languages}.
+
+Prilikom izučavanja nekog programskog jezika, ili bolje rečeno, prilikom izučavanja neke paradigme, postavlja se prirodno pitanje načina prevođenja od izvornog do izvršnog koda. Ovaj proces je poznat kao \textit{kompiliranje} (engl. compilation). Kompiliranje funkcionalnih programskih jezika ima posebna svojstva u odnosu na opšti proces kompiliranja zbog specijalnih odluka u dizajnu funkcionalnih programskih jezika. Ideja iza ovog rada jeste upoznavanje čitaoca sa nekim osnovnim tehnikama koji se koriste u procesu kompiliranja funkcionalnih programskih jezika.
+
+Nakon uvoda u rad, u delu \ref{sec:osnovni pojmovi} upoznaćemo čitaoca sa osnovnim pojmovima na koje ćemo se pozivati u daljem tekstu. Prvo, govorićemo o \textit{lambda računu}, formalizmu koji predstavlja osnovu za kompiliranje funkcionalnih programskih jezika. Naravno, odabrani su samo oni pojmovi koji su bitni za izlaganje u radu, a za detaljnije upoznavanje sa lambda računom čitalac može konsultovati \cite{Introduction-to-Combinators-and-Lambda-Calculus}. Nakon toga, čitalac se kratko uvodi u pojam \textit{polimorfizma} i, posebno, \textit{parametarski polimorfizam}.
+
+Deo \ref{sec:efikasan kod} je posvećen tehnikama kojima se dobija efikasan k\^od. U tom delu upoznajemo čitaoca sa \textit{transformacijama lambda računa}. Od svih transformacija, akcenat stavljamo na \textit{umetanje}, a zatim prelazimo na \textit{uparivanje šablona}. Literaturu za ovu oblast predstavlja pre svega \cite{the-implementation-of-functional-programming-languages}, a zatim i \cite{compilation-by-program-transformation, haskell-by-program-transformation, secrets-haskell-compiler-inliner, compiler-design, compiling-fl}.
+
+Deo \ref{sec:provera tipova} uvodi pojam polimorfizma u funkcionalnim programskih jezicima i obrađuje se značaj parametarskog polimorfizma. Na kraju je prikazan osnovni algoritam za \textit{zaključivanje tipova}. Više o ovoj temi se može pronaći u \cite{the-implementation-of-functional-programming-languages, basic-typechecking}.
+
+Zbog svih zahteva koji su uspostavljeni pred funkcionalnim programskim jezicima dinamičko upravljanje memorijom mora biti obezbeđeno. Zato, u delu \ref{sec:djubretar}, obrađeni su \textit{sakupljači otpadaka}. Dajemo motivaciju za njihovo korišćenje, a zatim i opise mnogobrojnih tipova sakupljača otpadaka koji su se koristili kroz istoriju. Na kraju dela ukratko prikazujemo odnos sakupljača otpadaka i kompilatora.
+
+U finalnom delu \ref{sec:secd-masina} opisujemo \textit{virtualne mašine za kompiliranje} funkcionalnih programskih jezika. U tekstu ćemo govoriti o \textit{SECD mašini} i \textit{G mašini}. Predstavićemo njihove arhitekture i prikazati nekoliko primera prevođenja.
