@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.2.25)  15 APR 2017 17:35
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.2.25)  15 APR 2017 17:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -4547,112 +4547,19 @@ Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-! Undefined control sequence.
-l.74 \appendix
-              
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-\bibdata{seminarski}
-No file G.bbl.
-! Undefined control sequence.
-l.78 \appendix
-              
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-! LaTeX Error: The font size command \normalsize is not defined:
-               there is probably something wrong with the class file.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.80 \end{document}
-                   
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-[1
-! Undefined control sequence.
-<write> \newlabel{sec:Gmašine}{{}{\thepage 
-                                            }}
-l.80 \end{document}
-                   
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-\newlabel{sec:Gmašine}{{}{}}
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-! Undefined control sequence.
-<write> \newlabel{fig:gcompiler}{{}{\thepage 
-                                             }}
-l.80 \end{document}
-                   
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-\newlabel{fig:gcompiler}{{}{}}
-! Undefined control sequence.
-<write> \newlabel{fig:primerGmasine}{{}{\thepage 
-                                                 }}
-l.80 \end{document}
-                   
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-\newlabel{fig:primerGmasine}{{}{}}
-! Undefined control sequence.
-<write> ...ntsline {section}{Literatura}{\thepage 
-                                                  }}
-l.80 \end{document}
-                   
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-\@writefile{toc}{\contentsline {section}{Literatura}{}}
-]
-! I can't find file `G.aux'.
-\enddocument ...keatletter \@@input \jobname .aux 
-                                                  \fi \@dofilelist \ifdim \f...
-l.80 \end{document}
-                   
-(Press Enter to retry, or Control-D to exit)
-Please type another input file name
+)
 ! Emergency stop.
-\enddocument ...keatletter \@@input \jobname .aux 
-                                                  \fi \@dofilelist \ifdim \f...
-l.80 \end{document}
-                   
-*** (job aborted, file error in nonstop mode)
+<*> G.tex
+         
+*** (job aborted, no legal \end found)
 
  
 Here is how much of TeX's memory you used:
- 25 strings out of 493304
- 301 string characters out of 6139871
+ 22 strings out of 493304
+ 282 string characters out of 6139871
  56880 words of memory out of 5000000
  3578 multiletter control sequences out of 15000+600000
  4653 words of font info for 17 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 18i,4n,14p,654b,111s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 18i,2n,14p,654b,106s stack positions out of 5000i,500n,10000p,200000b,80000s
 !  ==> Fatal error occurred, no output PDF file produced!
