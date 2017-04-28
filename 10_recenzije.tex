@@ -1,6 +1,4 @@
-
-
- % !TEX encoding = UTF-8 Unicode
+% !TEX encoding = UTF-8 Unicode
 
 \documentclass[a4paper]{report}
 
@@ -97,6 +95,8 @@ Rad opisuje različite tehnike transformacije lambda računa, koncepte i razvoj 
 % Напишете своја запажања и конструктивне идеје шта у раду недостаје и шта би требало да се промени-измени-дода-одузме да би рад био квалитетнији.
 Mislim da bi kvalitetu rada doprinelo malo bolje objašnjenje po čemu se kompilatori funkcionalnih programskih jezika razlikuju od kompilatora imperativnih programskih jezika. U delu 5.1 je data dobra motivacija, ali postoje i jezici koji nisu funkcionalni, ali koriste sakupljača otpadaka.
 
+\odgovor{Treba mi mišljenje ostalih.}
+
 \section{Sitne primedbe}
 % Напишете своја запажања на тему штампарских-стилских-језичких грешки
 Treća rečenica iz uvoda sadrži nepotpunu godinu uručenja nagrade.
@@ -108,6 +108,8 @@ Treća rečenica iz dela 3.2: „razdvojen” umesto „razvdojen”.
 Poslednji pasus iz dela 3.3, prva rečenica: „sa” umesto „da”.
 
 Treći pasus iz dela 5.2, četvrta rečenica: „otpaci” umesto „otpatci”.
+
+\odgovor{Pravilan je dublet $"$otpaci/otpatci$"$. Izmenjeno u $"$otpatci$"$ zbog konzistentnosti sa ostatkom teksta.}
 
 U delu 6.1.2: „poljska notacija” umesto „Poljska notacija”.
 
@@ -184,6 +186,8 @@ Uz par sitnijih primedbi, koje su navedene dole, smatram da u ovom radu ništa n
 U uvodu, u petom redu prvog pasusa fali deo godine 197. \\
 U delu 4.1 Zaključivanje tipova, kod prvog koraka za algoritam, druga rečenica, pre objasnjenja da je x tipa a, fali zarez. \\
 U delu 5.1 Motivacija, prvi pasus treća rečenica, pre dela da se kapacitet memorije prividno smanjuje, fali zarez. \\
+\odgovor{Dodat je zarez.}
+
 U delu 7.1, u prvoj rečenici prvog pasusa, posle dela "kod lenjih funkcionalnih jezika", fali zarez. \\
 U delu 7.2 Osnovna ideja, druga rečenica u drugom pasusu, fali slovo u reči odbacimo.
 U zaključnom delu, u poslednjoj rečenici fale zarezi i reč kai zameniti sa kao. \\
@@ -246,12 +250,26 @@ Opisana je dinamička provera tipova, upravljanje dinamički alociranom memorijo
 \item \textbf{poglavlje 3.3} Premda poznajem oblast, nisam shvatio šta je objašnjeno. Ima i slovnih grešaka, ali mislim da je celo poglavlje loše napisano i da bi bilo dobro da se kompletno rekonstruiše. Koncept šablona ne važi samo za algebarske tipove. Primer sa [1;2;3] nije dovoljno jasan. Možda bi primer računanja faktorijela u jeziku Haskell bio bolji primer. ``Uparivanje šablona prenosi visoko struktuirane informacije o parametrima ulaza''. Koje informacije? Kako kompilator proizvodi bolji kôd i zašto je to tako?
 \item \textbf{str 6} ``Deo kompilatora koji se bavi ovim poslom naziva se \textit{proveravač tipova}'' \\ To što je opisano je dedukcija (zaključivanje) tipova. Ako kompilator na osnovu informacija može da napravi izvodjenje koje opisuje tip koji nije eksplicitno naveden onda je u pitanju zaključivanje. Ako postoji eksplicitno naveden tip, a kompilator proverava da li je taj navedeni tip onaj koji odgovara, onda je to provera tipova. (ne mogu da koristim bibtex, ali referenca je ``Compilers: Principles, Techniques, and Tools, autori: Aho, Lam, Sethi, Ulman'', u narodu poznatija kao ``Dragon Book'').
 \item \textbf{str 7} Ne bi bilo loše da se uvede pojam tipske promenljive (promenljiva koja čija je ``vrednost'' tip, npr. int(T1 x, T2 y) gde su x i y programske promenljive, a T1 i T2 tipske.
-\item \textbf{str 7} ``Kapacitet memorije se prividno smanjuje'' \\ Ne shvatam kako je to ``prividno''. Zašto se bavimo ovom problematikom ako je prividno.
+\item \textbf{str 7} ``Kapacitet memorije se prividno smanjuje'' \\ Ne shvatam kako je to ``prividno''. Zašto se bavimo ovom problematikom ako je prividno. 
+
+\odgovor{Isto kao što se virtualizacijom prividno povećava. Ne smanjuje se memorija na disku nego se smanjuje memorija koja je dostupna programu. U tom smislu se kapacitet memorije prividno smanjuje.}
+
 \item \textbf{str 7} ``Kapacitet memorije se prividno smanjuje'' \\ Ne shvatam kako je to ``prividno''. Zašto se bavimo ovom problematikom ako je prividno.
 \item \textbf{poglavlje 5.2} Bitno je napomenuti da je glavni mehanizam tipa ``start-stop'' (ne moze da radi u isto vreme kada i program). Trebalo bi eksplicitno naglasiti da postoje dve faze: faza markiranja i faza čišćenja (sledi iz naziva: mark-sweep). Druga primedba je da se ne pokreće sakupljač samo kada je slobodna lista prazna, šta više njegov cilj je da se ta lista ne isprazni, nego postoje drugi mehanizmi kojima se ustanovljava kada bi ga trebalo pokrenuti.
+
+\odgovor{U tekstu je naglašeno da nakon što se izvrši sakupljanje otpadaka, program nastavlja sa radom.\\
+Biće naglašeno da postoje dve faze. \\
+Rečeno je da kada je lista prazna da je to znak, ne samo tad, biće promenjeno u $"$dobar znak$"$ kako ne bi stvaralo zabunu.}
 \item \textbf{str 9} ``tako što će se hip podeliti na dva dela''. \\ Na osnovu ovoga izgleda da je ta podela dovoljna da reši problem. Možda je bolje: ``Kako bismo rešili ovaj problem, prvo ćemo podeliti hip na dva dela. Nakon toga...''
+
+\odgovor{U tekstu je rečeno da se problem $"$može izbeći tako što će se hip podeliti na dva dela$"$, ne da je to dovoljno da reši problem.}
+
 \item \textbf{poglavlje 5.5} Nisam razumeo poslednji pasus i deluje suvišno.
+
+\odgovor{Nakon dubljeg istraživanja gde je nestao ostatak tog pasusa (i nismo našli verziju koja ga sadrži), zaključili smo da pasus jeste suvišan.}
 \item \textbf{str 9} ``Neki programski jezici i programi, veoma brzo alociraju memoriju na hipu'' \\ Kako se brzo, a kako sporo alocira. Možda ``često'' i ``retko'' umesto ovoga.
+
+\odgovor{U skladu sa prethodnom primedbom, pasus je obrisan.}
 \item \textbf{str 9} Prvi pasus bi trebalo da stoji u glavi 2.
 \item \textbf{str 9} ``Jedna od prvih virtuelnih mašina za kompilaciju'' \\ Ove virtuelne mašine služe za izvršavanje, ne za kompilaciju.
 \item \textbf{str 10} ``dizajnirana da \color{blue}izvršava\color{black}~funkcije'' \\ Trebalo bi da stoji\color{blue}izračunava\color{black}.
@@ -273,7 +291,12 @@ Opisana je dinamička provera tipova, upravljanje dinamički alociranom memorijo
 \item \textbf{str 6} ``Kada pokušava da instancira \color{blue}promeljivu\color{black}~izrazom'' \\ Trebalo bi ``promenljivu''
 \item \textbf{str 7} ``Novi tip promenljive'' \\ Trebalo bi ``Nova tipska promenljiva''
 \item \textbf{str 8} ``Dostižni deo hipa je usmeren graf'' \\ Jel postoji deo hipa koji nije dostižan?
+
+\odgovor{Nisu dostižni delovi koji su fragmentovani, jer nisu mogući za alokaciju.}
+
 \item \textbf{gramatika} Zapeta ne bi trebalo da stoji ispred veznika i/ili. Strane: 3, 7, 8, 9
+
+\odgovor{Slažemo se da zapeta ne ide u sastavnim i u rastavnim rečenicama, ali navođenje samih strana nije dovoljna sugestija. Izmenjeno je gde je primećeno.}
 \item \textbf{str 10} ``Od izlaska Landin-ovog članka, izmišljene, \color{blue}otkrivene\color{black}~i menjane'' \\ Ne mogu biti otkrivene ako nisu postojale.
 \item \textbf{str 10} ``Osnovna uloga SECD mašine je izvršavanje kompiliranog koda \color{blue}na apstraktnoj mašini\color{black}''. \\ Plavi deo je suvišan.
 \item \textbf{str 11} ``element i-te podliste \color{blue}u\color{black}~E'' \\ Neadekvatan prilog. Trebalo bi ``podliste iz E'' ili ``podliste steka E''.
@@ -331,7 +354,7 @@ c) srednje upućeni
 
 Položio kurs funkcionalnog programiranja. Izveo nekoliko projekata u funkcionalnim jezicima.
 
-\chapter{Recenzent \odgovor{--- ocena:} }
+\chapter{Recenzent \odgovor{---  ocena:} }
 
 
 \section{O čemu rad govori?}
@@ -357,6 +380,8 @@ Nisam uočio krupnije nedostatke u radu.
    \item Str. 6, pasus 2, red 2: umesto "... upariš ulaz da prvim...", treba "... upariš ulaz sa prvim...";
    \item Str. 6, pasus 4, red 10: umesto "promeljivu", treba "promenljivu";
    \item Str. 7, poslednji pasus, red 4: umesto "otpatci", treba "otpaci";
+   
+\odgovor{Pravilan je dublet $"$otpaci/otpatci$"$. Korišćeno je otpatci svuda u tekstu.}
    \item Str. 10, poslednji pasus, poslednji red: umesto "najlevlja pozicija", bolje je reći "krajnje leva pozicija";
    \item Str. 12, pasus 5, red 1: umesto "osnovnu ideju... je da se pre pokretanja...", treba "osnovna ideja... je da pre pokretanja...";
    \item Str. 12, pasus 5, red 5: umesto "obacimo", treba "odbacimo";
