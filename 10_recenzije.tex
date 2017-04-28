@@ -1,0 +1,413 @@
+
+
+ % !TEX encoding = UTF-8 Unicode
+
+\documentclass[a4paper]{report}
+
+\usepackage[T2A]{fontenc} % enable Cyrillic fonts
+\usepackage[utf8x,utf8]{inputenc} % make weird characters work
+\usepackage[serbian]{babel}
+%\usepackage[english,serbianc]{babel}
+\usepackage{amssymb}
+
+\usepackage{color}
+\usepackage{url}
+\usepackage[unicode]{hyperref}
+\hypersetup{colorlinks,citecolor=green,filecolor=green,linkcolor=blue,urlcolor=blue}
+
+\newcommand{\odgovor}[1]{\textcolor{blue}{#1}}
+
+\begin{document}
+
+\title{Dopunite naslov svoga rada\\ \small{Dopunite autore rada}}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Uputstva}
+\emph{Prilikom predavanja odgovora na recenziju, obrišite ovo poglavlje.}
+
+Neophodno je odgovoriti na sve zamerke koje su navedene u okviru recenzija. Svaki odgovor pišete u okviru okruženja \verb"\odgovor", \odgovor{kako bi vaši odgovori bili lakše uočljivi.} 
+\begin{enumerate}
+
+\item Odgovor treba da sadrži na koji način ste izmenili rad da bi adresirali problem koji je recenzent naveo. Na primer, to može biti neka dodata rečenica ili dodat pasus. Ukoliko je u pitanju kraći tekst onda ga možete navesti direktno u ovom dokumentu, ukoliko je u pitanju duži tekst, onda navedete samo na kojoj strani i gde tačno se taj novi tekst nalazi. Ukoliko je izmenjeno ime nekog poglavlja, navedite na koji način je izmenjeno, i slično, u zavisnosti od izmena koje ste napravili. 
+
+\item Ukoliko ništa niste izmenili povodom neke zamerke, detaljno obrazložite zašto zahtev recenzenta nije uvažen.
+
+\item Ukoliko ste napravili i neke izmene koje recenzenti nisu tražili, njih navedite u poslednjem poglavlju tj u poglavlju Dodatne izmene.
+\end{enumerate}
+
+Za svakog recenzenta dodajte ocenu od 1 do 5 koja označava koliko vam je recenzija bila korisna, odnosno koliko vam je pomogla da unapredite rad. Ocena 1 označava da vam recenzija nije bila korisna, ocena 5 označava da vam je recenzija bila veoma korisna. 
+
+NAPOMENA: Recenzije ce biti ocenjene nezavisno od vaših ocena. Na osnovu recenzije ja znam da li je ona korisna ili ne, pa na taj način vama idu negativni poeni ukoliko kažete da je korisno nešto što nije korisno. Vašim kolegama šteti da kažete da im je recenzija korisna jer će misliti da su je dobro uradili, iako to zapravo nisu. Isto važi i na drugu stranu, tj nemojte reći da nije korisno ono što jeste korisno. Prema tome, trudite se da budete objektivni. 
+\chapter{Recenzent \odgovor{--- ocena:} }
+
+\section{O čemu rad govori?}
+Analizirani rad se bavi temom funkcionalnih programskih jezika kao i osnovnim metodama implementacije. Uvedeni su osnovni pojmovi za njihovo razumevanje (lambda račun, polimorfizam...) i objašnjen je značaj efikasnog izvršnog koda, kao i tehnike kojima se takav izvršni kod postiže.
+
+\section{Krupne primedbe i sugestije}
+Rad je napisan pismeno i sistematično, a izlaganje teme koncipirano tako da može da bude jasna i čitaocu koji nije stručan u oblasti informatike i računarstva. Nemam primedbi.
+
+\section{Sitne primedbe}
+Postoje sitne nekonzistentnosti - pri navođenju engleskih reči u nekim delovima je napisano ,,engl.", a u drugim ,,eng.", takođe, kod i k\^{o}d. \\ ,,među-jezik" u zaključku, a trebalo bi ,,međujezik", kao i štamparska greška u zaključku ,,kai" umesto ,,kao".
+
+
+\section{Provera sadržajnosti i forme seminarskog rada}
+
+\begin{enumerate}
+\item Da li rad dobro odgovara na zadatu temu?\\
+Da, rad u celosti odgovara na zadatu temu.
+\item Da li je nešto važno propušteno?\\
+U istraživanju nisu obrađene stavke iz zadatka, a to je razlika između kompilatora za funkcionalne i kompilatora za imperativne programske jezike.
+\item Da li ima suštinskih grešaka i propusta?\\
+Nisam pronašla suštinske greške i propuste.
+\item Da li je naslov rada dobro izabran?\\
+Naslov rada je adekvatan za obrađivanu temu.
+\item Da li sažetak sadrži prave podatke o radu?\\
+Sažetak govori o suštini rada i sadrži prave podatke.
+\item Da li je rad lak-težak za čitanje?\\
+Rad je bio razrađen i objašnjen u dovoljnoj meri tako da čitalac može sa lakoćom da prati obrađivanu temu.
+\item Da li je za razumevanje teksta potrebno predznanje i u kolikoj meri?\\
+Neophodno je minimalno predznanje iz oblasti informatike s obzirom na to da je tekst napisan na univerzalno razumljiv način i sadrži dovoljnu količinu detaljnosti.
+\item Da li je u radu navedena odgovarajuća literatura?\\
+Jeste.
+\item Da li su u radu reference korektno navedene?\\
+Jesu.
+\item Da li je struktura rada adekvatna?\\
+Ispoštovani su svi uslovi za izradu seminarskog rada.
+\item Da li rad sadrži sve elemente propisane uslovom seminarskog rada (slike, tabele, broj strana...)?\\
+Da, rad sadrži tabelu, veliki broj primera, kao i definicija, slika...
+\item Da li su slike i tabele funkcionalne i adekvatne?\\
+Jesu. 
+\end{enumerate}
+
+\section{Ocenite sebe}
+Rekla bih da sam srednje upućena u ovoj oblasti, jer se u slobodno vreme nisam bavila time, ali sam na fakultetu iz nekoliko predmeta učila generalno o funkcionalnim jezicima.
+
+
+\chapter{Recenzent \odgovor{--- ocena:} }
+
+
+\section{O čemu rad govori?}
+% Напишете један кратак пасус у којим ћете својим речима препричати суштину рада (и тиме показати да сте рад пажљиво прочитали и разумели). Обим од 200 до 400 карактера.
+Rad opisuje različite tehnike transformacije lambda računa, koncepte i razvoj sakupljača otpadaka, kao i motivaciju za njihovo korišćenje, polimorfnu proveru tipova, i virtuelne mašine za kompiliranje jezika koji pripadaju ovoj paradigmi.
+
+\section{Krupne primedbe i sugestije}
+% Напишете своја запажања и конструктивне идеје шта у раду недостаје и шта би требало да се промени-измени-дода-одузме да би рад био квалитетнији.
+Mislim da bi kvalitetu rada doprinelo malo bolje objašnjenje po čemu se kompilatori funkcionalnih programskih jezika razlikuju od kompilatora imperativnih programskih jezika. U delu 5.1 je data dobra motivacija, ali postoje i jezici koji nisu funkcionalni, ali koriste sakupljača otpadaka.
+
+\section{Sitne primedbe}
+% Напишете своја запажања на тему штампарских-стилских-језичких грешки
+Treća rečenica iz uvoda sadrži nepotpunu godinu uručenja nagrade.
+
+Treći pasus iz uvoda, poslednja rečenica: „... upoznavanje čitaoca sa nekim osnovnim tehnikama \textbf{koje} se ...”.
+
+Treća rečenica iz dela 3.2: „razdvojen” umesto „razvdojen”.
+
+Poslednji pasus iz dela 3.3, prva rečenica: „sa” umesto „da”.
+
+Treći pasus iz dela 5.2, četvrta rečenica: „otpaci” umesto „otpatci”.
+
+U delu 6.1.2: „poljska notacija” umesto „Poljska notacija”.
+
+Drugi pasus iz dela 7.2 bi trebalo malo smislenije napisati i oblikovati.
+
+Treći pasus iz dela 7.2: mislim da bi bilo lepše reći „međukod” umesto „središnji kod”.
+
+Prvi pasus iz dela 7.3: prvu rečenicu bi trebalo lepše oblikovati.
+
+U delu 7.3, pasus ispod slike: „nadole” umesto „na dole”.
+
+U delu 7.3, pasus ispod slike: „Aplikativni čvorovi predstavljeni su karakterom @, izrazi malim slovima, a superkombinatori velikim slovima latinice.” umesto „Aplikativni čvorovi predstavljeni sa karakterom @, izrazi sa malim slovima, a superkombinatori sa velikim slovima latinice.”.
+
+U zaključku, početak drugog pasusa: „međujezik” umesto „među-jezik”.
+
+Poslednju rečenicu zaključka bi trebalo malo preurediti.
+
+\section{Provera sadržajnosti i forme seminarskog rada}
+% Oдговорите на следећа питања --- уз сваки одговор дати и образложење
+
+\begin{enumerate}
+\item Da li rad dobro odgovara na zadatu temu?\\
+Rad dobro odgovara na zadatu temu jer pruža dobar uvid u, kako i sam naslov kaže, neke elemente kompiliranja funkcionalnih programskih jezika.
+\item Da li je nešto važno propušteno?\\
+Ništa važno nije propušteno, rad je kompleksan i sadržajan.
+\item Da li ima suštinskih grešaka i propusta?\\
+Rad nema suštinskih grešaka i propusta. U nastavku bih rekao isto što i za prethodno pitanje.
+\item Da li je naslov rada dobro izabran?\\
+Naslov rada dobro opisuje tematiku razrađenu u okviru rada, koja je u skladu sa nazivom teme.
+\item Da li sažetak sadrži prave podatke o radu?\\
+Sažetak sadrži precizan opis svega o čemu je u radu bilo reči.
+\item Da li je rad lak-težak za čitanje?\\
+Rad je lak za čitanje, premda materija koju rad obrađuje nije.
+\item Da li je za razumevanje teksta potrebno predznanje i u kolikoj meri?\\
+Za razumevanje teksta nije potrebno predznanje jer se čitalac postepeno i hronološki uvodi u tematiku rada.
+\item Da li je u radu navedena odgovarajuća literatura?\\
+U radu je navedena odgovarajuća literatura.
+\item Da li su u radu reference korektno navedene?\\
+U radu su reference korektno navedene.
+\item Da li je struktura rada adekvatna?\\
+Struktura rada prati smernice obrađene na predavanjima.
+\item Da li rad sadrži sve elemente propisane uslovom seminarskog rada (slike, tabele, broj strana...)?\\
+Broj strana, slike i tabele odgovaraju zahtevima.
+\item Da li su slike i tabele funkcionalne i adekvatne?\\
+Slike i tabele su pregledne i adekvatne.
+\end{enumerate}
+
+\section{Ocenite sebe}
+% Napišite koliko ste upućeni u oblast koju recenzirate: 
+% a) ekspert u datoj oblasti
+% b) veoma upućeni u oblast
+% c) srednje upućeni
+% d) malo upućeni 
+% e) skoro neupućeni
+% f) potpuno neupućeni
+% Obrazložite svoju odluku
+Potpuno sam neupućen u ovu oblast. Izuzev par programčića u Haskell-u, ništa o kompiliranju funkcionalnih programskih jezika ne znam.
+
+\chapter{Recenzent \odgovor{--- ocena:} }
+
+
+\section{O čemu rad govori?}
+% Напишете један кратак пасус у којим ћете својим речима препричати суштину рада (и тиме показати да сте рад пажљиво прочитали и разумели). Обим од 200 до 400 карактера.
+Suština ovog rada je da ukaže na neke dobre strane funkcionalnih jezika i da prikaže na koji način ovi jezici unapređuju performanse programa.
+Prvi deo rada bavi se tehnikama koje doprinose efikasnijem kodu, dok drugi stavlja akcenat na sakupljače otpadaka i virtualne mašine za kompiliranje funkcionalnih jezika. 
+
+\section{Krupne primedbe i sugestije}
+% Напишете своја запажања и конструктивне идеје шта у раду недостаје и шта би требало да се промени-измени-дода-одузме да би рад био квалитетнији.
+Uz par sitnijih primedbi, koje su navedene dole, smatram da u ovom radu ništa ne treba menjati jer bi sve preko toga bilo suvišno.
+
+
+\section{Sitne primedbe}
+
+U uvodu, u petom redu prvog pasusa fali deo godine 197. \\
+U delu 4.1 Zaključivanje tipova, kod prvog koraka za algoritam, druga rečenica, pre objasnjenja da je x tipa a, fali zarez. \\
+U delu 5.1 Motivacija, prvi pasus treća rečenica, pre dela da se kapacitet memorije prividno smanjuje, fali zarez. \\
+U delu 7.1, u prvoj rečenici prvog pasusa, posle dela "kod lenjih funkcionalnih jezika", fali zarez. \\
+U delu 7.2 Osnovna ideja, druga rečenica u drugom pasusu, fali slovo u reči odbacimo.
+U zaključnom delu, u poslednjoj rečenici fale zarezi i reč kai zameniti sa kao. \\
+
+\section{Provera sadržajnosti i forme seminarskog rada}
+% Oдговорите на следећа питања --- уз сваки одговор дати и образложење
+
+\begin{enumerate}
+\item Da li rad dobro odgovara na zadatu temu?\\
+Rad u potpunosti odgovara na zadatu temu. Pružen je odličan prikaz zadate teme i na lep i temeljan način prikazan čitaocima, ali bez prevelikog zalaženja u dubinu.
+\item Da li je nešto važno propušteno?\\
+U ovom radu, svi glavni segmenti teme su obuhvaćeni i lepo obrazloženi, praćeni su primerom, što je veoma važno za lakše razumevanje.
+\item Da li ima suštinskih grešaka i propusta?\\
+Po mom mišljenju, ovaj rad je bez propusta i suštinskih grešaka.
+\item Da li je naslov rada dobro izabran?\\
+Po mom mišljenju, trebalo bi korigovati naslov jer ne daje jasnu predstavu o čemu će biti reči u radu. 
+\item Da li sažetak sadrži prave podatke o radu?\\
+Sažetak daje prave podatke, tih par rečenica otkriva delić onoga što sledi  i na vrlo efektan način nas uvodi u temu. 
+\item Da li je rad lak-težak za čitanje?\\
+Rad je vrlo čitljiv, nepoznati pojmovi su skroz objašnjeni, tako da ljudi koji nisu stručni u ovoj oblasti mogu da razumeju tekst, uz pažljivo čitanje. Ima dosta primera koji doprinose boljem razumevanju rada.
+\item Da li je za razumevanje teksta potrebno predznanje i u kolikoj meri?\\
+Po mom mišljenju, potrebno je imati određen nivo predznanja. Za ljude koji se bave informatikom, ovaj rad je veoma razumljiv, ali ostali bi imali poteškoća u razumevanju teksta.
+\item Da li je u radu navedena odgovarajuća literatura?\\
+Da, rad je potpuno pokriven litaraturom.
+\item Da li su u radu reference korektno navedene?\\
+Da, sve je uredno navedeno, bez propusta.
+\item Da li je struktura rada adekvatna?\\
+Strutura rada je adekvatna, sadrži sve potrebne delove i stavke, redosled je u redu.
+\item Da li rad sadrži sve elemente propisane uslovom seminarskog rada (slike, tabele, broj strana...)?\\
+Da, svi uslovi su ispoštovani, nema odstupanja.
+\item Da li su slike i tabele funkcionalne i adekvatne? \\
+U potpunosti su funkcionalne i adekvatne. Verno prikazuju stvari o kojima se priča u tekstu. Tabele veoma čitljive i razumljive.
+\end{enumerate}
+
+\section{Ocenite sebe}
+% Napišite koliko ste upućeni u oblast koju recenzirate: 
+% a) ekspert u datoj oblasti
+% b) veoma upućeni u oblast
+% c) srednje upućeni
+ d) malo upućeni  \\ 
+% e) skoro neupućeni
+% f) potpuno neupućeni
+Slušanje kursa u trećoj godini, Programske paradigme, omogućio mi je upućenost u ovoj oblasti u određenoj meri, pre svega početak rada, dok mi je deo o SECD mašinama i G-mašinama bio nepoznat.
+
+
+\chapter{Recenzent \odgovor{--- ocena:} }
+
+
+\section{O čemu rad govori?}
+% Напишете један кратак пасус у којим ћете својим речима препричати суштину рада (и тиме показати да сте рад пажљиво прочитали и разумели). Обим од 200 до 400 карактера.
+U radu su prikazani neki od metoda kompilacije funkcionalnih programskih jezika.
+Opisana je dinamička provera tipova, upravljanje dinamički alociranom memorijom i mehanizmi za prevođenje i izvršavanje kompiliranog koda. Dati su uvod i motivacija za ovakve načine kompilacije i detaljno su opisani neki od procedura prevodjenja.
+
+\section{Krupne primedbe i sugestije}
+% Напишете своја запажања и конструктивне идеје шта у раду недостаје и шта би требало да се промени-измени-дода-одузме да би рад био квалитетнији.
+\begin{itemize}
+\item \textbf{sažetak} ``predstavićemo osnovne tehnike implementacije'' \\ U radu su prikazani teorijski koncepti, ne bi trebalo da stoji ovo u apstraktu.
+\item \textbf{str 3} "Lambda račun ima posebnu konstrukciju koja se naziva \textit{apstrakcija}".\\Odavde se čini da se ceo $\lambda$-račun piše kroz apstrakcije, što nije slučaj. Možda može ovako: ``U okviru lambda računa postoji sintaksna konstrukcija koja se naziva \textit{apstrakcija}''
+\item \textbf{str 5} ``Funkcije nad struktuiranim algebarskim tipovima.'' \\ Trebalo bi opisati šta su algebarski tipovi jer predstavljaju bitan koncept, čak i van funkcionalne paradigme. Makar dati referencu.
+\item \textbf{poglavlje 3.3} Premda poznajem oblast, nisam shvatio šta je objašnjeno. Ima i slovnih grešaka, ali mislim da je celo poglavlje loše napisano i da bi bilo dobro da se kompletno rekonstruiše. Koncept šablona ne važi samo za algebarske tipove. Primer sa [1;2;3] nije dovoljno jasan. Možda bi primer računanja faktorijela u jeziku Haskell bio bolji primer. ``Uparivanje šablona prenosi visoko struktuirane informacije o parametrima ulaza''. Koje informacije? Kako kompilator proizvodi bolji kôd i zašto je to tako?
+\item \textbf{str 6} ``Deo kompilatora koji se bavi ovim poslom naziva se \textit{proveravač tipova}'' \\ To što je opisano je dedukcija (zaključivanje) tipova. Ako kompilator na osnovu informacija može da napravi izvodjenje koje opisuje tip koji nije eksplicitno naveden onda je u pitanju zaključivanje. Ako postoji eksplicitno naveden tip, a kompilator proverava da li je taj navedeni tip onaj koji odgovara, onda je to provera tipova. (ne mogu da koristim bibtex, ali referenca je ``Compilers: Principles, Techniques, and Tools, autori: Aho, Lam, Sethi, Ulman'', u narodu poznatija kao ``Dragon Book'').
+\item \textbf{str 7} Ne bi bilo loše da se uvede pojam tipske promenljive (promenljiva koja čija je ``vrednost'' tip, npr. int(T1 x, T2 y) gde su x i y programske promenljive, a T1 i T2 tipske.
+\item \textbf{str 7} ``Kapacitet memorije se prividno smanjuje'' \\ Ne shvatam kako je to ``prividno''. Zašto se bavimo ovom problematikom ako je prividno.
+\item \textbf{str 7} ``Kapacitet memorije se prividno smanjuje'' \\ Ne shvatam kako je to ``prividno''. Zašto se bavimo ovom problematikom ako je prividno.
+\item \textbf{poglavlje 5.2} Bitno je napomenuti da je glavni mehanizam tipa ``start-stop'' (ne moze da radi u isto vreme kada i program). Trebalo bi eksplicitno naglasiti da postoje dve faze: faza markiranja i faza čišćenja (sledi iz naziva: mark-sweep). Druga primedba je da se ne pokreće sakupljač samo kada je slobodna lista prazna, šta više njegov cilj je da se ta lista ne isprazni, nego postoje drugi mehanizmi kojima se ustanovljava kada bi ga trebalo pokrenuti.
+\item \textbf{str 9} ``tako što će se hip podeliti na dva dela''. \\ Na osnovu ovoga izgleda da je ta podela dovoljna da reši problem. Možda je bolje: ``Kako bismo rešili ovaj problem, prvo ćemo podeliti hip na dva dela. Nakon toga...''
+\item \textbf{poglavlje 5.5} Nisam razumeo poslednji pasus i deluje suvišno.
+\item \textbf{str 9} ``Neki programski jezici i programi, veoma brzo alociraju memoriju na hipu'' \\ Kako se brzo, a kako sporo alocira. Možda ``često'' i ``retko'' umesto ovoga.
+\item \textbf{str 9} Prvi pasus bi trebalo da stoji u glavi 2.
+\item \textbf{str 9} ``Jedna od prvih virtuelnih mašina za kompilaciju'' \\ Ove virtuelne mašine služe za izvršavanje, ne za kompilaciju.
+\item \textbf{str 10} ``dizajnirana da \color{blue}izvršava\color{black}~funkcije'' \\ Trebalo bi da stoji\color{blue}izračunava\color{black}.
+\item \textbf{str 10} Odakle dolaze tipovi \textbf{list}, \textbf{Env.env}, \textbf{Directive} i tako dalje. Jel to sintaksa nekog konkretnog jezika? Ako jeste, onda naglasiti da se naredne definicije odnose na implementaciju mašine u tom jeziku. Sa druge strane, ne treba se baviti implementacijom pre teorijskog opisa.
+\item \textbf{str 10} ``Svaki stek je predstavljen \textit{s-izrazom}'' \\ Nedostaje opis šta je \textit{s-izraz}.
+\item \textbf{str 14} ``Polimorfna provera tipova ... i bitno je da bude što bolja'' \\ Ne postoji loša polimorfna provera. Prisutna je ili nije prisutna. Prema tome, treba izbaciti deo ``i bitno je da bude što bolja''.
+\item \textbf{Celokupna slika}. \\Rad dobro odgovara na zadatu temu. Ima dosta sitnih propusta koji su uglavnom lako rešivi. Jedina glavna zamerka je osetna razlika u stilu pisanja.
+\end{itemize}
+
+\section{Sitne primedbe}
+% Напишете своја запажања на тему штампарских-стилских-језичких грешки
+\begin{itemize}
+\item \textbf{str 5} Navedena je transformacija ``konstantno sklapanje''.\\Trebalo bi ``sklapanje konstanti'', jer se ne radi o procesu koji je konstantan, već o izračunavanju konstantnih izraza u fazi kompilacije (npr. izraz 4+5 se zamenjuje izrazom 9). Čak ni za termin ``sklapanje'' nisam siguran.
+\item \textbf{str 5} ``U suštini, umetanje je veoma jednostavno:''.\\ Stilski nije dobro, ``jednostavno'' je relativan pojam. Možda je bolje ``Osnovni princip umetanja je sledeći:''
+\item \textbf{str 5} ``umetanje spaja \color{blue}kod koje\color{black}~je''\\ Trebalo bi zameniti sa ``umetanje spaja \color{blue}kôd koji\color{black}~je''
+\item \textbf{str 6} ``pri izvršavanju \color{blue}ne bi trebalo\color{black}~da se jave greške'' \\ ``Ne bi trebalo'' znaci da nije deterministički određeno. Čak i kada nije striktna provera tipova u pitanju, zna se da li će se javiti greške ili se \color{blue}ne mogu\color{black}~javiti greške.
+\item \textbf{str 6} ``kad god tip promenljive instancira'' \\ Nedostaje ``se''
+\item \textbf{str 6} ``(\color{blue}nor\color{black}. int ili bool)'' \\ Trebalo bi ``npr''
+\item \textbf{str 6} ``Kada pokušava da instancira \color{blue}promeljivu\color{black}~izrazom'' \\ Trebalo bi ``promenljivu''
+\item \textbf{str 7} ``Novi tip promenljive'' \\ Trebalo bi ``Nova tipska promenljiva''
+\item \textbf{str 8} ``Dostižni deo hipa je usmeren graf'' \\ Jel postoji deo hipa koji nije dostižan?
+\item \textbf{gramatika} Zapeta ne bi trebalo da stoji ispred veznika i/ili. Strane: 3, 7, 8, 9
+\item \textbf{str 10} ``Od izlaska Landin-ovog članka, izmišljene, \color{blue}otkrivene\color{black}~i menjane'' \\ Ne mogu biti otkrivene ako nisu postojale.
+\item \textbf{str 10} ``Osnovna uloga SECD mašine je izvršavanje kompiliranog koda \color{blue}na apstraktnoj mašini\color{black}''. \\ Plavi deo je suvišan.
+\item \textbf{str 11} ``element i-te podliste \color{blue}u\color{black}~E'' \\ Neadekvatan prilog. Trebalo bi ``podliste iz E'' ili ``podliste steka E''.
+\item \textbf{str 11} ``Iz čega zaključujemo'' \\ Zamenica ``čega'' se odnosi na nešto iz prethodne rečenice. Možda bi trebalo celu ovu rečenicu spojiti u prethodnu ili je malo reformulisati.
+\item \textbf{str 11} ``Pravilo kompilacije: \color{blue}Ugrađena\color{black}~funkcija'' \\ Nakon dvotačke ne ide veliko početno slovo.
+\item \textbf{str 12} ``Osnovnu ideju koja stoji iza'' \\ Trebalo bi ``Osnovna ideja kojia stoji iza''
+\item \textbf{str 12} ``tako da možemo da \color{blue}obacimo\color{black}~originalne'' \\ Trebalo bi \color{blue}odbacimo\color{black}.
+\item \textbf{str 12} ``sredisnji kod'' \\ Prevod koji se koristi je ``medju kod''
+\item \textbf{str 13} ``izrazi \color{blue}sa\color{black} malim slovima'' \\ Suvišno je ``sa''. Isto važi i dalje, kod kombinatora.
+\item \textbf{str 14} ``istrazuje na ovu temu'' \\ Trebalo bi ``istrazuje ovu temu''.
+\item \textbf{str 14} ``potrebno da rade \color{blue}kai\color{black} i da nam pruže'' \\ Trebalo bi ``kao''.
+
+\end{itemize}
+
+\section{Provera sadržajnosti i forme seminarskog rada}
+% Oдговорите на следећа питања --- уз сваки одговор дати и образложење
+
+\begin{enumerate}
+\item Da li rad dobro odgovara na zadatu temu?\\
+\textbf{(10/10)} Rad dobro odgovara temi jer je kompletan i saglasan. Svi vazni elementi kompilacije su prikazani.
+\item Da li je nešto važno propušteno?\\
+\textbf{(10/10)} Ništa važno nije propušteno.
+\item Da li ima suštinskih grešaka i propusta?\\
+\textbf{(6/10)} Postoje neki suštinski propusti.
+\item Da li je naslov rada dobro izabran?\\
+\textbf{(9/10)} "Neki" je suvišan pridev. Svi elementi su tu, ono što jeste filtrirano je odabir tehnika za svaki od tih elemenata.
+\item Da li sažetak sadrži prave podatke o radu?\\
+\textbf{(8/10)} U velikoj meri sadrži prave podatke sa izuzetkom obećanja implementacije, a opisani su teorijski koncepti.
+\item Da li je rad lak-težak za čitanje?\\
+\textbf{(7/10)} U zavisnosti od autora. Uglavnom je lako za čitanje.
+\item Da li je za razumevanje teksta potrebno predznanje i u kolikoj meri?\\
+\textbf{(8/10)}. Postoji nedostatak definisanja i/ili referisanja terminologije.
+\item Da li je u radu navedena odgovarajuća literatura?\\
+\textbf{(10/10)} Literatura odgovara radu.
+\item Da li su u radu reference korektno navedene?\\
+\textbf{(8/10)} Postoje nedostaci referenciranja.
+\item Da li je struktura rada adekvatna?\\
+\textbf{(9/10)} Kompletna struktura je dobro osmišljena, nekoliko detalja se nalaze na pogrešnim mestima.
+\item Da li rad sadrži sve elemente propisane uslovom seminarskog rada (slike, tabele, broj strana...)?\\
+\textbf{(10/10)} Forma je ispunjena.
+\item Da li su slike i tabele funkcionalne i adekvatne?\\
+\textbf{(10/10)} Jesu.
+\end{enumerate}
+
+\section{Ocenite sebe}
+% Napišite koliko ste upućeni u oblast koju recenzirate: 
+% a) ekspert u datoj oblasti
+% b) veoma upućeni u oblast
+c) srednje upućeni
+% d) malo upućeni 
+% e) skoro neupućeni
+% f) potpuno neupućeni
+% Obrazložite svoju odluku
+
+
+Položio kurs funkcionalnog programiranja. Izveo nekoliko projekata u funkcionalnim jezicima.
+
+\chapter{Recenzent \odgovor{--- ocena:} }
+
+
+\section{O čemu rad govori?}
+% Напишете један кратак пасус у којим ћете својим речима препричати суштину рада (и тиме показати да сте рад пажљиво прочитали и разумели). Обим од 200 до 400 карактера.
+Funkcionalno programiranje zasniva se na lambda računu koji je jednostavan i veoma izražajan.  Za generisanje efikasnog koda, koriste se razne tehnike. Sakupljanje otpadaka predstavlja oslobađanje prostora u memoriji koji zauzimaju promenljive koje se više ne koriste u programu. Za kompilaciju funkcionalnih programa se koriste virtualne mašine poput SECD i G-mašina.
+
+\section{Krupne primedbe i sugestije}
+% Напишете своја запажања и конструктивне идеје шта у раду недостаје и шта би требало да се промени-измени-дода-одузме да би рад био квалитетнији.
+Nisam uočio krupnije nedostatke u radu.
+\section{Sitne primedbe}
+% Напишете своја запажања на тему штампарских-стилских-језичких грешки
+\begin{itemize}
+  \item Str. 2, pasus 1, red 5: nepotpuno je navedena godina uručenja nagrade Džonu Brakusu; u nastavku se ovaj autor dva puta navodi po imenu umesto po prezimenu kako je uobičajeno u stručnim radovima;
+  \item Str. 2, pasus 3, poslednji red: umesto "koji se koriste...", treba reći "koje se koriste...";
+   \item Str. 2, pasus 7, red 1: umesto "... koji su uspostavljeni pred...", bolje je "... koji su postavljeni pred..."; 
+   \item Str. 3, pasus 1, red 3: umesto "dva važna svojstva zbog kojeg...", treba "dva važna svojstva zbog kojih...";
+   \item Str. 3, fusnota: nepotrebno je dva puta upotrebljena reč "'zapravo"' (jednu treba brisati);
+   \item Str. 4, pasus 5, red 2: umesto "ugnežđena", treba "ugneždena";
+   \item Str. 5, pasus 1, red 3: umesto "konstanto", treba "konstantno";
+   \item Str. 5, pasus 3, redovi 4 i 5: očigledno je omaškom ispušten deo teksta (jedna ili više reči) zbog čega rečenica gubi smisao. Popraviti.
+   \item Str. 5, pasus 3, red 6: umesto "razvdojen", treba "razdvojen";
+   \item Str. 6, pasus 2, red 1: umesto "ugnježdene" treba "ugneždene";
+   \item Str. 6, pasus 2, red 2: umesto "... upariš ulaz da prvim...", treba "... upariš ulaz sa prvim...";
+   \item Str. 6, pasus 4, red 10: umesto "promeljivu", treba "promenljivu";
+   \item Str. 7, poslednji pasus, red 4: umesto "otpatci", treba "otpaci";
+   \item Str. 10, poslednji pasus, poslednji red: umesto "najlevlja pozicija", bolje je reći "krajnje leva pozicija";
+   \item Str. 12, pasus 5, red 1: umesto "osnovnu ideju... je da se pre pokretanja...", treba "osnovna ideja... je da pre pokretanja...";
+   \item Str. 12, pasus 5, red 5: umesto "obacimo", treba "odbacimo";
+   \item Str. 13, pretposlednji pasus, red 2: umesto "na dole", treba "nadole"; isto ispraviti i na str. 14, pasus 2, red 3;
+   \item Str. 13, pretposlednji pasus, red 3: umesto "predstavljeni sa karakterom", treba "predstavljeni su karakterom";
+   \item Str. 14, poslednji pasus, red 16: umeto "jezica", treba "jezicima";
+   \item Str. 14, poslednji pasus, pretposlednji red: umesto "da rade kai i...", treba "da rade kao i...";      
+\end{itemize}
+\section{Provera sadržajnosti i forme seminarskog rada}
+% Oдговорите на следећа питања --- уз сваки одговор дати и образложење
+
+\begin{enumerate}
+\item Da li rad dobro odgovara na zadatu temu?\\
+Rad je dosta dobro opisao ključne teme vezane za kompiliranje funkcionalnih programskih jezika. 
+\item Da li je nešto važno propušteno?\\
+Jedno od pitanja je bilo da se objasne razlike između kompilatora za imperativne i za funkcionalne programske jezike, ali u radu nisam naišao na  deo teksta koji odgovara na njega. Mislim da bi bilo poželjno da se tom delu posveti zasebna sekcija.
+\item Da li ima suštinskih grešaka i propusta?\\
+Nisam naišao na veće propuste i greške. Sve su uglavnom stilske i gramatičke.
+\item Da li je naslov rada dobro izabran?\\
+Jeste. Tema kompilacije funkcionalnih programskih jezika je jako široka i smatram da je izvlačenje određenog podskupa elemenata iz nje i temeljno opisivanje istih najbolji pristup. To je upravo ono što ovaj rad sadrži.
+\item Da li sažetak sadrži prave podatke o radu?\\
+Ne u potpunosti. Veći deo sažetka se ne odnosi na temu kompilacije funkcionalnih programskih jezika već na same funkcionalne jezike. Samim tim, smatram da ovaj sažetak bolje odgovara uvodu.
+\item Da li je rad lak-težak za čitanje?\\
+Rad je konzistentan i lako je pratiti tok izlaganja. Na bitnim mestima se nalaze primeri koji dodatno olakšavaju shvatanje materije.
+\item Da li je za razumevanje teksta potrebno predznanje i u kolikoj meri?\\
+Za razumevanje teksta je potrebno poznavati osnovne pojmove funkcionalnog programiranja. U samom radu su opisani neki od tih osnovnih pojmova, ali je za potpuno razumevanje ove teme poželjno malo šire poznavanje materije.  
+\item Da li je u radu navedena odgovarajuća literatura?\\
+U radu su adekvatno izabrani izvori. Citirani naslovi odgovaraju temi.
+\item Da li su u radu reference korektno navedene?\\
+Reference su korektno navođene često uz odgovarajuće obrazloženje o čemu se može pročitati u referisanoj literaturi. Kod dva naslova navedena u literaturi [10] i [26] nedostaje godina izdanja.
+\item Da li je struktura rada adekvatna?\\
+Rad je dobro strukturiran. Smatram da bi se eventualno mogla posebno naglasiti tema razlike između kompilatora za imperativne i funkcionalne programske jezike na samom kraju rada kada smo već upoznati sa tehnikama za kompiliranje funkcionalnih programskih jezika.
+\item Da li rad sadrži sve elemente propisane uslovom seminarskog rada (slike, tabele, broj strana...)?\\
+Rad zadovoljava sve elemente propisane za pisanje seminarskog rada.
+\item Da li su slike i tabele funkcionalne i adekvatne?\\
+Slike i tabele u potpunosti odgovaraju kontekstu u kom se nalaze i pojmovima koje dodatno opisuju.
+\end{enumerate}
+
+\section{Ocenite sebe}
+% Napišite koliko ste upućeni u oblast koju recenzirate: 
+% a) ekspert u datoj oblasti
+% b) veoma upućeni u oblast
+% c) srednje upućeni
+% d) malo upućeni 
+% e) skoro neupućeni
+% f) potpuno neupućeni
+% Obrazložite svoju odluku
+
+Smatram da sam srednje upućen u oblast koju recenziram. Slušao sam predmet "Funkcionalno programiranje" u okviru kog smo bili upoznati sa nekim temama koje se obrađuju u radu.
+
+\chapter{Dodatne izmene}
+%Ovde navedite ukoliko ima izmena koje ste uradili a koje vam recenzenti nisu tražili. 
+
+\end{document}
