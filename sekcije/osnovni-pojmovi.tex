@@ -5,13 +5,13 @@
 \label{subsec:lambda racun}
 
 % the impl. of func... strane 9, 10
-U ovom delu ćemo se upoznati sa osnovama lambda računa\footnote{Zapravo, govorićemo o \textit{primenjenom lambda računu} (engl. applied lambda calculus) koji zapravo obuhvata \textit{čist lambda račun} (engl. pure lambda calculus) uz predefinisane konstante, odnosno, vrednosti i operacije na koje smo navikli, poput sabiranja dva prirodna broja. Ipak, u tekstu ćemo pisati ‚‚lambda račun'' misleći na ‚‚primenjeni lambda račun''.}, na koji ćemo se oslanjati u daljem tekstu. Lambda račun ima dva važna svojstva zbog kojeg predstavlja spojnicu između funkcionalnih jezika i njihove implementacije, i to su \cite{the-implementation-of-functional-programming-languages}:
+U ovom delu ćemo se upoznati sa osnovama lambda računa\footnote{Zapravo, govorićemo o \textit{primenjenom lambda računu} (engl. \textit{applied lambda calculus}) koji zapravo obuhvata \textit{čist lambda račun} (engl. \textit{pure lambda calculus}) uz predefinisane konstante, odnosno, vrednosti i operacije na koje smo navikli, poput sabiranja dva prirodna broja. Ipak, u tekstu ćemo pisati ‚‚lambda račun'' misleći na ‚‚primenjeni lambda račun''.}, na koji ćemo se oslanjati u daljem tekstu. Lambda račun ima dva važna svojstva zbog kojeg predstavlja spojnicu između funkcionalnih jezika i njihove implementacije, i to su \cite{the-implementation-of-functional-programming-languages}:
 \begin{enumerate}
 	\item jednostavnost -- lambda račun ima tek nekoliko sintaksičnih konstrukcija i jednostavnu semantiku.
 	\item izražajnost -- lambda račun je dovoljno moćan da se pomoću njega mogu izraziti svi funkcionalni programi (važi i više: sve izračunljive funkcije).
 \end{enumerate}
 
-Pređimo na sintaksu lambda računa. Ako imamo funkciju \verb|f| i njene parametre \verb|x1, x2, ..., xn|, onda se \textit{primena} (engl. application) funkcije \verb|f| na argumente \verb|a1, a2, ..., an| zapisuje u infiksnom formatu
+Pređimo na sintaksu lambda računa. Ako imamo funkciju \verb|f| i njene parametre \verb|x1, x2, ..., xn|, onda se \textit{primena} (engl. \textit{application}) funkcije \verb|f| na argumente \verb|a1, a2, ..., an| zapisuje u infiksnom formatu
 \begin{center}
 	\verb|(f a1 a2 ... an)|
 \end{center}
@@ -20,9 +20,9 @@ Pređimo na sintaksu lambda računa. Ako imamo funkciju \verb|f| i njene paramet
 	Sabiranje brojeva $2+3$ se zapisuje \verb|(+ 2 3)|.
 \end{primer}
 
-Da bismo razumeli kako se funkcionalni program izvršava, prvo ćemo uvesti pojam redukcije. Neformalno, kažemo da se izraz \verb|A| \textit{redukuje} (engl. reduce) na izraz \verb|B| ako su izrazi \verb|A| i \verb|B| ekvivalentni i tada se izraz \verb|A| zamenjuje izrazom \verb|B| (pri čemu je izraz \verb|B| ‚‚jednostavniji''). Na primer, izraz \verb|(+ 2 3)| možemo zameniti izrazom \verb|5| (jer je $2+3=5$). Iz samog konteksta čitaocu bi trebalo ovo da bude jasno, te nećemo uvesti formalno pojam redukcije. O formalnom uvođenju redukcije može se pronaći više u \cite{foundations-of-functional-programming}. Redukciju ćemo označavati simbolom $\rightarrow$. U skladu sa prethodnim primerom važi \verb|(+ 2 3)| $\rightarrow$ \verb|5|.
+Da bismo razumeli kako se funkcionalni program izvršava, prvo ćemo uvesti pojam redukcije. Neformalno, kažemo da se izraz \verb|A| \textit{redukuje} (engl. \textit{reduce}) na izraz \verb|B| ako su izrazi \verb|A| i \verb|B| ekvivalentni i tada se izraz \verb|A| zamenjuje izrazom \verb|B| (pri čemu je izraz \verb|B| ‚‚jednostavniji''). Na primer, izraz \verb|(+ 2 3)| možemo zameniti izrazom \verb|5| (jer je $2+3=5$). Iz samog konteksta čitaocu bi trebalo ovo da bude jasno, te nećemo uvesti formalno pojam redukcije. O formalnom uvođenju redukcije može se pronaći više u \cite{foundations-of-functional-programming}. Redukciju ćemo označavati simbolom $\rightarrow$. U skladu sa prethodnim primerom važi \verb|(+ 2 3)| $\rightarrow$ \verb|5|.
 
-Sa stanovišta implementacije, funkcionalni program treba posmatrati kao \textit{izraz} (engl. expression), koji se izvršava tako što se \textit{izračunava} njegova vrednost (engl. evaluate). Proces izračunavanja se sada vrši sistematičnim biranjem \textit{reducibilnog izraza} (engl. reducible expression) i njegovim redukovanjem \cite{the-implementation-of-functional-programming-languages}. Prikažimo ovo narednim primerom.
+Sa stanovišta implementacije, funkcionalni program treba posmatrati kao \textit{izraz} (engl. \textit{expression}), koji se izvršava tako što se \textit{izračunava} njegova vrednost (engl. \textit{evaluate}). Proces izračunavanja se sada vrši sistematičnim biranjem \textit{reducibilnog izraza} (engl. \textit{reducible expression}) i njegovim redukovanjem \cite{the-implementation-of-functional-programming-languages}. Prikažimo ovo narednim primerom.
 
 \begin{primer}
 	Neka treba izračunati izraz \verb|(+ (* 5 6) (* 8 3))|. U ovom izrazu postoje dva reducibilna izraza, \verb|(* 5 6)| i \verb|(* 8 3)|. Ceo izraz nije reducibilan izraz jer funkcija \verb|+| mora da se primeni nad dva broja. Proizvoljnim biranjem prvog reducibilnog izraza, pišemo
@@ -40,7 +40,7 @@ Sa stanovišta implementacije, funkcionalni program treba posmatrati kao \textit
 \end{primer}
 
 % the impl. of func... strane 12, 13
-Lambda račun ima posebnu konstrukciju koja se naziva \textit{apstrakcija} (engl. abstraction), kojom se uvode nove funkcije. Apstrakcija ima oblik
+Lambda račun ima posebnu konstrukciju koja se naziva \textit{apstrakcija} (engl. \textit{abstraction}), kojom se uvode nove funkcije. Apstrakcija ima oblik
 \begin{center}
 	\verb|(|$\lambda$\verb|x.E)|
 \end{center} 
@@ -53,7 +53,7 @@ gde je $\lambda$ oznaka za apstrakciju, \verb|x| parametar funkcije, \verb|E| iz
 Još jedan važan pojam jesu slobodne i vezane promenljive. Prilikom apstrakcije, promenljiva mora biti slobodna ili vezana. Ovi pojmovi se definišu narednom definicijom \cite{the-implementation-of-functional-programming-languages}:
 
 \begin{definicija}
-	U apstrakciji \verb|(|$\lambda$\verb|y.E)|, promenljiva \verb|x| je \textit{slobodna} (engl. occurs free) akko \verb|x| i \verb|y| su različite promenljive i \verb|x| je slobodna u \verb|E|. U apstrakciji \verb|(|$\lambda$\verb|y.E)|, promenljiva \verb|x| je \textit{vezana} (engl. occurs bound) akko \verb|x| i \verb|y| predstavljaju istu promenljivu i \verb|x| je slobodna u \verb|E|, ili \verb|x| je vezana u \verb|E|.
+	U apstrakciji \verb|(|$\lambda$\verb|y.E)|, promenljiva \verb|x| je \textit{slobodna} (engl. \textit{occurs free}) akko \verb|x| i \verb|y| su različite promenljive i \verb|x| je slobodna u \verb|E|. U apstrakciji \verb|(|$\lambda$\verb|y.E)|, promenljiva \verb|x| je \textit{vezana} (engl. \textit{occurs bound}) akko \verb|x| i \verb|y| predstavljaju istu promenljivu i \verb|x| je slobodna u \verb|E|, ili \verb|x| je vezana u \verb|E|.
 \end{definicija}
 
 Iz prethodne definicije možemo zaključiti da će neka promenljiva u apstrakciji biti vezana ako postoji ugnežđena apstrakcija koja je vezuje, a slobodna u suprotnom.
@@ -62,4 +62,4 @@ Iz prethodne definicije možemo zaključiti da će neka promenljiva u apstrakcij
 \label{subsec:polimorfizam}
 
 % On.Understanding.A4.pdf strane 4, 5
-Polimorfizam (engl. polymorphism) kao pojam se može posebno definisati za različite koncepte programskih jezika. Sama konstrukcija reči -- polys, ‚‚mnogo'' i morph\={e}, ‚‚oblik'' -- govori nam da je reč o konceptima koji se na neki način prilagođavaju mnogim oblicima, odnosno, mnogim tipovima (u kontekstu programskih jezika). \textit{Polimorfni programski jezici} su oni programski jezici u kojima neke vrednosti i promenljive mogu da imaju više od jednog tipa. \textit{Polimorfne funkcije} su funkcije čiji operandi mogu da imaju više od jednog tipa. \textit{Polimorfni tipovi} su tipovi čije operacije mogu biti primenjene na vrednosti više od jednog tipa. Za nas je od interesa najviše parametarski polimorfizam. U \textit{parametarskom polimorfizmu}, polimorfna funkcija ima implicitan ili eksplicitan tipski parametar koji određuje tip argumenta pri svakoj primeni te funkcije \cite{On-Understanding-Types-Data-Abstraction-and-Polymorphism}.
+Polimorfizam (engl. \textit{polymorphism}) kao pojam se može posebno definisati za različite koncepte programskih jezika. Sama konstrukcija reči -- polys, ‚‚mnogo'' i morph\={e}, ‚‚oblik'' -- govori nam da je reč o konceptima koji se na neki način prilagođavaju mnogim oblicima, odnosno, mnogim tipovima (u kontekstu programskih jezika). \textit{Polimorfni programski jezici} su oni programski jezici u kojima neke vrednosti i promenljive mogu da imaju više od jednog tipa. \textit{Polimorfne funkcije} su funkcije čiji operandi mogu da imaju više od jednog tipa. \textit{Polimorfni tipovi} su tipovi čije operacije mogu biti primenjene na vrednosti više od jednog tipa. Za nas je od interesa najviše parametarski polimorfizam. U \textit{parametarskom polimorfizmu}, polimorfna funkcija ima implicitan ili eksplicitan tipski parametar koji određuje tip argumenta pri svakoj primeni te funkcije \cite{On-Understanding-Types-Data-Abstraction-and-Polymorphism}.

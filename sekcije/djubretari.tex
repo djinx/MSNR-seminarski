@@ -4,13 +4,13 @@
 %Izvršavanje programa na računaru praćeno je stvaranjem brojnih struktura podataka (objekata).
 %Neke od njih generiše sam program, dok su druge vezane za njegovu implementaciju. Sve te strukture podataka se skladište u deo memorije koji se naziva heap.
 
-Strukture podataka koje su alocirane na \textit{hipu} (engl. heap), a nisu dostižne preko nekog niza pokazivača programskih promenljivih, nazivaju se \textit{otpatci} (engl. garbage). Memorija koju zauzimaju otpatci treba da bude dostupna za alociranje novih struktura podataka. Proces eliminisanja otpadaka, odnosno, njihovog uklanjanja iz memorije naziva se \textbf{sakupljanje otpadaka} (engl. garbage collection) i događa se u fazi izvršavanja programa.
+Strukture podataka koje su alocirane na \textit{hipu} (engl. \textit{heap}), a nisu dostižne preko nekog niza pokazivača programskih promenljivih, nazivaju se \textit{otpaci} (engl. \textit{garbage}). Memorija koju zauzimaju otpaci treba da bude dostupna za alociranje novih struktura podataka. Proces eliminisanja otpadaka, odnosno, njihovog uklanjanja iz memorije naziva se \textbf{sakupljanje otpadaka} (engl. \textit{garbage collection}) i događa se u fazi izvršavanja programa.
 
 \subsection{Motivacija}
 
-Kod proceduralnih programskih jezika, kakav je na primer PASCAL, operacije stvaranja i uništavanja objekata koji se skladište na hipu izvršavaju se eksplicitnim navođenjem određenih naredbi (NEW i DISPOSE) u izvornom kodu. To znači da je odgovornost za recikliranje otpadaka na programeru, koji mora da uništi svaki nepotrebni objekat odgovarajućom naredbom i time oslobodi memorijske ćelije zauzete tim objektom. Ukoliko to ne uradi kapacitet memorije se prividno smanjuje. Ova pojava se naziva \textit{curenje memorije} (engl. memory leak).
+Kod proceduralnih programskih jezika, kakav je na primer PASCAL, operacije stvaranja i uništavanja objekata koji se skladište na hipu izvršavaju se eksplicitnim navođenjem određenih naredbi (NEW i DISPOSE) u izvornom k\^odu. To znači da je odgovornost za recikliranje otpadaka na programeru, koji mora da uništi svaki nepotrebni objekat odgovarajućom naredbom i time oslobodi memorijske ćelije zauzete tim objektom. Ukoliko to ne uradi kapacitet memorije se prividno smanjuje. Ova pojava se naziva \textit{curenje memorije} (engl. \textit{memory leak}).
 
-Ovakav koncept je prihvatljiv kod proceduralnih jezika, kod kojih su pomenute operacije retke, ali je neefikasan kada su u pitanju funkcionalni jezici koji se odlikuju čestim izvršavanjem tih operacija \cite{appel}. Zato je kod funkcionalnih programskih jezika posao sakupljanja otpadaka poveren delu sistema za upravljanje memorijom koji se naziva \textit{sakupljač otpadaka} (engl. garbage collector).
+Ovakav koncept je prihvatljiv kod proceduralnih jezika, kod kojih su pomenute operacije retke, ali je neefikasan kada su u pitanju funkcionalni jezici koji se odlikuju čestim izvršavanjem tih operacija \cite{appel}. Zato je kod funkcionalnih programskih jezika posao sakupljanja otpadaka poveren delu sistema za upravljanje memorijom koji se naziva \textit{sakupljač otpadaka} (engl. \textit{garbage collector}).
 
 Različitih tipova sakupljača otpadaka ima mnogo. U daljem tekstu biće predstavljeni neki od njih, kao i njihove osnovne karakteristike.
 
@@ -24,7 +24,7 @@ Programske promenljive i strukture podataka alocirane na hipu formiraju usmeren 
 	Kažemo da je čvor \textit{n} \textit{dostižan} u grafu ukoliko postoji put $r\rightarrow \dots \rightarrow n$ od nekog korena \textit{r}.
 \end{definicija}
 
-U prvoj fazi, pretragom grafa u širinu se markiraju svi dostižni čvorovi. Ako čvor nije markiran, onda je otpadak i treba da se realocira. Čišćenje hipa se vrši u drugoj fazi počevši od prve adrese i ide do poslednje, pri čemu se traže čvorovi koji nisu markirani. Dobijeni otpatci se povežu u listu koja se naziva \textit{slobodna lista}. Tokom faze čišćenja uklanjaju se markeri svim markiranim čvorovima, da ne bi došlo do problema pri sledećem sakupljanju otpadaka. Nakon što se izvrši sakupljanje otpadaka, prevedeni program nastavlja sa radom.
+U prvoj fazi, pretragom grafa u širinu se markiraju svi dostižni čvorovi. Ako čvor nije markiran, onda je otpadak i treba da se realocira. Čišćenje hipa se vrši u drugoj fazi počevši od prve adrese i ide do poslednje, pri čemu se traže čvorovi koji nisu markirani. Dobijeni otpaci se povežu u listu koja se naziva \textit{slobodna lista}. Tokom faze čišćenja uklanjaju se markeri svim markiranim čvorovima, da ne bi došlo do problema pri sledećem sakupljanju otpadaka. Nakon što se izvrši sakupljanje otpadaka, prevedeni program nastavlja sa radom.
 
 Kad god program želi da alocira prostor na hipu, on dobija memoriju iz slobodne liste. Kada slobodna lista postane prazna, to je dobar znak da treba opet da se izvrši sakupljanje otpadaka.
 
@@ -55,7 +55,7 @@ Slika \ref{fig:copygc} prikazuje situaciju pre i posle prepisujućeg sakupljanja
 
 Jedna od mana prepisujućeg sakupljača otpadaka je što u svakom ciklusu sakupljanja otpadaka premešta sve aktivne ćelije izvornog dela, odnosno, objekte smeštene u njima. To znači da će objekti koji imaju duži životni vek biti premeštani više puta, u toku više ciklusa sažimanja. Ovo ponovljeno premeštanje predstavlja nepotreban posao, koji se može izbeći tako što će se hip podeliti na dva dela.
 
-U jednom delu hipa će se smeštati objekti dužeg životnog veka, što znači da će u njemu biti manje otpadaka, te će proces njihovog sakupljanja moći ređe da se vrši. Drugi će sadržati objekte kraćeg životnog veka i zbog toga će imati veći broj otpadaka, pa će se kompakcija vršiti češće. Strategija koja određuje koliko će se često neki region sažimati naziva se \textit{politika sakupljanja} (engl. collection policy).
+U jednom delu hipa će se smeštati objekti dužeg životnog veka, što znači da će u njemu biti manje otpadaka, te će proces njihovog sakupljanja moći ređe da se vrši. Drugi će sadržati objekte kraćeg životnog veka i zbog toga će imati veći broj otpadaka, pa će se kompakcija vršiti češće. Strategija koja određuje koliko će se često neki region sažimati naziva se \textit{politika sakupljanja} (engl. \textit{collection policy}).
 
 Postavlja se pitanje kako odrediti koji objekti imaju duži životni vek, tj. kako odrediti koji će se objekti smeštati u koji deo hipa. Empirijske metode su pokazale da većina mladih objekata (onih koji su skoro kreirani) predstavlja privremene strukture ili međurezultate i da samim tim ti objekti imaju kratak životni vek \cite{app87}. Samo mali broj objekata je deo neke strukture dugog životnog veka.
 
