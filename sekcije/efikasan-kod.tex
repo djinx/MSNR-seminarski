@@ -9,10 +9,8 @@ U nastavku opisujemo tehnike koje se koriste za generisanje efikasnog k\^oda.
 
 \subsection{Transformacije $\lambda$-računa}
 
-$\lambda$-račun se koristi zbog svoje jednostavnosti i dovoljno je izražajan da se bilo koji funkcionalan jezik može transformisati u njega. To znači da ako imamo implementaciju $\lambda$-računa, možemo da implementiramo  bilo koji funkcionalan jezik tako što ćemo ga prevesti u $\lambda$-račun. Transformacije se često grupišu u dva skupa :
+$\lambda$-račun se koristi zbog svoje jednostavnosti i dovoljno je izražajan da se bilo koji funkcionalan jezik može transformisati u njega. To znači da ako imamo implementaciju $\lambda$-računa, možemo da implementiramo  bilo koji funkcionalan jezik tako što ćemo ga prevesti u $\lambda$-račun. Transformacije se često grupišu u dva skupa \cite{compilation-by-program-transformation}:
 
-
-% Compilation_of_Functional_Languages_by_Program_Tra.pdf + comp-by-trans.pdf
 \begin{itemize}
 	\item Veliki skup jednostavnih, lokalnih transformacija koje su implementirane u okviru dela kompilatora koji nazivamo \textit{pojednostavljivač}. Složenost programa raste jer pojednostavljivač pokušava da izvrši što je moguće više transformacija u jednom prolasku kroz program. Uprkos tome, rezultat nakon tih transformacija često i dalje sadrži delove koji mogu biti dalje transformisani, tako da se ova operacija ponavlja više puta, dokle god ima nešto da se pojednostavi. Transformacije koje spadaju u ovaj skup su simplifikacija (engl. \textit{simplification}) \cite{compilation-by-program-transformation}, $\beta$-odsecanje, umetanje (engl. \textit{inlining}) i \textit{sklapanje konstanti} (engl. \textit{constant folding}).
 	
@@ -42,8 +40,17 @@ Korisno je definisati tri različite transformacije koje zajedno implementiraju 
 
 \subsection{Uparivanje šablona}
 
-% compilingML.A4.pdf str. 5 + 1wilhelm_r_seidl_h_compiler_design_virtual_machines str. 69
- 
-Funkcije nad strukturiranim algebarskim tipovima \cite{algebraic-types}, kao što su liste, mogu se definisati preko različitih slučajeva (engl. \textit{case}). Različiti slučajevi dati su \textit{šablonima}, koji se uparuju prema vrednostima tog tipa. Ako šablon odgovara vrednosti, promenljive koje se mogu pojaviti u šablonu su vezane za odgovarajuće promenljive komponente te vrednosti. Pogledajmo kako to radi na jednostavnom primeru. Neka imamo šablone $[1; x; y] \longrightarrow x*y$ i $[z] \longrightarrow z$, i izraz $[1; x; y]$. Vidimo da se izraz poklapa sa prvim šablonom. Promenljive $x$ i $y$ vezuju se za komponente 2 i 3 i vraća se njihov proizvod. Ovakvo poređenje na osnovu šablona naziva se \textit{uparivanje šablona} \cite{compiler-design, compiling-fl}.
+Funkcije nad običnim tipovima, kao i nad strukturiranim algebarskim tipovima \cite{algebraic-types}, mogu se definisati preko različitih slučajeva (engl. \textit{case}). Različiti slučajevi dati su \textit{šablonima}, koji se uparuju prema vrednostima tog tipa. Ako šablon odgovara vrednosti, promenljive koje se mogu pojaviti u šablonu su vezane za odgovarajuće promenljive komponente te vrednosti. Pogledajmo kako to radi na jednostavnom primeru. Neka imamo šablone $[1; x; y] \longrightarrow x*y$ i $[z] \longrightarrow z$, i izraz $[1; x; y]$. Vidimo da se izraz poklapa sa prvim šablonom. Promenljive $x$ i $y$ vezuju se za komponente 2 i 3 i vraća se njihov proizvod. Ovakvo poređenje na osnovu šablona naziva se \textit{uparivanje šablona} \cite{compiler-design}.
 
-Uparivanje šablona je zapravo skraćenica za ugnežđene if-then-else i case naredbe (engl. \textit{statements}): pokušaj da upariš ulaz sa prvim šablonom, ako se poklapa izvrši odgovarajuću akciju, u suprotnom se vrati korak nazad i pokušaj sa sledećim šablonom. Ova strategija proizvodi nepotreban rad. Kompilatori to mnogo bolje rade tako što šablone kompiliraju u diskriminišuće stablo (engl. \textit{discrimination tree}) koje to radi u skoro optimalnom broju testova nad podacima kako bi odabralo odgovarajuću akciju. 
+Uparivanje šablona je zapravo skraćenica za ugnežđene if-then-else i case naredbe (engl. \textit{statements}): pokušaj da upariš ulaz sa prvim šablonom, ako se poklapa izvrši odgovarajuću akciju, u suprotnom se vrati korak nazad i pokušaj sa sledećim šablonom. Ova strategija proizvodi nepotreban rad. Kompilatori to mnogo bolje rade tako što šablone kompiliraju u diskriminišuće stablo (engl. \textit{discrimination tree}) koje to radi u skoro optimalnom broju testova nad podacima kako bi odabralo odgovarajuću akciju \cite{compiling-fl}. Pogledajmo još jedan primer - računanje n-tog fibonačijevog broja u programskom jeziku Haskell:
+\begin{verbatim}
+    fibonaci n
+        |n==0 = 1
+        |n==1 = 1
+        |otherwise = (fibonaci (n-1))+(fibonaci (n-2))
+\end{verbatim}
+
+Prilikom evaluacije (fibonaci x), imamo tri slučaja od kojih će jedan biti odgovarajući: prvi je kada je vrednost parametra x jednaka 0, drugi je kada je vrednost parametra x jednaka 1, a treći kada nisu ispunjena prva dva. Uslovi se isprobavaju jedan po jedan, od vrha, dok se ne pronađe odgovarajući šablon \cite{the-implementation-of-functional-programming-languages}. 
+
+
+
