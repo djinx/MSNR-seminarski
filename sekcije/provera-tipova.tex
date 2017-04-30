@@ -1,40 +1,10 @@
-% TODO: pročitajte i dajte svoj sud
-% ovo poglavlje je nezvanicno završeno
-% potencijalno treba da se dopuni ili lepše zapiše da bi sve delovalo kao jedna celina
-
 \section{Polimorfna provera tipova}
 \label{sec:provera tipova}
 
+Neki moderni jezici, kao što je Miranda, imaju svojstvo koje omogućava programeru da ne navodi tipove objekata koje definiše u programu. Kompilator može da odredi tipove ako je to moguće. Deo kompilatora koji se bavi ovim poslom naziva se \textit{zaključivač tipova} \cite{the-implementation-of-functional-programming-languages}. Zaključivač tipova je od velike koristi programeru jer mu ukazuje na greške, od trivijalnih propusta u kucanju do velikih logičkih grešaka. Pomaže u pisanju robusnih programa kao i u izgradnji bržih implementacija programskih jezika. Ako zaključivač tipova obradi program, pri izvršavanju se neće javiti greške poput upotrebe promenljive tipa bool kao da je tipa int.
 
-%The Implementation of Functional Programming Languages strana 139
-Neki moderni jezici, kao što je Miranda, imaju svojstvo koje omogućava programeru da ne navodi tipove objekata koje definiše u programu. Kompilator može da odredi tipove ako je to moguće. Deo kompilatora koji se bavi ovim poslom naziva se \textit{zaključivač tipova} \cite{the-implementation-of-functional-programming-languages}. Proveravač tipova je od velike koristi programeru jer mu ukazuje na greške, od trivijalnih propusta u kucanju do velikih logičkih grešaka. Pomaže u pisanju robusnih programa kao i u izgradnji bržih implementacija programskih jezika. Ako zaključivač tipova obradi program, pri izvršavanju se neće javiti greške poput upotrebe promenljive tipa bool kao da je tipa int.
+Izrazi koji sadrže nekoliko pojavljivanja istog tipa, kao $\alpha \longrightarrow \alpha$, izražavaju kontekstnu zavisnost, u ovom slučaju to je zavisnost domena i kodomena tipa funkcije. Proces zaključivanja tipova sastoji se od uparivanja tipova operatora i instanciranja tipova promenljivih. Kad god se tip promenljive instancira, sve ostale pojave iste promenljive moraju biti instancirane sa istom vrednošću: ispravna instanciranja izraza $\alpha \longrightarrow \alpha$ su $int \longrightarrow int$,  $bool \longrightarrow bool$, itd. Proces kontekstnog instanciranja izvodi se pomoću \textit{unifikacije} i ona je osnova polimorfne provere tipova. Unifikacija ne uspeva kada pokušava da upari dva operatora različitih tipova (npr. int i bool) ili kada pokušava da instancira promenljivu izrazom koji sadrži tu promenljivu (npr. $a$ i $a\longrightarrow b$, gde će se napraviti rekurzija bez izlaza) \cite{basic-typechecking}. U opštem slučaju, tip izraza određuje se pomoću skupa pravila kombinovanja tipova za jezičke konstrukcije i tipova primitivnih operatora. 
 
-%BasicTypechecking.pdf str. 6
-% potrebna referenca za unifikaciju
-
-Izrazi koji sadrže nekoliko pojavljivanja istog tipa, kao $\alpha \longrightarrow \alpha$, izražavaju kontekstnu zavisnost, u ovom slučaju to je zavisnost domena i kodomena tipa funkcije. Proces zaključivanja tipova sastoji se od uparivanja tipova operatora i instanciranja tipova promenljivih. Kad god se tip promenljive instancira, sve ostale pojave iste promenljive moraju biti instancirane sa istom vrednošću: ispravna instanciranja izraza $\alpha \longrightarrow \alpha$ su $int \longrightarrow int$,  $bool \longrightarrow bool$, itd. Proces kontekstnog instanciranja izvodi se pomoću \textit{unifikacije} i ona je osnova polimorfne provere tipova. Unifikacija ne uspeva kada pokušava da upari dva operatora različitih tipova (npr. int i bool) ili kada pokušava da instancira promenljivu izrazom koji sadrži tu promenljivu (npr. $a$ i $a\longrightarrow b$, gde će se napraviti rekurzija bez izlaza) \cite{basic-typechecking}. %The latter situation arises in typechecking self-application (e.g. fun(x) x(x)), which is therefore considered illegal.
-U opštem slučaju, tip izraza određuje se pomoću skupa pravila kombinovanja tipova za jezičke konstrukcije i tipova primitivnih operatora. 
-
-\iffalse
-%The Implementation of Functional Programming Languages sekcija 8.1
-\subsection{Ukratko o notaciji}
-%ovo je sve nebitno zapravo, ali neka stoji za sad :D
-Tipovi koji su zanimljivi kada je funkcionalno programiranju u pitanju su karakteri, broj, istinitosna vrednost, kao i tipovi torki, lista i funkcija. Kada govorimo o ovim tipovima, koristićemo sledeću notaciju:
-$$a::A$$
-
-\noindent što predstavlja promenljivu $a$ koja je tipa $A$. 	
-\\
-\\ Ako su dati tipovi $A_1, \ldots, A_n$ onda $(A_1, \ldots, A_n)$ predstavlja tip tokre $(a_1, \ldots, a_n)$ za koji važi $a_1::A_1$ i $a_n::A_n$. Bitno je naglasiti da $A_1, \ldots, A_n$ ne predstavljaju iste tipove, odnosno da koordinate jedne torke ne moraju biti sve istog tipa. Takođe, tip torke određuje broj koordinata (odnosno dimenziju torke) i njihove tipove. 
-\\
-\\ Ako je dat tip $A$ onda je $[B]$ tip liste čiji su elementi tipa $B$. U slučaju da su elementi liste torke, sve torke moraju biti istog tipa. Za razliku od tipa torke, tip liste ne određuje njenu dužinu. 
-\\
-\\ Ako su dati tipovi $A$ i $B$ koristimo $A \longrightarrow B$ za zapis tipa funkcije $f$ koja se primenjuje na promenljivu $a::A$, a čije vrednosti $(f \quad a)$ su tipa $B$.
-
-
-\fi 
-
-
-%BasicTypechecking.pdf str. 9
 \subsection{Zaključivanje tipova}
 \label{subsec: zakljucivanje tipova}
 
