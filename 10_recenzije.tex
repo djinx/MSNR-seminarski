@@ -97,7 +97,7 @@ Rad opisuje različite tehnike transformacije lambda računa, koncepte i razvoj 
 % Напишете своја запажања и конструктивне идеје шта у раду недостаје и шта би требало да се промени-измени-дода-одузме да би рад био квалитетнији.
 Mislim da bi kvalitetu rada doprinelo malo bolje objašnjenje po čemu se kompilatori funkcionalnih programskih jezika razlikuju od kompilatora imperativnih programskih jezika. U delu 5.1 je data dobra motivacija, ali postoje i jezici koji nisu funkcionalni, ali koriste sakupljača otpadaka.
 
-\odgovor{Dodata rečenica $"$Mnogi programski jezici zahtevaju sakupljanje otpadaka, bilo kao deo specifikacije jezika (Java, C\#) ili za efikasnu praktičnu primenu (kod funkcionalnih).$"$ }
+\odgovor{Dodata rečenica $"$Mnogi programski jezici zahtevaju sakupljanje otpadaka, bilo kao deo specifikacije jezika (Java, C\#) bilo za efikasnu praktičnu primenu (kod funkcionalnih).$"$ }
 
 \section{Sitne primedbe}
 % Напишете своја запажања на тему штампарских-стилских-језичких грешки
@@ -278,12 +278,15 @@ Opisana je dinamička provera tipova, upravljanje dinamički alociranom memorijo
 
 \item \textbf{poglavlje 3.3} Premda poznajem oblast, nisam shvatio šta je objašnjeno. Ima i slovnih grešaka, ali mislim da je celo poglavlje loše napisano i da bi bilo dobro da se kompletno rekonstruiše. Koncept šablona ne važi samo za algebarske tipove. Primer sa [1;2;3] nije dovoljno jasan. Možda bi primer računanja faktorijela u jeziku Haskell bio bolji primer. ``Uparivanje šablona prenosi visoko struktuirane informacije o parametrima ulaza''. Koje informacije? Kako kompilator proizvodi bolji kôd i zašto je to tako?
 
+\odgovor{Poglavlje je poboljšano. Primer sa [1;2;3] je dopunjen kako bi bio jasniji. Dodat je još jedan primer - računanje n-tog broja fibonačijevog niza. Rečenica: ``Uparivanje šablona prenosi visoko struktuirane informacije o parametrima ulaza'' je izbačena jer nije dovoljno jasna, a u litearturi nije pronađeno dodatno objašnjenje za to. Za kompilator već postoji nekoliko rečenica, dodatno su ubačene reference na literaturu u kojoj možete pronaći nešto više na tu temu.}
 
 \item \textbf{str 6} ``Deo kompilatora koji se bavi ovim poslom naziva se \textit{proveravač tipova}'' \\ To što je opisano je dedukcija (zaključivanje) tipova. Ako kompilator na osnovu informacija može da napravi izvodjenje koje opisuje tip koji nije eksplicitno naveden onda je u pitanju zaključivanje. Ako postoji eksplicitno naveden tip, a kompilator proverava da li je taj navedeni tip onaj koji odgovara, onda je to provera tipova. (ne mogu da koristim bibtex, ali referenca je ``Compilers: Principles, Techniques, and Tools, autori: Aho, Lam, Sethi, Ulman'', u narodu poznatija kao ``Dragon Book'').
 
 \odgovor{Ukoliko sam dobro razumela, recenzentu smeta naziv dela kompilatora - ‚‚proveravač tipova''. Naziv je izmenjen u ‚‚zaključivač tipova''.}
 
 \item \textbf{str 7} Ne bi bilo loše da se uvede pojam tipske promenljive (promenljiva koja čija je ``vrednost'' tip, npr. int(T1 x, T2 y) gde su x i y programske promenljive, a T1 i T2 tipske.
+
+\odgovor{Pojam nije uveden jer nismo pornašli adekvatnu literaturu u kojoj je to opisano detaljnije.}
 
 \item \textbf{str 7} ``Kapacitet memorije se prividno smanjuje'' \\ Ne shvatam kako je to ``prividno''. Zašto se bavimo ovom problematikom ako je prividno. 
 
@@ -328,6 +331,8 @@ Rečeno je da kada je lista prazna da je to znak, ne samo tad, biće promenjeno 
 % Напишете своја запажања на тему штампарских-стилских-језичких грешки
 \begin{itemize}
 \item \textbf{str 5} Navedena je transformacija ``konstantno sklapanje''.\\Trebalo bi ``sklapanje konstanti'', jer se ne radi o procesu koji je konstantan, već o izračunavanju konstantnih izraza u fazi kompilacije (npr. izraz 4+5 se zamenjuje izrazom 9). Čak ni za termin ``sklapanje'' nisam siguran.
+
+\odgovor{Prevod je izmenjen u ‚‚sklapanje konstati''. Bolji prevod za ‚‚sklapanje'' nije smišljen, ali smo otvoreni za predloge.}
 
 \item \textbf{str 5} ``U suštini, umetanje je veoma jednostavno:''.\\ Stilski nije dobro, ``jednostavno'' je relativan pojam. Možda je bolje ``Osnovni princip umetanja je sledeći:''
 
@@ -471,7 +476,7 @@ Nisam uočio krupnije nedostatke u radu.
 	
 	\item Str. 5, pasus 3, redovi 4 i 5: očigledno je omaškom ispušten deo teksta (jedna ili više reči) zbog čega rečenica gubi smisao. Popraviti.
 
-
+	\odgovor{Pasus je izmenjen u skladu sa zapažanjima prethodnog recenzenta.}
 	
 	\item Str. 5, pasus 3, red 6: umesto "razvdojen", treba "razdvojen";
 	
