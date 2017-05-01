@@ -20,25 +20,25 @@
 %}
 %
 
-Piter Landin napisao je, 1964. godine, članak {\em Mehanička evaluacija izraza} (engl. \textit{“The Mechanical Evaluation of Expressions”}) \cite{landinsecd}, koji je u decenijama koje predstoje izvršio veliki uticaj na istraživanja i razvoj funkcionalnih programskih jezika. Članak se istakao po tome što je zagovarao upotrebu {\em $\lambda$-računa} kao meta-jezika. Osim toga, Landin uvodi pojmove ‚‚zatvorenja'' - da predstavi funkcionalne vrednosti, ‚‚cirkularnost'' - da implementira rekurziju, ‚‚parcijalnu evaluaciju'', ‚‚redukciju grafa'', i mnoge druge koncepte i pojmove koji su danas sastavni deo programskih jezika \cite{calls-lambda, compiler-design}.\\
+Piter Landin napisao je, 1964. godine, članak {\em Mehanička evaluacija} izraza (engl. “The Mechanical Evaluation of Expressions”) \cite{landinsecd}, koji je u decenijama koje predstoje izvršio veliki uticaj na istraživanja i razvoj funkcionalnih programskih jezika. Članak se istakao po tome što je zagovarao upotrebu {\em $\lambda$-računa} kao meta-jezika. Osim toga, Landin uvodi pojmove ‚‚zatvorenja'' - da predstavi funkcionalne vrednosti, ‚‚cirkularnost'' - da implementira rekurziju, ‚‚parcijalnu evaluaciju'', ‚‚redukciju grafa'', i mnoge druge koncepte i pojmove koji su danas sastavni deo programskih jezika \cite{calls-lambda, compiler-design}.\\
 
-Jedna od prvih virtuelnih mašina za kompilaciju funkcionalnih programskih jezika bila je Landin-ova {\em SECD mašina} \cite{landin-secd}, predstavljena u članku kao deo ISWIM \cite{ISWIM} programskog jezika. Ona je bila {\em prva apstraktna mašina} posebno dizajnirana da modeluje $\lambda$-račun. \\
+Jedna od prvih virtuelnih mašina za izvršavanje funkcionalnih programskih jezika bila je Landin-ova {\em SECD mašina} \cite{landin-secd}, predstavljena u članku kao deo ISWIM \cite{ISWIM} programskog jezika. Ona je bila {\em prva apstraktna mašina} posebno dizajnirana da modeluje $\lambda$-račun. \\
 
-Od izlaska Landin-ovog članka, izmišljene, otkrivene i menjane su mnoge druge apstraktne mašine za $\lambda$-račun. Međutim, iako se u literaturi može naći veliki broj mašina, {\em nijedna} nije derivat originalne Landin-ove SECD mašine, čak i pored toga što je ona bila prva.
+Od izlaska Landin-ovog članka, izmišljene i menjane su mnoge druge apstraktne mašine za $\lambda$-račun. Međutim, iako se u literaturi može naći veliki broj mašina, {\em nijedna} nije derivat originalne Landin-ove SECD mašine, čak i pored toga što je ona bila prva.
 
 % O specifičnostima i više informacija može se naći u A Rational Deconstruction of Landin’s SECD Machine Olivier Danvy BRICS ∗ Department of Computer Science University of Aarhus † October 2003
 
 \subsection{Arhitektura SECD mašine}
 
-Osnovna uloga SECD mašine je izvršavanje kompiliranog k\^ oda na apstraktnoj mašini. Osnovna razlika u odnosu na interpreter je u tome što kompilirani k\^ od može da se izvršava više puta i postoji mogućnost optimizacije k\^oda. 
+Osnovna uloga SECD mašine je izvršavanje kompiliranog k\^ oda. Osnovna razlika u odnosu na interpreter je u tome što kompilirani k\^ od može da se izvršava više puta i postoji mogućnost optimizacije koda. 
 
-Formalno, SECD mašina je torka četiri liste koje imaju skup precizno definisanih operacija nad njima. Semantika SECD mašina opisuje virtuelnu mašinu baziranu na steku koja je dizajnirana da izvršava funkcije. Komponente torke koje čine SECD mašinu su četiri steka:
+Formalno, SECD mašina je torka četiri liste koje imaju skup precizno definisanih operacija nad njima. Semantika SECD mašina opisuje virtuelnu mašinu baziranu na steku koja je dizajnirana da izračunava funkcije. Komponente torke koje čine SECD mašinu su četiri steka, čiji su tipovi dati u notaciji programskog jezika ML:
 \begin{enumerate}
-\item {\bf S} (engl. \textit{stack}) - za evaluaciju izraza, najčešće implementiran kao lista, ova komponenta ima tip {\bf list}  
-\item {\bf E} (engl. \textit{environment}) - za čuvanje liste trenutnih vrednosti u okvirima, gde je svaki okvir lista veza izmedju simbola i njegove vrednosti, ova komponenta ima tip {\bf Env.env}  
-\item {\bf C} (engl. \textit{control}) - za čuvanje liste instrukcija (kontrolnih direktiva) koje treba evaluirati, ova komponenta ima tip {\bf directive} , gde je direktiva definisana kao: $$ \text{datatype directive = TERM of Source.term | APPLY} $$
+\item {\bf S} (engl. stack) - za evaluaciju izraza, najčešće implementiran kao lista, ova komponenta ima tip {\bf list}  
+\item {\bf E} (engl. environment) - za čuvanje liste trenutnih vrednosti u okvirima, gde je svaki okvir lista veza izmedju simbola i njegove vrednosti, ova komponenta ima tip {\bf Env.env}  
+\item {\bf C} (engl. control) - za čuvanje liste instrukcija (kontrolnih direktiva) koje treba evaluirati, ova komponenta ima tip {\bf directive} , gde je direktiva definisana kao: $$ \text{datatype directive = TERM of Source.term | APPLY} $$
 %ovo iznad treba srediti da se lepo prikazuje
-\item {\bf D} (engl. \textit{dump}) - za čuvanje kontrolnih putanja, promenljivih i stekova, da bi se kasnije mogli ponovo učitati, ova komponenta ima tip\\ {\bf(value list * value Env.env * directive list) list}
+\item {\bf D} (engl. dump) - za čuvanje kontrolnih putanja, promenljivih i stekova, da bi se kasnije mogli ponovo učitati, ova komponenta ima tip\\ {\bf(value list * value Env.env * directive list) list}
 \end{enumerate}
 
 %Dump used to store suspended invocation context.
@@ -65,7 +65,7 @@ Formalno, SECD mašina je torka četiri liste koje imaju skup precizno definisan
 \end{table}
 %izvor za tabelu je Malkov http://poincare.matf.bg.ac.rs/~smalkov/files/fp.r344.2016/public/predavanja/FP.cas.2016.08.SECD.pdf
 %Introduction to Functional Programming Systems Using HaskellАутор: Antony J. T. Davie
-Osim operacija navedenih u tabeli imamo {\em ugrađene funkcije} +, *, ATOM, CAR, CONS, EQ, itd. Svaka operacija je definisana efektom koji ima na četiri steka S,E,C i D. Svaki stek je predstavljen {\em s-izrazom} sa tačka notacijom, gde najlevlja pozicija označava vrh steka.
+Osim operacija navedenih u tabeli imamo {\em ugrađene funkcije} +, *, ATOM, CAR, CONS, EQ, itd. Svaka operacija je definisana efektom koji ima na četiri steka S,E,C i D. Svaki stek je predstavljen {\em s-izrazom} sa tačka notacijom, gde krajnje leva pozicija označava vrh steka. S-izraz, skraćeno od simbolički izraz (engl. symbolic expression), predstavlja način za predstavljanje ugnježdene liste podataka, najčešće u funkcionalnim programskim jezicima.
 
 \subsubsection{Ubacivanje objekata na stek}
 
@@ -81,10 +81,10 @@ NIL S E (NIL.C) D $\rightarrow$ (NIL.S) E C D\\
 LDC S E (LDC x.C) D $\rightarrow$ (x.S) E C D\\
 LD S E (LD (i,j).C) D $\rightarrow$ (locate((i,j), e).S) E C D\\
 \end{primer}
-'Locate' je pomoćna funkcija koja vraća j-ti element i-te podliste u E. Primetimo da je E lista podlisti od kojih je svaka lista stvarnih parametara. Iz čega zaključujemo da e odgovara listi vrednosti u interpreteru.
+'Locate' je pomoćna funkcija koja vraća j-ti element i-te podliste iz E. Primetimo da je E lista podlisti od kojih je svaka lista stvarnih parametara, pa zaključujemo da e odgovara listi vrednosti u interpreteru.
 
 \subsubsection{Ugrađene funkcije}
-Pravilo kompilacije: Ugrađena funkcija oblika (OP e1 ... ek) prevodi se u ek' || ... || e1' || (OP), gde A||B označava append(A,B), a ei' je preveden k\^od za ei. Notacija zamene argumenata i operatora je standardno obrnuta Poljska notacija (postfiksna notacija).
+Pravilo kompilacije: ugrađena funkcija oblika (OP e1 ... ek) prevodi se u ek' || ... || e1' || (OP), gde A||B označava append(A,B), a ei' je preveden k\^ od za ei. Notacija zamene argumenata i operatora je standardno obrnuta Poljska notacija (postfiksna notacija).
 %treba navesti da je svejedno da li su mali secd ili S E C D
 Za unarni operator OP,\\
 (a.s) e (OP.c) d $\rightarrow$ ((OP a).s) e c d\\
