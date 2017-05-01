@@ -1,9 +1,9 @@
 \section{Polimorfna provera tipova}
 \label{sec:provera tipova}
 
-Neki moderni jezici, kao što je Miranda, imaju svojstvo koje omogućava programeru da ne navodi tipove objekata koje definiše u programu. Kompilator može da odredi tipove ako je to moguće. Deo kompilatora koji se bavi ovim poslom naziva se \textit{zaključivač tipova} \cite{the-implementation-of-functional-programming-languages}. Zaključivač tipova je od velike koristi programeru jer mu ukazuje na greške, od trivijalnih propusta u kucanju do velikih logičkih grešaka. Pomaže u pisanju robusnih programa kao i u izgradnji bržih implementacija programskih jezika. Ako zaključivač tipova obradi program, pri izvršavanju se neće javiti greške poput upotrebe promenljive tipa bool kao da je tipa int.
+Neki moderni jezici, kao što je Miranda, imaju svojstvo koje omogućava programeru da ne navodi tipove objekata koje definiše u programu. Kompilator može da odredi tipove ako je to moguće. Deo kompilatora koji se bavi ovim poslom naziva se \textit{zaključivač tipova} (engl. \textit{type-checker}) \cite{the-implementation-of-functional-programming-languages}. Zaključivač tipova je od velike koristi programeru jer mu ukazuje na greške, od trivijalnih propusta u kucanju do velikih logičkih grešaka. Pomaže u pisanju robusnih programa kao i u izgradnji bržih implementacija programskih jezika. Ako zaključivač tipova obradi program, pri izvršavanju se neće javiti greške poput upotrebe promenljive tipa \verb|bool| kao da je tipa \verb|int|.
 
-Izrazi koji sadrže nekoliko pojavljivanja istog tipa, kao $\alpha \longrightarrow \alpha$, izražavaju kontekstnu zavisnost, u ovom slučaju to je zavisnost domena i kodomena tipa funkcije. Proces zaključivanja tipova sastoji se od uparivanja tipova operatora i instanciranja tipova promenljivih. Kad god se tip promenljive instancira, sve ostale pojave iste promenljive moraju biti instancirane sa istom vrednošću: ispravna instanciranja izraza $\alpha \longrightarrow \alpha$ su $int \longrightarrow int$,  $bool \longrightarrow bool$, itd. Proces kontekstnog instanciranja izvodi se pomoću \textit{unifikacije} i ona je osnova polimorfne provere tipova. Unifikacija ne uspeva kada pokušava da upari dva operatora različitih tipova (npr. int i bool) ili kada pokušava da instancira promenljivu izrazom koji sadrži tu promenljivu (npr. $a$ i $a\longrightarrow b$, gde će se napraviti rekurzija bez izlaza) \cite{basic-typechecking}. U opštem slučaju, tip izraza određuje se pomoću skupa pravila kombinovanja tipova za jezičke konstrukcije i tipova primitivnih operatora. 
+Izrazi koji sadrže nekoliko pojavljivanja istog tipa, kao $\alpha \longrightarrow \alpha$, izra\-ža\-vaju kontekstnu zavisnost; u ovom slučaju to je zavisnost domena i kodomena tipa funkcije. Proces zaključivanja tipova sastoji se od uparivanja tipova operatora i instanciranja tipova promenljivih. Kad god se tip promenljive instancira, sve ostale pojave iste promenljive moraju biti instancirane istom vrednošću: ispravna instanciranja izraza $\alpha \longrightarrow \alpha$ su \verb|int| $\longrightarrow$ \verb|int|,  \verb|bool| $\longrightarrow$ \verb|bool|, itd. Proces kontekstnog instanciranja izvodi se pomoću \textit{unifikacije} (engl. \textit{unification}) i ona je osnova polimorfne provere tipova. Unifikacija ne uspeva kada pokušava da upari dva operatora različitih tipova (na primer, \verb|int| i \verb|bool|) ili kada pokušava da instancira promenljivu izrazom koji sadrži tu promenljivu (na primer, \verb|a| i \verb|a| $\longrightarrow$ \verb|b|, gde će se napraviti rekurzija bez izlaza) \cite{basic-typechecking}. U opštem slučaju, tip izraza određuje se pomoću skupa pravila kombinovanja tipova za jezičke konstrukcije i tipova primitivnih operatora. 
 
 \subsection{Zaključivanje tipova}
 \label{subsec: zakljucivanje tipova}
@@ -11,14 +11,11 @@ Izrazi koji sadrže nekoliko pojavljivanja istog tipa, kao $\alpha \longrightarr
 Osnovni algoritam za zaključivanje tipova opisan je u nastavku \cite{basic-typechecking}.
 
 \begin{enumerate}
-	\item Kada se pojavi nova promenljiva $x$, njoj se dodeljuje novi tip promenljive što znači da joj tip mora biti određen u daljem kontekstu u kom se pojavljuje. Par $<x, a>$ se čuva u okruženju koje se pretražuje svaki put kad se pojavi $x$, u kom je $x$ tipa $a$.
+	\item Kada se pojavi nova promenljiva \verb|x|, njoj se dodeljuje novi tip promenljive što znači da joj tip mora biti određen u daljem kontekstu u kom se pojavljuje. Par \verb|<x, a>| se čuva u okruženju koje se pretražuje svaki put kad se pojavi \verb|x|, u kom je \verb|x| tipa \verb|a|.
 	
-	\item Kad imamo uslovno grananje, izraz u \textit{if} se uparuje sa bool, dok se \textit{then} i \textit{else} grane ostavljaju nedefinisane kako bi se odredio jedinstven tip za ceo izraz.
+	\item Kad imamo uslovno grananje, izraz u \verb|if| se uparuje sa \verb|bool|, dok se \verb|then| i \verb|else| grane ostavljaju nedefinisane kako bi se odredio jedinstven tip za ceo izraz.
 	
-	\item U apstrakciji $\lambda x.e$, tip za $e$ se zaključuje u kontekstu gde je $x$ povezan sa novim tipom promenljive.
+	\item U apstrakciji \verb|(|$\lambda$\verb|x.E)|, tip za \verb|E| se zaključuje u kontekstu gde je \verb|x| povezan sa novim tipom promenljive.
 	
-	\item U aplikaciji $f(a)$, tip od f se unifikuje sa tipom $A \longrightarrow b$, gde je $A$ tip parametra $a$, dok je $b$ nova tipska promenljiva. Ovo ukazuje na to da $f$ mora biti tipa funkcije čiji domen se unifikuje sa $A$, a $b$ je tip povratne vrednosti.
+	\item U aplikaciji \verb|(f a)|, tip od \verb|f| se unifikuje sa tipom \verb|A| $\longrightarrow$ \verb|b|, gde je \verb|A| tip parametra \verb|a|, dok je \verb|b| nova tipska promenljiva. Ovo ukazuje na to da \verb|f| mora biti tipa funkcije čiji domen se unifikuje sa \verb|A|, a \verb|b| je tip povratne vrednosti.
 \end{enumerate}
-
-
-

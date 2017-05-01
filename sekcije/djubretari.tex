@@ -8,12 +8,13 @@ Strukture podataka koje su alocirane na \textit{hipu} (engl. \textit{heap}), a n
 
 \subsection{Motivacija}
 
-Kod proceduralnih programskih jezika, kakav je na primer PASCAL, operacije stvaranja i uništavanja objekata koji se skladište na hipu izvršavaju se eksplicitnim navođenjem određenih naredbi (NEW i DISPOSE) u izvornom k\^odu. To znači da je odgovornost za recikliranje otpadaka na programeru, koji mora da uništi svaki nepotrebni objekat odgovarajućom naredbom i time oslobodi memorijske ćelije zauzete tim objektom. Ukoliko to ne uradi kapacitet memorije se prividno smanjuje. Ova pojava se naziva \textit{curenje memorije} (engl. \textit{memory leak}).
+Kod proceduralnih programskih jezika, kakav je na primer PASCAL, operacije stvaranja i uništavanja objekata koji se skladište na hipu izvršavaju se eksplicitnim navođenjem određenih naredbi (\verb|NEW| i \verb|DISPOSE|) u izvornom k\^odu. To znači da je odgovornost za recikliranje otpadaka na programeru, koji mora da uništi svaki nepotrebni objekat odgovarajućom naredbom i time oslobodi memorijske ćelije zauzete tim objektom. Ukoliko to ne uradi kapacitet memorije se prividno smanjuje. Ova pojava se naziva \textit{curenje memorije} (engl. \textit{memory leak}).
 
 Ovakav koncept je prihvatljiv kod proceduralnih jezika, kod kojih su pomenute operacije retke, ali je neefikasan kada su u pitanju funkcionalni jezici koji se odlikuju čestim izvršavanjem tih operacija \cite{appel}. Zato je kod funkcionalnih programskih jezika posao sakupljanja otpadaka poveren delu sistema za upravljanje memorijom koji se naziva \textit{sakupljač otpadaka} (engl. \textit{garbage collector}).
 
-Mnogi programski jezici zahtevaju sakupljanje otpadaka, bilo kao deo specifikacije jezika (Java, C\#) bilo za efikasnu praktičnu primenu (kod funkcionalnih). Različitih tipova sakupljača otpadaka ima mnogo. U daljem tekstu biće predstavljeni neki od njih, kao i njihove osnovne karakteristike.
+Mnogi programski jezici zahtevaju sakupljanje otpadaka, bilo kao deo specifikacije jezika (Java, C\#) bilo za efikasnu praktičnu primenu (kod funkcionalnih programskih jezika). Različitih tipova sakupljača otpadaka ima mnogo. U daljem tekstu biće predstavljeni neki od njih, kao i njihove osnovne karakteristike.
 
+\newpage
 \subsection{Markirajući sakupljač otpadaka}
 
 Markirajući sakupljač otpadaka je najstariji tip sakupljača otpadaka. Razvijen je početkom 1960-ih godina u okviru programskog jezika LISP \cite{mcca60}.
