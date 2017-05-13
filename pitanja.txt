@@ -1,0 +1,5 @@
+Na koji način zaključivač tipova pomaže programeru?
+
+Zaključivač tipova je od velike koristi programeru jer mu ukazuje na greške, od trivijalnih propusta u kucanju do velikih logičkih grešaka. 
+Pomaže u pisanju robusnih programa kao i u izgradnji bržih implementacija programskih jezika.  Ako zaključivač tipova obradi program, 
+pri izvršavanju se neće javiti greške poput upotrebe promenljive tipa bool kao da je tipa int.
