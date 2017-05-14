@@ -8,3 +8,7 @@ Grafom.
 
 3.Zbog čega su sakupljači otpadaka potrebniji u funkcionalnim programskim jezicima nego u imperativnim?
 Operacije kreiranja i uništavanja su češće kod FPJ nego kod imperativnih, stoga je veoma neefikasno da se stalno pišu.
+
+4. Definisati apstrakciju u lambda računu. Korišćenjem apstrakcije napisati funkciju koja za argument $n$ izračunava funkciju $f(n) = n^2 + 1$ (pretpostaviti da su na raspolaganju funkcija + (zbir) i * (množenje)).
+Apstrakcija ima oblik ($\lambda$x.E), gde je $\lambda$ oznaka za apstrakciju, x parametar funkcije, E izraz, odnosno, telo funkcije i . separator parametra i tela funkcije. 
+Traženi izraz glasi: ($\lambda$ n.+ (* n n) 1)
