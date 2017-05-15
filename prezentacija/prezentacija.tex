@@ -68,22 +68,68 @@
 
 \subsection{Efikasan kod}
 
-\begin{frame}{Naslov}
+\begin{frame}{Transformacije lambda računa}
+	\begin{itemize}
+		\item Ako imamo implementaciju lambda računa možemo da implementiramo funkcionalni jezik
+		\item Transformacije grupišemo u dva skupa
+		\begin{itemize}
+			\item jednostavnije, lokalnie transformacije implementirane u okviru \textit{pojednostavljivača}
+			\item složenije, globalne transformacija, od kojih se svaka
+			implementira odvojeno
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Umetanje}
+	\begin{itemize}
+		\item Dobar metod za unapređivanje performansi programa	
+		\item Tri transformacije
+		\begin{enumerate}
+			\item samo umetanje (engl. inlining itself)
+			\item eliminacija mrtvog koda (engl. dead code elimination)
+			\item $\beta$-odsecanje (engl. $\beta$-reduction)
+		\end{enumerate}
+		\item Primer
+			\begin{center}
+			\texttt{let \{f = $\lambda$ x.x*4\} in (f (a*b - c)) + a*d
+				$\stackrel{\text{inline f}}{\longrightarrow}$ \\ let \{f = $\lambda$ x.x*4\} in (($\lambda$ x.x*4) (a*b - c)) + a*d \\ $\stackrel{\text{dead f}}{\longrightarrow}$ (($\lambda$x.x*4) (a*b - c)) + a*d \\
+				$\stackrel{\beta}{\longrightarrow}$ (let {x = a*b - c} in x*4) + a*d}
+		\end{center}
+	\end{itemize}
+	
+
 	
 \end{frame}
 
-\begin{frame}{Naslov}
-	
+\begin{frame}{Uparivanje šablona}
+	\begin{itemize}
+		\item Funkcije nad običnim tipovima mogu se defnisati preko različitih slučajeva
+		\item Slučajevi su dati šablonima
+		\item Promenljive šablona vezuju se za odgovarajuće promenljive komponente vrednosti kojoj šablon odgovara
+		\item Primer:\\
+		\texttt{
+		fibonaci n
+		\\ |n==0 = 1
+		\\ |n==1 = 1
+		\\ |otherwise = (fibonaci (n-1))+(fibonaci (n-2))}
+	\end{itemize}
 \end{frame}
 
 
 \subsection{Provera tipova}
 
-\begin{frame}{Naslov}
+\begin{frame}{Zaključivač tipova}
 	
-\end{frame}
-
-\begin{frame}{Naslov}
+	\begin{itemize}
+		\item Moderni jezici imaju svojstvo koje omogućava programeru da ne navodi tipove objekata
+		\item Od velike koristi programeru jer mu ukazuje na greške
+		\item Pri izvršavanju se neće javiti greške poput upotrebe promenljive tipa \texttt{bool} kao da je tipa \texttt{int}
+		\item Proces zaključivanja tipova
+		\begin{itemize}
+			\item uparivanje tipova operatora
+			\item instanciranje tipova promenljivih
+		\end{itemize}
+	\end{itemize}
 	
 \end{frame}
 
@@ -151,10 +197,11 @@
 \end{frame}
 
 % TODO: Srediti da se ova slika lepo prikazuje
+% Sređeno :D
 \begin{frame}{Primer}
-	\begin{figure}[h!]
+	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.35]{primerGmasine.png}
+		\includegraphics[width=\linewidth]{primerGmasine.png}
 		\caption{Vizuelni prikaz izvršavanja k\^ oda.}
 		\label{fig:primerGmasine}
 	\end{figure}
@@ -173,7 +220,7 @@
 \end{frame}
 
 \begin{frame}
-	Hvala na pažnji!
+	\centering \Large Hvala na pažnji!
 \end{frame}
 	
 	
