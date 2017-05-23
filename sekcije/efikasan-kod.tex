@@ -52,21 +52,24 @@ Korisno je definisati tri različite transformacije koje zajedno implementiraju 
 
 Funkcije nad običnim tipovima, kao i nad strukturiranim algebarskim tipovima \cite{algebraic-types}, mogu se definisati preko različitih \textit{slučajeva} (engl. \textit{case}). Različiti slučajevi dati su \textit{šablonima} (engl. \textit{pattern}), koji se uparuju prema vrednostima tog tipa. Ako šablon odgovara vrednosti, promenljive koje se mogu pojaviti u šablonu su vezane za odgovarajuće promenljive komponente te vrednosti. Pogledajmo kako to radi na jednostavnom primeru. 
 
+
 \begin{primer}
-	Neka imamo šablone \verb|[1; x; y]| $\longrightarrow$ \verb|x*y| i \verb|[z]| $\longrightarrow$ \verb|z|, kao i izraz \verb|[1; x; y]|. Vidimo da se dati izraz poklapa sa prvim šablonom. Promenljive \verb|x| i \verb|y| vezuju se za komponente 2 i 3 i vraća se njihov proizvod.
+	Neka imamo šablone \verb|[1; x; y]| $\longrightarrow$ \verb|x*y| i \verb|[z]| $\longrightarrow$ \verb|z|, kao i izraz \verb|[1; 2; 3]|. Vidimo da se dati izraz poklapa sa prvim šablonom. Promenljive \verb|x| i \verb|y| vezuju se za komponente 2 i 3 i vraća se njihov proizvod.
 \end{primer}
 
-Ovakvo poređenje na osnovu šablona naziva se \textit{uparivanje šablona} (engl. \textit{pattern matching}) \cite{compiler-design}.
-
-Uparivanje šablona je zapravo skraćenica za ugnežđene \verb|if-then-else| i \verb|case| naredbe (engl. \textit{statements}): pokušaj da upariš ulaz sa prvim šablonom i ako se poklapa izvrši odgovarajuću akciju, u suprotnom se vrati korak nazad i pokušaj sa sledećim šablonom. Ova strategija proizvodi nepotreban rad. Kompilatori to mnogo bolje rade tako što šablone kompiliraju u \textit{diskriminišuće stablo} (engl. \textit{discrimination tree}) koje to radi u skoro optimalnom broju testova nad podacima kako bi odabralo odgovarajuću akciju \cite{compiling-fl}. Pogledajmo još jedan primer.
 
 \begin{primer}
 	Računanje $n$-tog fibonačijevog broja u programskom jeziku Haskell dato je k\^odom:
 	\begin{verbatim}
 	fibonaci n
-	    |n==0 = 1
-	    |n==1 = 1
-	    |otherwise = (fibonaci (n-1))+(fibonaci (n-2))
+	|n==0 = 1
+	|n==1 = 1
+	|otherwise = (fibonaci (n-1))+(fibonaci (n-2))
 	\end{verbatim}
 	Prilikom evaluacije \verb|(fibonaci x)|, imamo tri slučaja od kojih će jedan biti odgovarajući: prvi je kada je vrednost parametra \verb|x| jednaka \verb|0|, drugi je kada je vrednost parametra \verb|x| jednaka \verb|1|, a treći kada nisu ispunjena prva dva uslova. Uslovi se isprobavaju jedan po jedan, od vrha, dok se ne pronađe odgovarajući šablon \cite{the-implementation-of-functional-programming-languages}.
 \end{primer}
+
+Ovakvo poređenje na osnovu šablona naziva se \textit{uparivanje šablona} (engl. \textit{pattern matching}) \cite{compiler-design}.
+
+Uparivanje šablona je zapravo skraćenica za ugnežđene \verb|if-then-else| i \verb|case| naredbe (engl. \textit{statements}): pokušaj da upariš ulaz sa prvim šablonom i ako se poklapa izvrši odgovarajuću akciju, u suprotnom se vrati korak nazad i pokušaj sa sledećim šablonom. Ova strategija proizvodi nepotreban rad. Kompilatori to mnogo bolje rade tako što šablone kompiliraju u \textit{diskriminišuće stablo} (engl. \textit{discrimination tree}) koje to radi u skoro optimalnom broju testova nad podacima kako bi odabralo odgovarajuću akciju \cite{compiling-fl}.
+
