@@ -1,10 +1,10 @@
 \documentclass[xcolor={dvipsnames}, 11pt]{beamer}
 \usetheme{JuanLesPins}
+%\usepackage{beamerthemeAmsterdam}
 
-
-\setbeamercolor*{palette primary}{use=structure,fg=Blue,bg=CornflowerBlue!70!MidnightBlue}
-\setbeamercolor*{palette quaternary}{fg=CornflowerBlue,bg=MidnightBlue}
-\setbeamercolor*{item}{fg=MidnightBlue}
+\setbeamercolor*{palette primary}{use=structure,fg=White,bg=CadetBlue!70!RoyalBlue}
+\setbeamercolor*{palette quaternary}{fg=White,bg=Periwinkle}
+\setbeamercolor*{item}{fg=CadetBlue}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{caption}[numbered]
 
@@ -83,7 +83,7 @@
 \begin{frame}{Umetanje}
 	\begin{itemize}
 		\item Dobar metod za unapređivanje performansi programa	
-		\item Osnovni princpi: funkcijski poziv zameniti telom funkcije
+		\item Osnovni princip: funkcijski poziv zameniti telom funkcije
 		\item Tri transformacije
 		\begin{enumerate}
 			\item samo umetanje (engl. inlining itself)
@@ -158,19 +158,32 @@
 
 
 \section{Apstraktne mašine}
-
-\subsection{SECD mašina}
-\begin{frame}{Uvod}
-	\begin{itemize}
-	\item 1964. godine, Piter Landin, članak $"$Mehanička evaluacija izraza$"$
-	\item Jedna od prvih mašina za izvršavanje funkcionalnih programskih jezika
-	\item Osnovna uloga: izvršavanje kompiliranog koda
-	\item Kompilirani kod može da se izvršava više puta i moguće su optimizacije
-	\end{itemize}
+\subsection{Uvod}
+\begin{frame}{Motivacija}
+	\begin{figure}[H]
+ 		\centering
+ 		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{slika1.png}
+ 		\caption{Vizuelni prikaz prevođenja k\^ oda.}
+ 		\label{fig:primerGmasine}
+ 	\end{figure}
 \end{frame}
 
-\begin{frame}{Arhitektura SECD mašine}
+\begin{frame}{Vrste apstraktnih mašina}
+
 	\begin{itemize}
+	\item SECD mašina
+	\item STG mašina
+	\item G mašina
+	\end{itemize}
+
+\end{frame}
+
+\subsection{SECD mašina}
+
+\begin{frame}{SECD mašina}
+	\begin{itemize}
+	\item Jedna od prvih mašina za izvršavanje funkcionalnih programskih jezika
+	\item Osnovna uloga je izvršavanje kompiliranog koda
 	\item Formalno, SECD mašina je torka četiri liste sa precizno definisanim skupom operacija nad njima
 	\item Komponente torke su četiri steka: 
 		\begin{itemize}
@@ -179,36 +192,31 @@
 		\item C (engl. control)
 		\item D	(engl. dump)
 		\end{itemize}
-	\item Neke od operacija koje podržava SECD mašina su: NIL, LD, LDC, LDF, AP, RTN, SEL, JOIN, RAP, DUM,...
 	\end{itemize}
 	
 \end{frame}
 
 \subsection{G-mašina}
-\begin{frame}{Motivacija i osnovna ideja}
+\begin{frame}{G mašina}
 	\begin{itemize}
-		\item 1984. - 1987. godina, Avgustson i Džonson, Tehnološki institut Čalmers u Geteburgu
+		\item Osnovna uloga G mašine je redukovanje grafa izračunavanja
 		\item Osnovna ideja je da: 
 			\begin{itemize}
 			\item program predstavimo grafom
 			\item evaluacijom deljenog podgrafa automatski razrešimo sve izraze koji pokazuju na njega
 			\item graf $"$prepišemo$"$ evaluacijom
 			\end{itemize}
-		\item G-k\^od i superkombinatori	
+		\item Važni koncepti:
+			\begin{itemize}
+			\item ne postoje promenljive, već imenovani izrazi
+			\item vrednosti funkcije ne zavise ni od čega, osim od argumenata funkcije
+			\end{itemize}				
 	\end{itemize}
 \end{frame}
 
 % TODO: Srediti da se ova slika lepo prikazuje
 % Sređeno :D
-\begin{frame}{Primer}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=\linewidth]{primerGmasine.png}
-		\caption{Vizuelni prikaz izvršavanja k\^ oda.}
-		\label{fig:primerGmasine}
-	\end{figure}
-
-\end{frame}
+% <3!
 
 \section{Zaključak}
 \begin{frame}{Zaključak}
@@ -219,7 +227,7 @@
 		\item Efikasan izvršni k\^ od je veoma važan za sve programske jezike
 		\item Polimorfna provera tipova je korisno svojstvo programskih jezika koje veoma olakšava posao programerima
 		\item Programiranje u funkcionalnim programskim jezicima se ne može zamisliti bez podrške koju pružaju sakupljači otpadaka 
-		\item Apstraktnih mašina predstavljaju prelaz između jezika visokog nivoa i arhitekture niskog nivoa
+		\item Apstraktne mašine predstavljaju prelaz između jezika visokog nivoa i arhitekture niskog nivoa
 	\end{itemize}
 \end{frame}
 
