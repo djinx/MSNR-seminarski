@@ -23,30 +23,24 @@ Umetanje funkcijskih poziva je dobar metod za unapređivanje performansi program
 
 Korisno je definisati tri različite transformacije koje zajedno implementiraju ono što neformalno opisujemo kao ‚‚umetanje'' \cite{secrets-haskell-compiler-inliner, compilation-by-program-transformation}:
 \begin{itemize}
-	\item \textit{Samo umetanje} (engl. \textit{inlining itself}) zamenjuje sva pojavljivanja vezane promenljive kopijom desne strane njene definicije. Pogledajmo to na primeru.
-	\begin{primer} ~
-		\begin{center}
-			\verb|let {f = |$\lambda$\verb|x.x*4} in (f (a*b - c)) + a*d| \\
-			$\stackrel{\text{inline f}}{\longrightarrow}$ \verb|let {f = |$\lambda$\verb|x.x*4} in ((|$\lambda$\verb|x.x*4) (a*b - c)) + a*d|
-		\end{center}
-	\end{primer}
+	\item \textit{Samo umetanje} (engl. \textit{inlining itself}) zamenjuje sva pojavljivanja vezane promenljive kopijom desne strane njene definicije.
 	
-	\item \textit{Eliminacija mrtvog koda} (engl. \textit{dead code elimination}) odbacuje veze koje se više ne koriste. Ovo se najčešće dešava kada je svaka pojava promenljive umetnuta. Nadovežimo se na prethodni primer.
-	\begin{primer} ~
-		\begin{center}
-			\verb|let {f = |$\lambda$\verb|x.x*4} in ((|$\lambda$\verb|x.x*4) (a*b - c)) + a*d| \\
-			$\stackrel{\text{dead f}}{\longrightarrow}$ \verb|((|$\lambda$\verb|x.x*4) (a*b - c)) + a*d| 
-		\end{center}
-	\end{primer}
 	
-	\item \textit{$\beta$-odsecanje} (engl. \textit{$\beta$-reduction}) jednostavno prezapiše lambda izraz \verb|((|$\lambda$\verb|x.E) A)| u \verb|(let {x = A} in E)|. Nadovežimo se na prethodni primer.
-	\begin{primer} ~
-		\begin{center}
-			\verb|((|$\lambda$\verb|x.x*4) (a*b - c)) + a*d| \\
-			$\stackrel{\beta}{\longrightarrow}$ \verb|(let {x = a*b - c} in x*4) + a*d| 
-		\end{center}
-	\end{primer}
+	\item \textit{Eliminacija mrtvog koda} (engl. \textit{dead code elimination}) odbacuje veze koje se više ne koriste. Ovo se najčešće dešava kada je svaka pojava promenljive umetnuta.
+	
+	\item \textit{$\beta$-odsecanje} (engl. \textit{$\beta$-reduction}) jednostavno prezapiše lambda izraz \verb|((|$\lambda$\verb|x.E) A)| u \verb|(let {x = A} in E)|. 
 \end{itemize}
+
+\noindent Pogledajmo kako ove transformacije funkcionišu na primeru:
+
+\begin{primer} ~
+	\begin{center}
+		\verb|let {f = |$\lambda$\verb|x.x*4} in (f (a*b - c)) + a*d| 	$\stackrel{\text{inline f}}{\longrightarrow}$ \\
+	\verb|let {f = |$\lambda$\verb|x.x*4} in ((|$\lambda$\verb|x.x*4) (a*b - c)) + a*d| \\
+		$\stackrel{\text{dead f}}{\longrightarrow}$ \verb|((|$\lambda$\verb|x.x*4) (a*b - c)) + a*d|  \\
+		$\stackrel{\beta}{\longrightarrow}$ \verb|(let {x = a*b - c} in x*4) + a*d|
+	\end{center}
+\end{primer}
 
 \subsection{Uparivanje šablona}
 
