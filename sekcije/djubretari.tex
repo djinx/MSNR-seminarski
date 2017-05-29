@@ -1,8 +1,6 @@
 \section{Sakupljač otpadaka}
 \label{sec:djubretar}
 
-%Izvršavanje programa na računaru praćeno je stvaranjem brojnih struktura podataka (objekata).
-%Neke od njih generiše sam program, dok su druge vezane za njegovu implementaciju. Sve te strukture podataka se skladište u deo memorije koji se naziva heap.
 
 Strukture podataka koje su alocirane na \textit{hipu} (engl. \textit{heap}), a nisu dostižne preko nekog niza pokazivača programskih promenljivih, nazivaju se \textit{otpaci} (engl. \textit{garbage}). Memorija koju zauzimaju otpaci treba da bude dostupna za alociranje novih struktura podataka. Proces eliminisanja otpadaka, odnosno, njihovog uklanjanja iz memorije naziva se \textbf{sakupljanje otpadaka} (engl. \textit{garbage collection}) i događa se u fazi izvršavanja programa.
 
@@ -14,7 +12,7 @@ Ovakav koncept je prihvatljiv kod proceduralnih jezika, kod kojih su pomenute op
 
 Mnogi programski jezici zahtevaju sakupljanje otpadaka, bilo kao deo specifikacije jezika (Java, C\#) bilo za efikasnu praktičnu primenu (kod funkcionalnih programskih jezika). Različitih tipova sakupljača otpadaka ima mnogo. U daljem tekstu biće predstavljeni neki od njih, kao i njihove osnovne karakteristike.
 
-%\newpage
+
 \subsection{Markirajući sakupljač otpadaka}
 
 Markirajući sakupljač otpadaka je najstariji tip sakupljača otpadaka. Razvijen je početkom 1960-ih godina u okviru programskog jezika LISP \cite{mcca60}.
@@ -62,8 +60,3 @@ Postavlja se pitanje kako odrediti koji objekti imaju duži životni vek, tj. ka
 
 U mnogim stilovima programiranja, kada se kreira objekat A, njegova polja se odmah inicijalizuju i recimo da A pokazuje na objekte B i C. Da bi to bilo moguće objekti B i C moraju već postojati, tako da imamo noviji objekat koji pokazuje na starije objekte. Jedini način da stariji objekat B pokazuje na noviji objekat A je ukoliko je neko polje objekta B izmenjeno dugo nakon kreiranja samog objekta, što je empirijski veoma retko.
 
-\iffalse
-\subsection{Odnos prema kompilatoru}
-
-Kompilator za jezik sa sakupljanjem otpadaka uzajamno dejstvuje sa sakupljačem otpadaka generišući k\^od za alociranje podataka, opisujući lokacije za koren svakog ciklusa sakupljanja otpadaka i opisujući izgled podataka na hipu (da li je lista, stek ili stablo). Neki programski jezici i programi, veoma brzo alociraju memoriju na hipu (i generišu otpatke). Ovo je posebno istaknuto kod funkcionalnih programskih jezika, gde je obeshrabreno menjanje starijih podataka.
-\fi

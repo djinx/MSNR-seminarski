@@ -1,7 +1,7 @@
 \section{G-mašina}
 \label{sec:Gmasine}
 
-U ovom delu predstavićemo {\em G mašinu} (engl. \textit{G-machine}), koju su Avgustson\footnote{Lennart Augustsson} i Džonson\footnote{Thomas Johnsson} predstavili u svojim naučnim radovima, na Tehnološkom institutu Čalmers\footnote{Chalmers Institute of Technology (\url{http://www.chalmers.se/en})} u Geteburgu, između 1984. i 1987. godine. 
+U ovom delu predstavićemo {\em G mašinu} (engl. \textit{G-machine}), koju su Avgustson (engl. Lennart Augustsson) i Džonson (engl.Thomas Johnsson) predstavili u svojim naučnim radovima, na Tehnološkom institutu Čalmers (engl. Chalmers Institute of Technology (\url{http://www.chalmers.se/en})) u Geteburgu, između 1984. i 1987. godine. 
 
 \subsection{Motivacija}
 
@@ -11,14 +11,13 @@ Kod lenjih funkcionalnih jezika, funkcije i argumenti konstruktora se evaluiraju
 
 Osnovna ideja je da predstavimo program grafom koji bismo kasnije ‚‚prepisali''  evaluacijom. Evaluaciju vršimo za neki podizraz, a potom u grafu zamenimo sva pojavljivanja tog podizraza odgovarajućom evaluacijom i nastavljamo dalje evaluiranje. Velika prednost je u tome što evaluacija deljenog podgrafa automatski razrešava sve izraze koji pokazuju na njega. Međutim, treba biti pažljiv jer je kontinuirana pretraga grafa za podizrazima spora.
 
-Rane implementacije su prevodile program u fiksirani skup \textit{kombinatora} (engl. \textit{combinator}), odnosno, zatvorene lambda izraze koje možemo posmatrati kao pravila za ‚‚prepisivanje grafa''. Kasnije se pokazalo da je korisno prepustiti programu da razmatra izbor kombinatora, tzv. {\em superkombinatore} (engl. \textit{supercombinators}) \cite{super-combinators}. To znači da su superkombinatori "pametniji" izbor kombinatora koje ćemo vršiti prepisivanje grafa. %ovde ide ova ref ] R.J.M. Hughes, Super-combinators: A new implementation method for applicative languages, ACM Symposium on Lisp and Functional Programming, Pittsburgh, Pennsylvania,ACM, August 1982, pp. 1–10.1
+Rane implementacije su prevodile program u fiksirani skup \textit{kombinatora} (engl. \textit{combinator}), odnosno, zatvorene lambda izraze koje možemo posmatrati kao pravila za ‚‚prepisivanje grafa''. Kasnije se pokazalo da je korisno prepustiti programu da razmatra izbor kombinatora, tzv. {\em superkombinatore} (engl. \textit{supercombinators}) \cite{super-combinators}. To znači da su superkombinatori ‚‚pametniji'' izbor kombinatora koje ćemo vršiti prepisivanje grafa. 
 
 \subsection{Osnovna ideja} 
 
-Umesto da interpretiraju superkombinatore kao pravila za prepisivanje grafa, oni se kompajliraju u k\^ od sa specijalnim instrukcijama za manipulaciju grafom. G-mašine su osnova implementacije lenjog ML (engl. \textit{Lazy ML}) \cite{lazy-ML} i Haskela \cite{hbc}. 
-%uz Lazy ML ide L. Augustsson, The interactive lazy ML system, J. Funct.Programming 3 (1) (1993) 77–92, A UZ HASKEL ] L. Augustsson, HBC – The Chalmers Haskell compiler,Web Page, 1999, URL: http://www.cs.chalmers.se/augustss/hbc.html.
+Umesto da interpretiraju superkombinatore kao pravila za prepisivanje grafa, oni se kompiliraju u k\^ od sa specijalnim instrukcijama za manipulaciju grafom. G-mašine su osnova implementacije lenjog ML (engl. \textit{Lazy ML}) \cite{lazy-ML} i Haskela \cite{hbc}. 
 
-Osnovna ideja koja stoji iza G-mašina je da se funkcionalni kod prevodi u superkombinatore, pa se oni prevode preko međukoda u mašinski k\^ od. Pre pokretanja programa svako telo superkombinatora prevede u niz instrukcija koje, nakon što se izvrše, kreiraju instancu tela superkombinatora. Svaki put samo instanciramo superkombinator, da bismo mogli da odbacimo originalne superkombinatore nakon što je prevođenje završeno, i sačuvamo samo preveden k\^ od. Dakle, koristimo kompajler G-mašine da izvorni k\^ od prevedemo u niz instrukcija na mašinskom jeziku.
+Osnovna ideja koja stoji iza G-mašina je da se funkcionalni kod prevodi u superkombinatore, pa se oni prevode preko međukoda u mašinski k\^ od. Pre pokretanja programa svako telo superkombinatora prevede u niz instrukcija koje, nakon što se izvrše, kreiraju instancu tela superkombinatora. Svaki put samo instanciramo superkombinator, da bismo mogli da odbacimo originalne superkombinatore nakon što je prevođenje završeno, i sačuvamo samo preveden k\^ od. Dakle, koristimo kompilator G-mašine da izvorni k\^ od prevedemo u niz instrukcija na mašinskom jeziku.
 
 Nakon što smo preveli telo superkombinatora u niz instrukcija, moramo da odlučimo u koji jezik ćemo ga prevesti. Najbolje rešenje, ujedno i ono koje se najčešće koristi, jeste da prevođenje izvršimo u \textit{međuk\^ od} (engl. \textit{intermediate code}) za G-mašinu, takozvani {\em G-k\^ od} (engl. \textit{G-code}).
 
@@ -33,20 +32,10 @@ G-k\^ od je k\^ od u koji kompiliramo tela superkombinatora. Kompilator za G-ma�
 	\item Superkombinatori se prevode u G-k\^ od.
 	\item Konačno, generiše se mašinski k\^ od iz G-k\^ oda za ciljnu mašinu.
 \end{enumerate}
-%referenca za G kompajler Peyton Jones, Simon L., 1958-The implementation of functional programming languages.'7th May 1986.'Bibliography: p.Includes index.I. Functional programming languages. I. Title.QA76.7.P495 1987 005.13'3 86-20535 ISBN 0-13-453333-X
 
-\iffalse
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[scale=0.3]{gkomp.png}
-\end{center}
-\caption{Struktura G-kompajlera}
-\label{fig:gcompiler}
-\end{figure}
-\fi 
 
 \begin{primer}
-	Predstavimo sad način na koji funkcioniše kompajler za G mašinu razmatrajući sledeću funkciju:
+	Predstavimo sad način na koji funkcioniše kompilator za G mašinu razmatrajući sledeću funkciju:
 	\begin{center}
 		\verb|f g x = K (g x)|.
 	\end{center}
@@ -55,7 +44,7 @@ G-k\^ od je k\^ od u koji kompiliramo tela superkombinatora. Kompilator za G-ma�
 		\verb|Push 1|; \verb|Push 1|; \verb|Mkap|; \verb|Pushglobal K|; \verb|Mkap|; \verb|Slide 3|; \verb|Unwind|.
 	\end{center}
 \end{primer}
-%referenca za primer i vise info o G masinama Implementing Functional Languages:a tutorial Simon L Peyton Jones Department of Computing Science, University of Glasgow and David R LesterDepartment of Computer Science, University of Manchesterc 1991
+
 
 \begin{figure}[h!]
 	\centering
@@ -71,5 +60,4 @@ Naredni dijagram (b) pokazuje kako se stek izmenio nakon primene \verb|Push 1| i
 
 Sada možemo zameniti originalni izraz \verb|f g x| novoinstanciranim telom \verb|K(g x)|. U prvoj (ne lenjoj) verziji G-mašine, jednostavno pomerimo telo nadole za 3 mesta na steku pomoću instrukcije \verb|Slide 3| (dijagram (g)). Konačno, \verb|Unwind| instrukcija uzrokuje dalju evaluaciju.
 
-%za sve ref dodati Abstract machines for programming language implementation Stephan Diehl a,∗, Pieter Hartel b, Peter Sestoft c a FB-14 Informatik, Universität des Saarlandes, Postfach 15 11 50, 66041 Saarbrücken, Germany b Department of Electronics and Computer Science, University of Southampton, Highfield, Southampton SO17 1BJ, UK c Department of Mathematics and Physics, Royal Veterinary and Agricultural University, Thorvaldsensvej 40,DK-1871 Frederiksberg C, Denmark Accepted 24 June 1999
 

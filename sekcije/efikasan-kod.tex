@@ -1,10 +1,7 @@
 \section{Efikasan k\^od}
 \label{sec:efikasan kod}
 
-% Compilation_of_Functional_Languages_by_Program_Tra.pdf
-
-Jedan od najvažnijih problema vezanih za funkcionalne jezike jeste efikasnost izvršavanja. 
-U nastavku opisujemo tehnike koje se koriste za generisanje efikasnog k\^oda.	
+Jedan od najvažnijih problema vezanih za funkcionalne jezike jeste efikasnost izvršavanja. U nastavku opisujemo tehnike koje se koriste za generisanje efikasnog k\^oda.	
 
 
 \subsection{Transformacije lambda računa}
@@ -18,7 +15,7 @@ Već smo napomenuli da se lambda račun koristi zbog svoje jednostavnosti, kao i
 \end{itemize}
 
 \subsection{Umetanje}
-% inline.pdf str. 2
+
 Umetanje funkcijskih poziva je dobar metod za unapređivanje performansi programa koji se sastoji iz malih funkcija, kao što je čest slučaj sa funkcionalnim jezicima. Osnovni princip umetanja je sledeći: poziv funkcije zamenjuje se njenim telom. Umetanje uklanja neke pozive funkcija, ali jednako je važno da spaja k\^ od koji je prethodno razdvojen i zbog toga se implementira u okviru pojednostavljivača \cite{compilation-by-program-transformation}.
 
 Korisno je definisati tri različite transformacije koje zajedno implementiraju ono što neformalno opisujemo kao ‚‚umetanje'' \cite{secrets-haskell-compiler-inliner, compilation-by-program-transformation}:
@@ -63,7 +60,5 @@ Funkcije nad običnim tipovima, kao i nad strukturiranim algebarskim tipovima \c
 	Prilikom evaluacije \verb|(fibonaci x)|, imamo tri slučaja od kojih će jedan biti odgovarajući: prvi je kada je vrednost parametra \verb|x| jednaka \verb|0|, drugi je kada je vrednost parametra \verb|x| jednaka \verb|1|, a treći kada nisu ispunjena prva dva uslova. Uslovi se isprobavaju jedan po jedan, od vrha, dok se ne pronađe odgovarajući šablon \cite{the-implementation-of-functional-programming-languages}.
 \end{primer}
 
-Ovakvo poređenje na osnovu šablona naziva se \textit{uparivanje šablona} (engl. \textit{pattern matching}) \cite{compiler-design}.
-
-Uparivanje šablona je zapravo skraćenica za ugnežđene \verb|if-then-else| i \verb|case| naredbe (engl. \textit{statements}): pokušaj da upariš ulaz sa prvim šablonom i ako se poklapa izvrši odgovarajuću akciju, u suprotnom se vrati korak nazad i pokušaj sa sledećim šablonom. Ova strategija proizvodi nepotreban rad. Kompilatori to mnogo bolje rade tako što šablone kompiliraju u \textit{diskriminišuće stablo} (engl. \textit{discrimination tree}) koje to radi u skoro optimalnom broju testova nad podacima kako bi odabralo odgovarajuću akciju \cite{compiling-fl}.
+Ovakvo poređenje na osnovu šablona naziva se \textit{uparivanje šablona} (engl. \textit{pattern matching}) \cite{compiler-design}. Uparivanje šablona je zapravo skraćenica za ugnežđene \verb|if-then-else| i \verb|case| naredbe (engl. \textit{statements}): pokušaj da upariš ulaz sa prvim šablonom i ako se poklapa izvrši odgovarajuću akciju, u suprotnom se vrati korak nazad i pokušaj sa sledećim šablonom. Ova strategija proizvodi nepotreban rad. Kompilatori to mnogo bolje rade tako što šablone kompiliraju u \textit{diskriminišuće stablo} (engl. \textit{discrimination tree}) koje to radi u skoro optimalnom broju testova nad podacima kako bi odabralo odgovarajuću akciju \cite{compiling-fl}.
 

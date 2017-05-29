@@ -1,24 +1,6 @@
 \section{SECD mašina}
 \label{sec:secd-masina}
-%4april
-%OVE REFERENCE VEC POSTOJE U TEXTU ALI NE RADE
-%@book{landinsecd,
-%  title={{The mechanical evaluation of expressions}},
-%  author={Peter J. Landin},
-%  isbn={9781848822405},
-%  url={https://www.cs.cmu.edu/~crary/819-f09/Landin64.pdf},
-%  year={1964},
-%  publisher={The Computer
-%Journal}  
-%}
 
-%@misc{ISWIM,
-%title = {{The Next 700 Programming Languages}},
-%note = {on-line at: \url{http://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf}},
-%    author = {Peter J. Landin},
-%    year = {1965}
-%}
-%
 
 Piter Landin napisao je, 1964. godine, članak {\em Mehanička evaluacija} izraza (engl. “The Mechanical Evaluation of Expressions”) \cite{landinsecd}, koji je u decenijama koje predstoje izvršio veliki uticaj na istraživanja i razvoj funkcionalnih programskih jezika. Članak se istakao po tome što je zagovarao upotrebu lambda računa kao meta-jezika. Osim toga, Landin uvodi pojmove ‚‚zatvorenja'' -- da predstavi funkcionalne vrednosti, ‚‚cirkularnost'' -- da implementira rekurziju, ‚‚parcijalnu evaluaciju'', ‚‚redukciju grafa'' i mnoge druge koncepte i pojmove koji su danas sastavni deo programskih jezika \cite{calls-lambda, compiler-design}.
 
@@ -26,7 +8,6 @@ Jedna od prvih virtuelnih mašina za izvršavanje funkcionalnih programskih jezi
 
 Od objavljivanja Landinovog članka, izmišljene i menjane su mnoge druge apstraktne mašine za lambda račun. Međutim, iako se u literaturi može naći veliki broj mašina, nijedna nije derivat originalne Landinove SECD mašine, čak i pored toga što je ona bila prva.
 
-% O specifičnostima i više informacija može se naći u A Rational Deconstruction of Landin’s SECD Machine Olivier Danvy BRICS ∗ Department of Computer Science University of Aarhus † October 2003
 
 \subsection{Arhitektura SECD mašine}
 
@@ -43,7 +24,6 @@ Formalno, SECD mašina je torka četiri liste koje imaju skup precizno definisan
 	\item \verb|D| (engl. \textit{dump}) -- za čuvanje kontrolnih putanja, promenljivih i stekova, da bi se kasnije mogli ponovo učitati; ova komponenta ima tip \verb|(value list * value Env.env * directive list) list|.
 \end{enumerate}
 
-%Dump used to store suspended invocation context.
 U tabeli \ref{tab:tabelaInstr} prikazujemo glavne operacije koje podržava SECD mašina \cite{introduction-fp-systems}.
 
 \begin{table}[h!]
@@ -64,8 +44,8 @@ U tabeli \ref{tab:tabelaInstr} prikazujemo glavne operacije koje podržava SECD 
 		\verb|DUM| & \verb|DUMMY| & Kreira \verb|'dummy' env| \\ \hline
 	\end{tabular}
 \end{table}
-%izvor za tabelu je Malkov http://poincare.matf.bg.ac.rs/~smalkov/files/fp.r344.2016/public/predavanja/FP.cas.2016.08.SECD.pdf
-%Introduction to Functional Programming Systems Using HaskellАутор: Antony J. T. Davie
+
+
 Osim operacija navedenih u tabeli imamo ugrađene funkcije, među kojima su \verb|+|, \verb|*|, \verb|ATOM|, \verb|CAR|, \verb|CONS|, \verb|EQ|, itd. Svaka operacija je definisana efektom koji ima na četiri steka \verb|S|, \verb|E|, \verb|C| i \verb|D|. Svaki stek je predstavljen s-izrazom sa tačka notacijom, gde krajnje leva pozicija označava vrh steka. \textit{S-izraz}, skraćeno od \textit{simbolički izraz} (engl. \textit{symbolic expression}), predstavlja način za predstavljanje ugnežđene liste podataka, najčešće u funkcionalnim programskim jezicima.
 
 \subsubsection{Ubacivanje objekata na stek}
@@ -92,23 +72,23 @@ Funkcija \verb|locate| je pomoćna funkcija koja vraća $j$-ti element $i$-te po
 
 Pravilo kompilacije glasi: ugrađena funkcija oblika \verb|(OP e1 ... ek)| prevodi se u \verb@ek' || ... || e1' || (OP)@, gde \verb@A||B@ označava \verb@append(A,B)@, a \verb@ei'@ je preveden k\^od za \verb@ei@. Notacija zamene argumenata i operatora je standardno obrnuta Poljska notacija (postfiksna notacija).
 
-Za unarni operator \verb|OP|:
+\noindent Za unarni operator \verb|OP|:
 \begin{center}
 	\verb|(a.s) e (OP.c) d| $\rightarrow$ \verb|((OP a).s) e c d|.
 \end{center}
 
-Za binarni operator \verb|OP|:
+\noindent Za binarni operator \verb|OP|:
 \begin{center}
 	\verb|(a b.s) e (OP.c) d| $\rightarrow$ \verb|((a OP b).s) e c d|.
 \end{center}
 
 \begin{primer} Pogledajmo pravilo kompilacije za naredni izraz:
 	\begin{center}
-		\verb|s e (LDC 3 LDC 2 LDC 6 + *.c) d|\\
-		$\rightarrow$ \verb|(3.s) e (LDC 2 LDC 6 + *.c) d|\\
-		$\rightarrow$ \verb|(2 3.s) e (LDC 6 + *.c) d|\\
-		$\rightarrow$ \verb|(6 2 3.s) e (+ *.c) d|\\
-		$\rightarrow$ \verb|(8 3.s) e (*.c) d|\\
+		\verb|s e (LDC 3 LDC 2 LDC 6 + *.c) d|
+		$\rightarrow$ \verb|(3.s) e (LDC 2 LDC 6 + *.c) d|
+		$\rightarrow$ \verb|(2 3.s) e (LDC 6 + *.c) d|
+		$\rightarrow$ \verb|(6 2 3.s) e (+ *.c) d|
+		$\rightarrow$ \verb|(8 3.s) e (*.c) d|
 		$\rightarrow$ \verb|(24.s) e c d|
 	\end{center}
 \end{primer}
@@ -123,7 +103,6 @@ Pravilo kompilacije glasi: \verb|(if e1 e2 e3)| se prevodi u
 	\verb|(LDC 9 JOIN) (LDC 7 JOIN))|.
 \end{primer}
 
-%\newpage
 Operacije na steku:
 \begin{itemize}
 	\item \verb|SEL| -- \verb|(x.s) e (SEL ct cf.c) d| $\rightarrow$ \verb|s e c' (c.d)|, gde je \verb|c' = ct| ako je \verb|x| tačno, a \verb|c' = cf| ako je \verb|x| netačno.
@@ -131,7 +110,3 @@ Operacije na steku:
 	\item \verb|JOIN| -- \verb|s e (JOIN.c) (cr.d)| $\rightarrow$ \verb|s e cr d|.\\
 \end{itemize}
 
-
-%Reinhard Wilhelm · Helmut Seidl Compiler Design Virtual Machines ISBN 978-3-642-14908-5 Springer Heidelberg Dordrecht London New York Springer-Verlag Berlin Heidelberg 2010
-
-%G.D. Plotkin, Call-by-name, Call-by-value and the Lambda calculus, 1 August 1974., Department of Machine Imlligence,School of Artificial Intelligence,Edinburgh, United Kingdom

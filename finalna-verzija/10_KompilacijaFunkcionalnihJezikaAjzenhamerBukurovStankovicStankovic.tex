@@ -1,0 +1,499 @@
+% !TEX encoding = UTF-8 Unicode
+
+\documentclass[a4paper]{article}
+
+\usepackage{color}
+\usepackage{url}
+\usepackage[T2A]{fontenc} % enable Cyrillic fonts
+\usepackage[utf8]{inputenc} % make weird characters work
+\usepackage{graphicx}
+
+\usepackage[english,serbian]{babel}
+%\usepackage[english,serbianc]{babel} %ukljuciti babel sa ovim opcijama, umesto gornjim, ukoliko se koristi cirilica
+\setcounter{tocdepth}{1}
+\usepackage[unicode]{hyperref}
+\hypersetup{colorlinks,citecolor=green,filecolor=green,linkcolor=blue,urlcolor=blue}
+\usepackage{amsmath}
+%\newtheorem{primer}{Пример}[section] %ćirilični primer
+\newtheorem{primer}{Primer}[section]
+\newtheorem{definicija}[primer]{Definicija}
+
+\graphicspath{{./slike/}}
+
+\begin{document}
+
+\title{Neki elementi kompiliranja funkcionalnih programskih jezika\\ \small{~\\Seminarski rad u okviru kursa\\Metodologija stručnog i naučnog rada\\ Matematički fakultet}}
+
+\author{
+	Ajzenhamer Nikola, Bukurov Anja, Stanković Una, Stanković Vojislav\\
+	ajzenhamernikola@gmail.com, anja.bukurov@gmail.com,\\
+	una\_stankovic@yahoo.com, vojislavstankovic@outlook.com
+	}
+\date{15.~april 2017.}
+\maketitle
+
+\abstract{
+	Popularnost funkcionalnih programskih jezika je u neprekidnom usponu. Sve više čujemo o njihovoj upotrebi u važnim, čak kritičnim delovima softvera za koje moramo da umemo da garantujemo sigurnost i korektnost izvršavanja. Osim pitanja korektnosti, danas, kada brzina računarskih mašina raste iz dana u dan, postavlja se pitanje efikasnosti implementacije programa napisanih u nekom funkcionalnom programskom jeziku. U ovom radu predstavićemo teorijske koncepte na kojima leže osnovne tehnike implementacije, ali i sažeti neke koje se koriste u efikasnim kompilatorima za jezike kao što je Haskell. Takođe, prikazaćemo načine dinamičkog upravljanja memorijom kroz koncept sakupljača otpadaka i opisati značajne virtualne mašine za kompiliranje funkcionalnih programskih jezika.
+}
+
+\tableofcontents
+
+\newpage
+
+%UVOD
+\section{Uvod}
+\label{sec:uvod}
+
+
+Funkcionalna paradigma, koja se zasniva na matematičkim funkcijama, predstavlja osnovu dizajna najznačajnijih stilova jezika koji nisu imperativni. Džon Bakus\footnote{John Backus (1924 -- 2007)} je 1977. godine dobio Tjuringovu nagradu\footnote{ACM Turing Award (\url{http://amturing.acm.org/})} za njegov doprinos u razvoju imperativnog jezika FORTRAN. Prilikom zvaničnog uručenja nagrade 1978. godine, Bakus je održao govor u kojem je izneo argumente zašto su čisti funkcionalni programski jezici bolji od imperativnih programskih jezika. Srž njegovih argumenata je bila da se programi napisani na čisto funkcionalnim programskim jezicima jednostavnije razumeju, što pre razvoja, to i nakon razvoja programa \cite{Can-Programming-Be-Liberated-from-the-von-Neumann-Style?, Concepts-of-Programming-Languages}.
+
+
+U svom izlaganju, Bakus je predstavio funkcionalni jezik FP da bi potvrdio svoje tvrdnje. Iako sam jezik nije zaživeo, njegova ideja je doprinela raznim debatama na istu temu. Poslednjih decenija, sa pojavom i razvitkom funkcionalnih jezika poput ML, Haskell, OCaml i F\#, poraslo je interesovanje za funkcionalne programske jezike \cite{Concepts-of-Programming-Languages}.
+
+Prilikom izučavanja nekog programskog jezika, ili bolje rečeno, prilikom izučavanja neke paradigme, postavlja se prirodno pitanje načina prevođenja od izvornog do izvršnog k\^oda. Ovaj proces je poznat kao \textit{kompiliranje} (engl. \textit{compilation}). Kompiliranje funkcionalnih programskih jezika ima posebna svojstva u odnosu na opšti proces kompiliranja zbog specijalnih odluka u dizajnu funkcionalnih programskih jezika. Ideja iza ovog rada jeste upoznavanje čitaoca sa nekim osnovnim tehnikama koje se koriste u procesu kompiliranja funkcionalnih programskih jezika.
+
+Nakon uvoda u rad, u delu \ref{sec:osnovni pojmovi} upoznaćemo čitaoca sa osnovnim pojmovima na koje ćemo se pozivati u daljem tekstu. Prvo, govorićemo o \textit{lambda računu}, formalizmu koji predstavlja osnovu za kompiliranje funkcionalnih programskih jezika. Naravno, odabrani su samo oni pojmovi koji su bitni za izlaganje u radu, a za detaljnije upoznavanje sa lambda računom čitalac može konsultovati \cite{Introduction-to-Combinators-and-Lambda-Calculus}. Nakon toga, čitalac se kratko uvodi u pojam \textit{polimorfizma} i, posebno, \textit{parametarski polimorfizam}.
+
+Deo \ref{sec:efikasan kod} je posvećen tehnikama kojima se dobija efikasan k\^od. U tom delu upoznajemo čitaoca sa \textit{transformacijama lambda računa}. Od svih transformacija, akcenat stavljamo na \textit{umetanje}, a zatim prelazimo na \textit{uparivanje šablona}. Literaturu za ovu oblast predstavlja pre svega \cite{the-implementation-of-functional-programming-languages}, a zatim i \cite{compilation-by-program-transformation, haskell-by-program-transformation, secrets-haskell-compiler-inliner, compiler-design, compiling-fl}.
+
+Deo \ref{sec:provera tipova} uvodi pojam polimorfizma u funkcionalnim programskih jezicima i obrađuje se značaj parametarskog polimorfizma. Na kraju je prikazan osnovni algoritam za \textit{zaključivanje tipova}. Više o ovoj temi se može pronaći u \cite{the-implementation-of-functional-programming-languages, basic-typechecking}.
+
+Zbog svih zahteva koji su postavljeni pred funkcionalnim programskim jezicima dinamičko upravljanje memorijom mora biti obezbeđeno. Zato, u delu \ref{sec:djubretar}, obrađeni su \textit{sakupljači otpadaka}. Dajemo motivaciju za njihovo korišćenje, a zatim i opise mnogobrojnih tipova sakupljača otpadaka koji su se koristili kroz istoriju \cite{appel, mcca60, col60, feni69, app87}. Literaturu za ovu oblast predstavlja pre svega \cite{the-implementation-of-functional-programming-languages}.
+
+U finalnim delovima \ref{sec:secd-masina} i \ref{sec:Gmasine} opisujemo \textit{virtualne mašine za kompiliranje} funkcionalnih programskih jezika. U tekstu ćemo govoriti o \textit{SECD mašini} i \textit{G mašini}. Predstavićemo njihove arhitekture i prikazati nekoliko primera prevođenja.
+
+
+
+%OSNOVNI POJMOVI
+\section{Osnovni pojmovi}
+\label{sec:osnovni pojmovi}
+
+Kao što je u uvodu već napomenuto, prvo ćemo se pozabaviti uvođenjem pojmova koji predstavljaju osnovu za dalji rad. Govorićemo o lambda računu i polimorfizmu.
+
+\subsection{Lambda račun}
+\label{subsec:lambda racun}
+
+
+U ovom delu ćemo se upoznati sa osnovama lambda računa\footnote{Zapravo, govorićemo o \textit{primenjenom lambda računu} (engl. \textit{applied lambda calculus}) koji obuhvata \textit{čist lambda račun} (engl. \textit{pure lambda calculus}) uz predefinisane konstante, odnosno, vrednosti i operacije na koje smo navikli, poput sabiranja dva prirodna broja. Ipak, u tekstu ćemo pisati ‚‚lambda račun'' misleći na ‚‚primenjeni lambda račun''.}, na koji ćemo se oslanjati u daljem tekstu. Lambda račun ima dva važna svojstva zbog kojeg predstavlja spojnicu između funkcionalnih jezika i njihove implementacije, i to su \cite{the-implementation-of-functional-programming-languages}:
+\begin{enumerate}
+	\item jednostavnost -- lambda račun ima tek nekoliko sintaksičnih konstrukcija i jednostavnu semantiku.
+	\item izražajnost -- lambda račun je dovoljno moćan da se pomoću njega mogu izraziti svi funkcionalni programi (važi i više: sve izračunljive funkcije).
+\end{enumerate}
+
+Pređimo na sintaksu lambda računa. Ako imamo funkciju \verb|f| i njene parametre \verb|x1, x2, ..., xn|, onda se \textit{primena} (engl. \textit{application}) funkcije \verb|f| na argumente \verb|a1, a2, ..., an| zapisuje u infiksnom formatu
+\begin{center}
+	\verb|(f a1 a2 ... an)|
+\end{center}
+
+\begin{primer}
+	Sabiranje brojeva $2+3$ se zapisuje \verb|(+ 2 3)|.
+\end{primer}
+
+Da bismo razumeli kako se funkcionalni program izvršava, prvo ćemo uvesti pojam redukcije. Neformalno, kažemo da se izraz \verb|A| \textit{redukuje} (engl. \textit{reduce}) na izraz \verb|B| ako su izrazi \verb|A| i \verb|B| ekvivalentni i tada se izraz \verb|A| zamenjuje izrazom \verb|B| (pri čemu je izraz \verb|B| ‚‚jednostavniji''). Na primer, izraz \verb|(+ 2 3)| možemo zameniti izrazom \verb|5| (jer je $2+3=5$). Iz samog konteksta čitaocu bi trebalo ovo da bude jasno, te nećemo uvesti formalno pojam redukcije. O formalnom uvođenju redukcije može se pronaći više u \cite{foundations-of-functional-programming}. Redukciju ćemo označavati simbolom $\rightarrow$. U skladu sa prethodnim primerom važi \verb|(+ 2 3)| $\rightarrow$ \verb|5|.
+
+Sa stanovišta implementacije, funkcionalni program treba posmatrati kao \textit{izraz} (engl. \textit{expression}), koji se izvršava tako što se \textit{izračunava} njegova vrednost (engl. \textit{evaluate}). Proces izračunavanja se sada vrši sistematičnim biranjem \textit{reducibilnog izraza} (engl. \textit{reducible expression}) i njegovim redukovanjem \cite{the-implementation-of-functional-programming-languages}. Prikažimo ovo narednim primerom.
+
+\begin{primer}
+	Neka treba izračunati izraz \verb|(+ (* 5 6) (* 8 3))|. U ovom izrazu postoje dva reducibilna izraza, \verb|(* 5 6)| i \verb|(* 8 3)|. Ceo izraz nije reducibilan izraz jer funkcija \verb|+| mora da se primeni nad dva broja. Proizvoljnim biranjem prvog reducibilnog izraza, pišemo
+	\begin{center}
+		\verb|(+ (* 5 6) (* 8 3))| $\rightarrow$ \verb|(+ 30 (* 8 3))|
+	\end{center}
+	Sada je preostao tačno jedan reducibilni izraz, pa pišemo
+	\begin{center}
+		\verb|(+ 30 (* 8 3))| $\rightarrow$ \verb|(+ 30 24)|
+	\end{center}
+	Ovom redukcijom je nastao novi reducibilni izraz, pa pišemo
+	\begin{center}
+		\verb|(+ 30 24)| $\rightarrow$ \verb|54|
+	\end{center}
+\end{primer}
+
+
+U okviru lambda računa postoji sintaksna konstrukcija koja se naziva \textit{apstrakcija} (engl. \textit{abstraction}), kojom se uvode nove funkcije. Apstrakcija ima oblik
+\begin{center}
+	\verb|(|$\lambda$\verb|x.E)|
+\end{center} 
+gde je $\lambda$ oznaka za apstrakciju, \verb|x| parametar funkcije, \verb|E| izraz, odnosno, telo funkcije i \verb|.| separator parametra i tela funkcije \cite{the-implementation-of-functional-programming-languages}.  
+\begin{primer}
+	Izraz \verb|(|$\lambda$\verb|x.+ x 1)| označava funkciju koja izračunava sledbenika broja \verb|x|.
+\end{primer}
+
+
+Još jedan važan pojam jesu slobodne i vezane promenljive. Prilikom apstrakcije, promenljiva mora biti slobodna ili vezana. Ovi pojmovi se definišu narednom definicijom \cite{the-implementation-of-functional-programming-languages}:
+
+\begin{definicija}
+	U apstrakciji \verb|(|$\lambda$\verb|y.E)|, promenljiva \verb|x| je \textit{slobodna} (engl. \textit{occurs free}) akko \verb|x| i \verb|y| su različite promenljive i \verb|x| je slobodna u \verb|E|. U apstrakciji \verb|(|$\lambda$\verb|y.E)|, promenljiva \verb|x| je \textit{vezana} (engl. \textit{occurs bound}) akko \verb|x| i \verb|y| predstavljaju istu promenljivu i \verb|x| je slobodna u \verb|E|, ili \verb|x| je vezana u \verb|E|.
+\end{definicija}
+
+Iz prethodne definicije možemo zaključiti da će neka promenljiva u apstrakciji biti vezana ako postoji ugnežđena apstrakcija koja je vezuje, a slobodna u suprotnom.
+
+\subsection{Polimorfizam}
+\label{subsec:polimorfizam}
+
+
+Polimorfizam (engl. \textit{polymorphism}) kao pojam se može posebno definisati za različite koncepte programskih jezika. Sama konstrukcija reči -- polys, ‚‚mnogo'' i morph\={e}, ‚‚oblik'' -- govori nam da je reč o konceptima koji se na neki način prilagođavaju mnogim oblicima, odnosno, mnogim tipovima (u kontekstu programskih jezika). \textit{Polimorfni programski jezici} su oni programski jezici u kojima neke vrednosti i promenljive mogu da imaju više od jednog tipa. \textit{Polimorfne funkcije} su funkcije čiji operandi mogu da imaju više od jednog tipa. \textit{Polimorfni tipovi} su tipovi čije operacije mogu biti primenjene na vrednosti više od jednog tipa. Za nas je od interesa najviše parametarski polimorfizam. U \textit{parametarskom polimorfizmu}, polimorfna funkcija ima implicitan ili eksplicitan tipski parametar koji određuje tip argumenta pri svakoj primeni te funkcije \cite{On-Understanding-Types-Data-Abstraction-and-Polymorphism}.
+
+
+
+%EFIKASAN KOD
+\section{Efikasan k\^od}
+\label{sec:efikasan kod}
+
+Jedan od najvažnijih problema vezanih za funkcionalne jezike jeste efikasnost izvršavanja. U nastavku opisujemo tehnike koje se koriste za generisanje efikasnog k\^oda.	
+
+
+\subsection{Transformacije lambda računa}
+
+Već smo napomenuli da se lambda račun koristi zbog svoje jednostavnosti, kao i da je dovoljno izražajan da se bilo koji funkcionalan jezik može transformisati u njega. To znači da ako imamo implementaciju lambda računa, možemo da implementiramo bilo koji funkcionalan jezik tako što ćemo ga prevesti u lambda račun. Transformacije se često grupišu u dva skupa \cite{compilation-by-program-transformation}:
+
+\begin{itemize}
+	\item Veliki skup jednostavnih, lokalnih transformacija koje su implementirane u okviru dela kompilatora koji nazivamo \textit{pojednostavljivač} (engl. \textit{simplifier}). Složenost programa raste jer pojednostavljivač pokušava da izvrši što je moguće više transformacija u jednom prolasku kroz program. Uprkos tome, rezultat nakon tih transformacija često i dalje sadrži delove koji mogu biti dalje transformisani, tako da se ova operacija ponavlja više puta, dokle god ima nešto da se pojednostavi. Transformacije koje spadaju u ovaj skup su simplifikacija (engl. \textit{simplification}) \cite{compilation-by-program-transformation}, $\beta$-odsecanje, umetanje (engl. \textit{inlining}) i \textit{sklapanje konstanti} (engl. \textit{constant folding}).
+	
+	\item Manji skup složenijih, globalnih transformacija, od kojih se svaka implementira odvojeno. Mnoge se sastoje od faze analize praćene transformacijama koje koriste rezultate analize za otkrivanje pogodnih delova za transformisanje. Mnogi se oslanjaju na to da će pojednostavljivač ‚‚počistiti'' k\^ od koji proizvedu, tako da se izbegava ponavljanje transformacija koje su već sadržane u telu pojednostavljivača. Primer transformacije za ovaj skup je  \textit{analiza strogosti} (engl. \textit{strictness analasys}) \cite{haskell-by-program-transformation}. 
+\end{itemize}
+
+\subsection{Umetanje}
+
+Umetanje funkcijskih poziva je dobar metod za unapređivanje performansi programa koji se sastoji iz malih funkcija, kao što je čest slučaj sa funkcionalnim jezicima. Osnovni princip umetanja je sledeći: poziv funkcije zamenjuje se njenim telom. Umetanje uklanja neke pozive funkcija, ali jednako je važno da spaja k\^ od koji je prethodno razdvojen i zbog toga se implementira u okviru pojednostavljivača \cite{compilation-by-program-transformation}.
+
+Korisno je definisati tri različite transformacije koje zajedno implementiraju ono što neformalno opisujemo kao ‚‚umetanje'' \cite{secrets-haskell-compiler-inliner, compilation-by-program-transformation}:
+\begin{itemize}
+	\item \textit{Samo umetanje} (engl. \textit{inlining itself}) zamenjuje sva pojavljivanja vezane promenljive kopijom desne strane njene definicije.
+	
+	
+	\item \textit{Eliminacija mrtvog koda} (engl. \textit{dead code elimination}) odbacuje veze koje se više ne koriste. Ovo se najčešće dešava kada je svaka pojava promenljive umetnuta.
+	
+	\item \textit{$\beta$-odsecanje} (engl. \textit{$\beta$-reduction}) jednostavno prezapiše lambda izraz \verb|((|$\lambda$\verb|x.E) A)| u \verb|(let {x = A} in E)|. 
+\end{itemize}
+
+\noindent Pogledajmo kako ove transformacije funkcionišu na primeru:
+
+\begin{primer} ~
+	\begin{center}
+		\verb|let {f = |$\lambda$\verb|x.x*4} in (f (a*b - c)) + a*d| 	$\stackrel{\text{inline f}}{\longrightarrow}$ \\
+		\verb|let {f = |$\lambda$\verb|x.x*4} in ((|$\lambda$\verb|x.x*4) (a*b - c)) + a*d| \\
+		$\stackrel{\text{dead f}}{\longrightarrow}$ \verb|((|$\lambda$\verb|x.x*4) (a*b - c)) + a*d|  \\
+		$\stackrel{\beta}{\longrightarrow}$ \verb|(let {x = a*b - c} in x*4) + a*d|
+	\end{center}
+\end{primer}
+
+\subsection{Uparivanje šablona}
+
+Funkcije nad običnim tipovima, kao i nad strukturiranim algebarskim tipovima \cite{algebraic-types}, mogu se definisati preko različitih \textit{slučajeva} (engl. \textit{case}). Različiti slučajevi dati su \textit{šablonima} (engl. \textit{pattern}), koji se uparuju prema vrednostima tog tipa. Ako šablon odgovara vrednosti, promenljive koje se mogu pojaviti u šablonu su vezane za odgovarajuće promenljive komponente te vrednosti. Pogledajmo kako to radi na jednostavnom primeru. 
+
+
+\begin{primer}
+	Neka imamo šablone \verb|[1; x; y]| $\longrightarrow$ \verb|x*y| i \verb|[z]| $\longrightarrow$ \verb|z|, kao i izraz \verb|[1; 2; 3]|. Vidimo da se dati izraz poklapa sa prvim šablonom. Promenljive \verb|x| i \verb|y| vezuju se za komponente 2 i 3 i vraća se njihov proizvod.
+\end{primer}
+
+
+\begin{primer}
+	Računanje $n$-tog fibonačijevog broja u programskom jeziku Haskell dato je k\^odom:
+	\begin{verbatim}
+	fibonaci n
+	|n==0 = 1
+	|n==1 = 1
+	|otherwise = (fibonaci (n-1))+(fibonaci (n-2))
+	\end{verbatim}
+	Prilikom evaluacije \verb|(fibonaci x)|, imamo tri slučaja od kojih će jedan biti odgovarajući: prvi je kada je vrednost parametra \verb|x| jednaka \verb|0|, drugi je kada je vrednost parametra \verb|x| jednaka \verb|1|, a treći kada nisu ispunjena prva dva uslova. Uslovi se isprobavaju jedan po jedan, od vrha, dok se ne pronađe odgovarajući šablon \cite{the-implementation-of-functional-programming-languages}.
+\end{primer}
+
+Ovakvo poređenje na osnovu šablona naziva se \textit{uparivanje šablona} (engl. \textit{pattern matching}) \cite{compiler-design}. Uparivanje šablona je zapravo skraćenica za ugnežđene \verb|if-then-else| i \verb|case| naredbe (engl. \textit{statements}): pokušaj da upariš ulaz sa prvim šablonom i ako se poklapa izvrši odgovarajuću akciju, u suprotnom se vrati korak nazad i pokušaj sa sledećim šablonom. Ova strategija proizvodi nepotreban rad. Kompilatori to mnogo bolje rade tako što šablone kompiliraju u \textit{diskriminišuće stablo} (engl. \textit{discrimination tree}) koje to radi u skoro optimalnom broju testova nad podacima kako bi odabralo odgovarajuću akciju \cite{compiling-fl}.
+
+
+
+
+%PROVERA TIPOVA
+\section{Polimorfna provera tipova}
+\label{sec:provera tipova}
+
+Neki moderni jezici, kao što je Miranda, imaju svojstvo koje omogućava programeru da ne navodi tipove objekata koje definiše u programu. Kompilator može da odredi tipove ako je to moguće. Deo kompilatora koji se bavi ovim poslom naziva se \textit{zaključivač tipova} (engl. \textit{type-checker}) \cite{the-implementation-of-functional-programming-languages}. Zaključivač tipova je od velike koristi programeru jer mu ukazuje na greške, od trivijalnih propusta u kucanju do velikih logičkih grešaka. Pomaže u pisanju robusnih programa kao i u izgradnji bržih implementacija programskih jezika. Ako zaključivač tipova obradi program, pri izvršavanju se neće javiti greške poput upotrebe promenljive tipa \verb|bool| kao da je tipa \verb|int|.
+
+
+Provera tipova je provera da li izraz ima određen tip. Ako je dat izraz \verb|e| i tip \verb|t| jednostavno se može odrediti da li je izraz \verb|e| tipa \verb|t| primenom nekih sintaksnih pravila. Zaključivanje tipova određuje tip promenljive za koju nije naveden tip na osnovu svih konteksta u kojima se promenljiva pojavljuje. Ono što imamo jeste sistem u kom nije potrebno eksplicitno navoditi tipove izraza i promenljivih, ali pogrešna upotreba tipa će i dalje biti pronađena. Dakle, zaključivač tipova nam omogućava proveru tipova. 
+
+
+Proces zaključivanja tipova sastoji se od uparivanja tipova operatora i instanciranja tipova promenljivih. Kad god se tip promenljive instancira, sve ostale pojave iste promenljive moraju biti instancirane istom vrednošću: ispravna instanciranja izraza $\alpha \longrightarrow \alpha$ su \verb|int| $\longrightarrow$ \verb|int|,  \verb|bool| $\longrightarrow$ \verb|bool|, itd. Proces kontekstnog instanciranja izvodi se pomoću \textit{unifikacije} (engl. \textit{unification}) i ona je osnova polimorfne provere tipova. Unifikacija ne uspeva kada pokušava da upari dva operatora različitih tipova (na primer, \verb|int| i \verb|bool|) ili kada pokušava da instancira promenljivu izrazom koji sadrži tu promenljivu (na primer, \verb|a| i \verb|a| $\longrightarrow$ \verb|b|, gde će se napraviti rekurzija bez izlaza) \cite{basic-typechecking}. U opštem slučaju, tip izraza određuje se pomoću skupa pravila kombinovanja tipova za jezičke konstrukcije i tipova primitivnih operatora. 
+
+\subsection{Zaključivanje tipova}
+\label{subsec: zakljucivanje tipova}
+
+Osnovni algoritam za zaključivanje tipova opisan je u nastavku \cite{basic-typechecking}.
+
+\begin{enumerate}
+	\item Kada se pojavi nova promenljiva \verb|x|, njoj se dodeljuje novi tip promenljive što znači da joj tip mora biti određen u daljem kontekstu u kom se pojavljuje. Par \verb|<x, a>| se čuva u okruženju koje se pretražuje svaki put kad se pojavi \verb|x|, u kom je \verb|x| tipa \verb|a|.
+	
+	\item Kad imamo uslovno grananje, izraz u \verb|if| se uparuje sa \verb|bool|, dok se \verb|then| i \verb|else| grane ostavljaju nedefinisane kako bi se odredio jedinstven tip za ceo izraz. Primetimo da \verb|if-then-else| kod funkcionalnih jezika nema isto značenje kao kod imperativnih jezika. U ovom slučaju, u pitanju je uparivanje šablona.
+	
+	\item U apstrakciji \verb|(|$\lambda$\verb|x.E)|, tip za \verb|E| se zaključuje u kontekstu gde je \verb|x| povezan sa novim tipom promenljive.
+	
+	\item U aplikaciji \verb|(f a)|, tip od \verb|f| se unifikuje sa tipom \verb|A| $\longrightarrow$ \verb|b|, gde je \verb|A| tip parametra \verb|a|, dok je \verb|b| nova tipska promenljiva. Ovo ukazuje na to da \verb|f| mora biti tipa funkcije čiji domen se unifikuje sa \verb|A|, a \verb|b| je tip povratne vrednosti.
+\end{enumerate}
+
+
+
+%SAKUPLJACI OTPADAKA
+\section{Sakupljač otpadaka}
+\label{sec:djubretar}
+
+
+Strukture podataka koje su alocirane na \textit{hipu} (engl. \textit{heap}), a nisu dostižne preko nekog niza pokazivača programskih promenljivih, nazivaju se \textit{otpaci} (engl. \textit{garbage}). Memorija koju zauzimaju otpaci treba da bude dostupna za alociranje novih struktura podataka. Proces eliminisanja otpadaka, odnosno, njihovog uklanjanja iz memorije naziva se \textbf{sakupljanje otpadaka} (engl. \textit{garbage collection}) i događa se u fazi izvršavanja programa.
+
+\subsection{Motivacija}
+
+Kod proceduralnih programskih jezika, kakav je na primer PASCAL, operacije stvaranja i uništavanja objekata koji se skladište na hipu izvršavaju se eksplicitnim navođenjem određenih naredbi (\verb|NEW| i \verb|DISPOSE|) u izvornom k\^odu. To znači da je odgovornost za recikliranje otpadaka na programeru, koji mora da uništi svaki nepotrebni objekat odgovarajućom naredbom i time oslobodi memorijske ćelije zauzete tim objektom. Ukoliko to ne uradi kapacitet memorije se prividno smanjuje. Ova pojava se naziva \textit{curenje memorije} (engl. \textit{memory leak}).
+
+Ovakav koncept je prihvatljiv kod proceduralnih jezika, kod kojih su pomenute operacije retke, ali je neefikasan kada su u pitanju funkcionalni jezici koji se odlikuju čestim izvršavanjem tih operacija \cite{appel}. Zato je kod funkcionalnih programskih jezika posao sakupljanja otpadaka poveren delu sistema za upravljanje memorijom koji se naziva \textit{sakupljač otpadaka} (engl. \textit{garbage collector}).
+
+Mnogi programski jezici zahtevaju sakupljanje otpadaka, bilo kao deo specifikacije jezika (Java, C\#) bilo za efikasnu praktičnu primenu (kod funkcionalnih programskih jezika). Različitih tipova sakupljača otpadaka ima mnogo. U daljem tekstu biće predstavljeni neki od njih, kao i njihove osnovne karakteristike.
+
+
+\subsection{Markirajući sakupljač otpadaka}
+
+Markirajući sakupljač otpadaka je najstariji tip sakupljača otpadaka. Razvijen je početkom 1960-ih godina u okviru programskog jezika LISP \cite{mcca60}.
+
+Programske promenljive i strukture podataka alocirane na hipu formiraju usmeren graf. Promenljive predstavljaju koren tog grafa.
+
+\begin{definicija}
+	Kažemo da je čvor \textit{n} \textit{dostižan} u grafu ukoliko postoji put $r\rightarrow \dots \rightarrow n$ od nekog korena \textit{r}.
+\end{definicija}
+
+U prvoj fazi, pretragom grafa u širinu se markiraju svi dostižni čvorovi. Ako čvor nije markiran, onda je otpadak i treba da se realocira. Čišćenje hipa se vrši u drugoj fazi počevši od prve adrese i ide do poslednje, pri čemu se traže čvorovi koji nisu markirani. Dobijeni otpaci se povežu u listu koja se naziva \textit{slobodna lista}. Tokom faze čišćenja uklanjaju se markeri svim markiranim čvorovima, da ne bi došlo do problema pri sledećem sakupljanju otpadaka. Nakon što se izvrši sakupljanje otpadaka, prevedeni program nastavlja sa radom.
+
+Kad god program želi da alocira prostor na hipu, on dobija memoriju iz slobodne liste. Kada slobodna lista postane prazna, to je dobar znak da treba opet da se izvrši sakupljanje otpadaka.
+
+\subsection{Sakupljač otpadaka sa brojanjem referenci}
+\label{ref:reference counter}
+
+Ideju za ovaj tip sakupljača otpadaka dao je Collins 1960. godine \cite{col60}. On se primenjuje u sistemima kod kojih je hip baziran na listi. Svaka ćelija u hipu sadrži jednu reč koja se naziva \textit{brojač referenci}. Vrednost te reči je broj referenci na ćeliju, tj. broj pokazivača koji na nju pokazuju. Kada se neki podatak smesti u ćeliju i ona postane aktivna, njen brojač referenci dobija vrednost 1. Ako u toku rada program kreira još neki pokazivač na tu ćeliju, njen brojač povećava vrednost za jedan. Ukoliko se uništi neki pokazivač na ćeliju, brojač smanjuje vrednost za jedan. Ako vrednost brojača postane nula, to znači da ne postoji nijedan pokazivač na tu ćeliju, tj. da joj se ne može pristupiti polazeći od nekog korenog pokazivača, pa ona više nije aktivna. Čim ćelija postane neaktivna, reciklira se i to tako što se povezuje u listu slobodnih ćelija.
+
+Ovim se izbegavaju dugotrajni procesi traženja aktivnih ćelija i recikliranja neaktivnih, koji su karakteristični za ostale tipove sakupljača otpadaka. Sve ovo omogućava da se recikliranje otpadaka obavlja paralelno sa izvršavanjem programa, pa je ovaj tip sakupljača pogodan za sisteme u realnom vremenu.
+
+\subsection{Prepisujući sakupljač otpadaka}
+
+Algoritam za ovaj tip sakupljača otpadaka dali su 1969. godine Fenichel i
+Yochelson \cite{feni69}. Dostižni deo hipa je usmereni graf, memorijske ćelije su čvorovi, pokazivači su grane, a promenljive su koren.
+
+Prepisujući sakupljač otpadaka prolazi kroz deo grafa koji je alociran na hipu, praveći izomorfnu kopiju u svežem delu hipa. Taj sveži deo je kompaktan i podaci zauzimaju kontinualan blok memorije, bez fragmentacije. Koren sada pokazuje na kopiju, a original se oslobađa. 
+
+Slika \ref{fig:copygc} prikazuje situaciju pre i posle prepisujućeg sakupljanja. Pre sakupljanja, početni prostor je bio pun dostižnih čvorova i otpadaka, nije ostalo mesta za alociranje jer je dostignut limit. Nakon sakupljanja novi prostor između alociranih čvorova i limita je slobodan za alociranje.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{copygc.png}
+	\caption{Prepisujući sakupljač otpadaka.}
+	\label{fig:copygc}
+\end{figure}
+
+\subsection{Generacijski sakupljač otpadaka}
+
+Jedna od mana prepisujućeg sakupljača otpadaka je što u svakom ciklusu sakupljanja otpadaka premešta sve aktivne ćelije izvornog dela, odnosno, objekte smeštene u njima. To znači da će objekti koji imaju duži životni vek biti premeštani više puta, u toku više ciklusa sažimanja. Ovo ponovljeno premeštanje predstavlja nepotreban posao, koji se može izbeći tako što će se hip podeliti na dva dela.
+
+U jednom delu hipa će se smeštati objekti dužeg životnog veka, što znači da će u njemu biti manje otpadaka, te će proces njihovog sakupljanja moći ređe da se vrši. Drugi će sadržati objekte kraćeg životnog veka i zbog toga će imati veći broj otpadaka, pa će se kompakcija vršiti češće. Strategija koja određuje koliko će se često neki region sažimati naziva se \textit{politika sakupljanja} (engl. \textit{collection policy}).
+
+Postavlja se pitanje kako odrediti koji objekti imaju duži životni vek, tj. kako odrediti koji će se objekti smeštati u koji deo hipa. Empirijske metode su pokazale da većina mladih objekata (onih koji su skoro kreirani) predstavlja privremene strukture ili međurezultate i da samim tim ti objekti imaju kratak životni vek \cite{app87}. Samo mali broj objekata je deo neke strukture dugog životnog veka.
+
+U mnogim stilovima programiranja, kada se kreira objekat A, njegova polja se odmah inicijalizuju i recimo da A pokazuje na objekte B i C. Da bi to bilo moguće objekti B i C moraju već postojati, tako da imamo noviji objekat koji pokazuje na starije objekte. Jedini način da stariji objekat B pokazuje na noviji objekat A je ukoliko je neko polje objekta B izmenjeno dugo nakon kreiranja samog objekta, što je empirijski veoma retko.
+
+
+
+%SECD
+\section{SECD mašina}
+\label{sec:secd-masina}
+
+
+Piter Landin napisao je, 1964. godine, članak {\em Mehanička evaluacija} izraza (engl. “The Mechanical Evaluation of Expressions”) \cite{landinsecd}, koji je u decenijama koje predstoje izvršio veliki uticaj na istraživanja i razvoj funkcionalnih programskih jezika. Članak se istakao po tome što je zagovarao upotrebu lambda računa kao meta-jezika. Osim toga, Landin uvodi pojmove ‚‚zatvorenja'' -- da predstavi funkcionalne vrednosti, ‚‚cirkularnost'' -- da implementira rekurziju, ‚‚parcijalnu evaluaciju'', ‚‚redukciju grafa'' i mnoge druge koncepte i pojmove koji su danas sastavni deo programskih jezika \cite{calls-lambda, compiler-design}.
+
+Jedna od prvih virtuelnih mašina za izvršavanje funkcionalnih programskih jezika bila je Landinova {\em SECD mašina} (engl. \textit{SECD-machine}) \cite{landin-secd}, predstavljena u članku kao deo ISWIM \cite{ISWIM} programskog jezika. Ona je bila prva apstraktna mašina posebno dizajnirana da modeluje lambda račun.
+
+Od objavljivanja Landinovog članka, izmišljene i menjane su mnoge druge apstraktne mašine za lambda račun. Međutim, iako se u literaturi može naći veliki broj mašina, nijedna nije derivat originalne Landinove SECD mašine, čak i pored toga što je ona bila prva.
+
+
+\subsection{Arhitektura SECD mašine}
+
+Osnovna uloga SECD mašine je izvršavanje kompiliranog k\^oda. Osnovna razlika u odnosu na interpreter je u tome što kompilirani k\^od može da se izvršava više puta i postoji mogućnost optimizacije k\^oda. 
+
+Formalno, SECD mašina je torka četiri liste koje imaju skup precizno definisanih operacija nad njima. Semantika SECD mašina opisuje virtuelnu mašinu baziranu na steku koja je dizajnirana da izračunava funkcije. Komponente torke koje čine SECD mašinu su četiri steka, čiji su tipovi dati u notaciji programskog jezika ML:
+\begin{enumerate}
+	\item \verb|S| (engl. \textit{stack}) -- za evaluaciju izraza, najčešće implementiran kao lista; ova komponenta ima tip \verb|list|  
+	\item \verb|E| (engl. \textit{environment}) -- za čuvanje liste trenutnih vrednosti u okvirima, gde je svaki okvir lista veza između simbola i njegove vrednosti; ova komponenta ima tip \verb|Env.env|,
+	\item \verb|C| (engl. \textit{control}) -- za čuvanje liste instrukcija (kontrolnih direktiva) koje treba evaluirati; ova komponenta ima tip \verb|directive|, gde je direktiva definisana kao:
+	\begin{center}
+		\verb@datatype directive = TERM of Source.term | APPLY@
+	\end{center}
+	\item \verb|D| (engl. \textit{dump}) -- za čuvanje kontrolnih putanja, promenljivih i stekova, da bi se kasnije mogli ponovo učitati; ova komponenta ima tip \verb|(value list * value Env.env * directive list) list|.
+\end{enumerate}
+
+U tabeli \ref{tab:tabelaInstr} prikazujemo glavne operacije koje podržava SECD mašina \cite{introduction-fp-systems}.
+
+\begin{table}[h!]
+	\centering
+	\label{tab:tabelaInstr}
+	\caption{Operacije koje podržava SECD mašina}
+	\begin{tabular}{|c|c|c|} \hline
+		Operacija&Naziv&Opis\\ \hline
+		\verb|NIL| & \verb|NIL| & Stavlja \verb|NIL| pokazivač\\ \hline
+		\verb|LD| & \verb|LOAD| & Učitava iz \verb|E| \\ \hline
+		\verb|LDC| & \verb|LOAD CONSTANT| & Učitava konstante\\ \hline
+		\verb|LDF| & \verb|LOAD FUNCTION| & Učitava funkciju \\ \hline
+		\verb|AP| & \verb|APPLY FUNCTION| & Primenjuje funkciju\\ \hline
+		\verb|RTN| & \verb|RETURN| & Vraća vrednost funkcije \\ \hline
+		\verb|SEL| & \verb|SELECT| & Vrši \verb|select| ako je u \verb|if| izrazu\\ \hline
+		\verb|JOIN| & \verb|JOIN| & Ponovo pridružuje \verb|g|\\ \hline
+		\verb|RAP| & \verb|RECURSIVE APPLY| & Rekurzivna primena funkcije\\ \hline
+		\verb|DUM| & \verb|DUMMY| & Kreira \verb|'dummy' env| \\ \hline
+	\end{tabular}
+\end{table}
+
+
+Osim operacija navedenih u tabeli imamo ugrađene funkcije, među kojima su \verb|+|, \verb|*|, \verb|ATOM|, \verb|CAR|, \verb|CONS|, \verb|EQ|, itd. Svaka operacija je definisana efektom koji ima na četiri steka \verb|S|, \verb|E|, \verb|C| i \verb|D|. Svaki stek je predstavljen s-izrazom sa tačka notacijom, gde krajnje leva pozicija označava vrh steka. \textit{S-izraz}, skraćeno od \textit{simbolički izraz} (engl. \textit{symbolic expression}), predstavlja način za predstavljanje ugnežđene liste podataka, najčešće u funkcionalnim programskim jezicima.
+
+\subsubsection{Ubacivanje objekata na stek}
+
+Pravila kompilacije glase:
+
+\begin{enumerate}
+	\item \verb|nil| se prevodi u \verb|(NIL)|,
+	\item brojevi ili konstante, koje ćemo označiti sa \verb|x|, prevode se u \verb|(LDC x)|,
+	\item identifikator se prevodi u \verb|(LD (i,j))|, gde je \verb|(i,j)| indeks u steku \verb|E|.
+\end{enumerate}
+
+\begin{primer} Naredni primeri ilustruju opisana pravila kompilacije za ubacivanje objekata na stek:
+	\begin{center}
+		\verb|NIL S E (NIL.C) D| $\rightarrow$ \verb|(NIL.S) E C D|\\
+		\verb|LDC S E (LDC x.C) D| $\rightarrow$ \verb|(x.S) E C D|\\
+		\verb|LD S E (LD (i,j).C) D| $\rightarrow$ \verb|(locate((i,j), e).S) E C D|
+	\end{center}
+\end{primer}
+
+Funkcija \verb|locate| je pomoćna funkcija koja vraća $j$-ti element $i$-te podliste iz \verb|E|. Primetimo da je \verb|E| lista podlisti od kojih je svaka lista stvarnih parametara, pa zaključujemo da \verb|e| odgovara listi vrednosti u interpreteru.
+
+\subsubsection{Ugrađene funkcije}
+
+Pravilo kompilacije glasi: ugrađena funkcija oblika \verb|(OP e1 ... ek)| prevodi se u \verb@ek' || ... || e1' || (OP)@, gde \verb@A||B@ označava \verb@append(A,B)@, a \verb@ei'@ je preveden k\^od za \verb@ei@. Notacija zamene argumenata i operatora je standardno obrnuta Poljska notacija (postfiksna notacija).
+
+\noindent Za unarni operator \verb|OP|:
+\begin{center}
+	\verb|(a.s) e (OP.c) d| $\rightarrow$ \verb|((OP a).s) e c d|.
+\end{center}
+
+\noindent Za binarni operator \verb|OP|:
+\begin{center}
+	\verb|(a b.s) e (OP.c) d| $\rightarrow$ \verb|((a OP b).s) e c d|.
+\end{center}
+
+\begin{primer} Pogledajmo pravilo kompilacije za naredni izraz:
+	\begin{center}
+		\verb|s e (LDC 3 LDC 2 LDC 6 + *.c) d|
+		$\rightarrow$ \verb|(3.s) e (LDC 2 LDC 6 + *.c) d|
+		$\rightarrow$ \verb|(2 3.s) e (LDC 6 + *.c) d|
+		$\rightarrow$ \verb|(6 2 3.s) e (+ *.c) d|
+		$\rightarrow$ \verb|(8 3.s) e (*.c) d|
+		$\rightarrow$ \verb|(24.s) e c d|
+	\end{center}
+\end{primer}
+
+\subsubsection{Specijalna funkcija {\tt IF THEN ELSE}}
+
+Pravilo kompilacije glasi: \verb|(if e1 e2 e3)| se prevodi u
+\texttt{e1' || (SEL) || (e2' || (JOIN)) || (e3' || (JOIN))}.
+
+\begin{primer}
+	Izraz \verb|(if (atom 5) 9 7)| se prevodi u \verb|(LDC 5 ATOM SEL|\\
+	\verb|(LDC 9 JOIN) (LDC 7 JOIN))|.
+\end{primer}
+
+Operacije na steku:
+\begin{itemize}
+	\item \verb|SEL| -- \verb|(x.s) e (SEL ct cf.c) d| $\rightarrow$ \verb|s e c' (c.d)|, gde je \verb|c' = ct| ako je \verb|x| tačno, a \verb|c' = cf| ako je \verb|x| netačno.
+	
+	\item \verb|JOIN| -- \verb|s e (JOIN.c) (cr.d)| $\rightarrow$ \verb|s e cr d|.\\
+\end{itemize}
+
+
+
+%G-masina
+\section{G-mašina}
+\label{sec:Gmasine}
+
+U ovom delu predstavićemo {\em G mašinu} (engl. \textit{G-machine}), koju su Avgustson (engl. Lennart Augustsson) i Džonson (engl.Thomas Johnsson) predstavili u svojim naučnim radovima, na Tehnološkom institutu Čalmers (engl. Chalmers Institute of Technology (\url{http://www.chalmers.se/en})) u Geteburgu, između 1984. i 1987. godine. 
+
+\subsection{Motivacija}
+
+Najčešća razlika između kompilatora za imperativne i funkcionalne programske jezike je u tome što se imperativni programski jezici direktno prevode na mašinski jezik, dok se funkcionalni programski jezici ili interpretiraju, ili se prevode na neki međujezik koji se izvršava na virtuelnoj mašini. Razlog prevođenja na međukod leži u tome što mehanizmi funkcionalnih programskih jezika, kao što su: rekurzija, zatvorenja i ostali, ne mogu da se implementiraju neposredno na mašinskom jeziku.
+
+Kod lenjih funkcionalnih jezika, funkcije i argumenti konstruktora se evaluiraju samo po potrebi, pa čak i onda najviše samo jednom. Bez obzira na to što se ovako nešto može implementirati predstavljanjem neevaluiranih argumenata \textit{tankovima} (engl. \textit{thunk}), tj. funkcijom koja evaluira argument i zamenjuje ga rezultatom, zbog efikasnosti biramo drugačije pristupe.
+
+Osnovna ideja je da predstavimo program grafom koji bismo kasnije ‚‚prepisali''  evaluacijom. Evaluaciju vršimo za neki podizraz, a potom u grafu zamenimo sva pojavljivanja tog podizraza odgovarajućom evaluacijom i nastavljamo dalje evaluiranje. Velika prednost je u tome što evaluacija deljenog podgrafa automatski razrešava sve izraze koji pokazuju na njega. Međutim, treba biti pažljiv jer je kontinuirana pretraga grafa za podizrazima spora.
+
+Rane implementacije su prevodile program u fiksirani skup \textit{kombinatora} (engl. \textit{combinator}), odnosno, zatvorene lambda izraze koje možemo posmatrati kao pravila za ‚‚prepisivanje grafa''. Kasnije se pokazalo da je korisno prepustiti programu da razmatra izbor kombinatora, tzv. {\em superkombinatore} (engl. \textit{supercombinators}) \cite{super-combinators}. To znači da su superkombinatori ‚‚pametniji'' izbor kombinatora koje ćemo vršiti prepisivanje grafa. 
+
+\subsection{Osnovna ideja} 
+
+Umesto da interpretiraju superkombinatore kao pravila za prepisivanje grafa, oni se kompiliraju u k\^ od sa specijalnim instrukcijama za manipulaciju grafom. G-mašine su osnova implementacije lenjog ML (engl. \textit{Lazy ML}) \cite{lazy-ML} i Haskela \cite{hbc}. 
+
+Osnovna ideja koja stoji iza G-mašina je da se funkcionalni kod prevodi u superkombinatore, pa se oni prevode preko međukoda u mašinski k\^ od. Pre pokretanja programa svako telo superkombinatora prevede u niz instrukcija koje, nakon što se izvrše, kreiraju instancu tela superkombinatora. Svaki put samo instanciramo superkombinator, da bismo mogli da odbacimo originalne superkombinatore nakon što je prevođenje završeno, i sačuvamo samo preveden k\^ od. Dakle, koristimo kompilator G-mašine da izvorni k\^ od prevedemo u niz instrukcija na mašinskom jeziku.
+
+Nakon što smo preveli telo superkombinatora u niz instrukcija, moramo da odlučimo u koji jezik ćemo ga prevesti. Najbolje rešenje, ujedno i ono koje se najčešće koristi, jeste da prevođenje izvršimo u \textit{međuk\^ od} (engl. \textit{intermediate code}) za G-mašinu, takozvani {\em G-k\^ od} (engl. \textit{G-code}).
+
+\subsection{G-k\^ od}
+
+G-k\^ od je k\^ od u koji kompiliramo tela superkombinatora. Kompilator za G-mašinu prati sledeći niz postupaka \cite{the-implementation-of-functional-programming-languages, abstract-machines}:
+
+\begin{enumerate}
+	\item Izvorni jezik je varijanta ML-a, sa semantikom lenje evaluacije, tzv. {\em lenji ML}.
+	\item Rane faze kompilacije vrše proveru tipova, nalaženje uzoraka i analizu zavisnosti. U ovoj fazi program je preveden na lambda račun.
+	\item \textit{Lambda-podizač} (engl. \textit{lambda-lifter}) transformiše program u oblik superkombinatora.   
+	\item Superkombinatori se prevode u G-k\^ od.
+	\item Konačno, generiše se mašinski k\^ od iz G-k\^ oda za ciljnu mašinu.
+\end{enumerate}
+
+
+\begin{primer}
+	Predstavimo sad način na koji funkcioniše kompilator za G mašinu razmatrajući sledeću funkciju:
+	\begin{center}
+		\verb|f g x = K (g x)|.
+	\end{center}
+	Ova funkcija bi se prevela u sledeći niz instrukcija G-k\^ oda (svaka instrukcija je odvojena simbolom tačka-zapeta):
+	\begin{center}
+		\verb|Push 1|; \verb|Push 1|; \verb|Mkap|; \verb|Pushglobal K|; \verb|Mkap|; \verb|Slide 3|; \verb|Unwind|.
+	\end{center}
+\end{primer}
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{primerGmasine.png}
+	
+	\caption{Vizuelni prikaz izvršavanja k\^ oda.}
+	\label{fig:primerGmasine}
+\end{figure}
+
+Na slici \ref{fig:primerGmasine} prikazujemo kako se k\^ od izvršava. Sa leve strane svakog dijagrama prikazan je stek, koji raste nadole. Ostatak svakog dijagrama je hip. Aplikativni čvorovi predstavljeni su karakterom \verb|@|, izrazi malim slovima, a superkombinatori velikim slovima latinice. Takođe, prikazano je stanje mašine pre izvođenja instrukcija za \verb|f|. Dva elementa na vrhu steka su pokazivači na aplikativne čvorove, čije su desne strane izrazi koji će biti vezani za \verb|g| i \verb|x|. Instrukcija \verb|Push| koristi relativno adresiranje u odnosu na vrh steka. Ignorišući pokazivač na supekombinatorski čvor \verb|f|, prvi element na steku dobija broj \verb|0|, naredni \verb|1|, itd.
+
+Naredni dijagram (b) pokazuje kako se stek izmenio nakon primene \verb|Push 1| instrukcije. Ona stavlja pokazivač na izraz \verb|x| na stek. Nakon jos jednog izvršavanja \verb|Push 1| instrukcije, imamo pokazivač na \verb|g| na vrhu steka i onda imamo ono što je prikazano na dijagramu (c). Dijagram (d) pokazuje šta se dešava kada se izvrši \verb|Mkap| instrukcija. Ona uzima dva pokazivača sa steka i pravi aplikativni čvor, ostavljajući pokazivač na rezultat na steku. Na dijagramu (e) izvršavamo \verb|Pushglobal K| instukciju koja stavlja pokazivač na \verb|K| superkombinator. Na dijagramu (f) vidimo da još jedna \verb|Mkap| instrukcija završava instanciranje tela \verb|f|. 
+
+Sada možemo zameniti originalni izraz \verb|f g x| novoinstanciranim telom \verb|K(g x)|. U prvoj (ne lenjoj) verziji G-mašine, jednostavno pomerimo telo nadole za 3 mesta na steku pomoću instrukcije \verb|Slide 3| (dijagram (g)). Konačno, \verb|Unwind| instrukcija uzrokuje dalju evaluaciju.
+
+
+
+
+\section{Zaključak}
+\label{sec:zakljucak}
+
+Implementacija funkcionalnih programskih jezika predstavlja težak zadatak i izuzetno obimnu temu. Zbog toga, mi smo se u ovom radu fokusirali na određeni podskup tehnika i procesa koji omogućavaju efikasno kompiliranje koda. Čitalac bi trebalo da, nakon čitanja ovog rada, bude upoznat sa teorijskim osnovama kompiliranja funkcionalnih programskih jezika i da bude u stanju da samostalno istražuje dalje ovu temu. U nastavku dajemo zaključke za svaku obrađenu temu zasebno.
+
+Lambda račun predstavlja definitni izbor za međujezik za kompiliranje funkcionalnih programskih jezika jer se svi koncepti funkcionalne paradigme vrlo jasno mogu formalizovati korišćenjem jednostavnih konstrukcija lambda računa. Efikasan izvršni k\^od je veoma važan za sve programske jezike, pa tako i za funkcionalne. Zbog toga se razvijaju tehnike koje će omogućiti kompilatoru da što bolje prevede izvorni k\^od. Tehnike koje smo mi opisali su one koje su najvažnije i najkorišćenije. Polimorfna provera tipova je zaista korisno svojstvo programskih jezika koje veoma olakšava posao programerima. Algoritam za zaključivanje tipova, opisan u podsekciji \ref{subsec: zakljucivanje tipova}, predstavlja osnovu za efikasne algoritme koji se koriste u današnjim kompilatorima. Tipova sakupljača otpadaka ima mnogo. Njihove različite osobine indukuju njihovo međusobno razlikovanje, što povlači njihove prednosti i mane. Zanimljivo je napomenuti da su neki sakupljači otpadaka prilagođeni za sisteme koji rade u realnom vremenu. U svakom slučaju, programiranje u funkcionalnim programskim jezicima se ne može zamisliti bez podrške koju pružaju sakupljači otpadaka. Značaj apstraktnih mašina je velik jer predstavljaju prelaz između jezika visokog nivoa i arhitekture niskog nivoa. Za razvoj apstraktnih mašina potrebna nam je dobra teorijska osnova, koja će nam omogućiti da mašine rade upravo ono što je nama potrebno, na način na koji nam je potrebno da rade, kao i da nam pruže priliku da prevaziđemo kompleksnost prevođenja programskih jezika visokog nivoa.
+
+
+\addcontentsline{toc}{section}{Literatura}
+\appendix
+\bibliography{10_literatura} 
+\bibliographystyle{plain}
+
+%\appendix
+%\section{Dodatak}
+%Ovde pišem dodatne stvari, ukoliko za time ima potrebe.
+
+
+\end{document}
